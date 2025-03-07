@@ -29,8 +29,29 @@ class OnkyoAVRDiscovery extends IPSModule {
 
 	public function ReceiveData($JSONString) {
 		$data = json_decode($JSONString);
-		IPS_LogMessage('Received discovery data', utf8_decode($data->Buffer));
 
+		IPS_LogMessage('Onkyo Discovery', utf8_decode($data->Buffer));
+		
+		$discoveredData = utf8_decode($data->Buffer);
+
+		if(substr($discoveredData, 0, 4) != 'ISCP') {
+			IPS_LogMessage('Onkyo Discovery', 'Invalid data. Data do not start with "ISCP"');
+			return;
+		}
+
+		$startPos = strpos($discoveredData, '!1ECN');
+		if($startPos===false) {
+			IPS_LogMessage('Onkyo Discovery', 'Invalid data or not an Onkyo AVR');
+			return;
+		}
+
+		$discoveredData = explode('/', substr($discoveredData, $startPos+5, -1));
+		
+		$model = $discoveredData[0];
+		$devicePort = $discoveredData[1];
+		$deviceIp = $data->ClientIP;
+
+		IPS_LogMessage('Onkyo Discovery', $model.'|'.$deviceIp.'|'.$devicePort);
 	}
 
 }
