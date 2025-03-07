@@ -29,7 +29,7 @@ class OnkyoAVRDiscovery extends IPSModule {
 
 	public function ReceiveData($JSONString) {
 		$data = json_decode($JSONString);
-		IPS_LogMessage('Received discovery data', $JSONString);
+		IPS_LogMessage('Received discovery data', utf8_decode($data->Buffer));
 
 	}
 
