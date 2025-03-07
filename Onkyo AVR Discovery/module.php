@@ -21,10 +21,11 @@ class OnkyoAVRDiscovery extends IPSModule {
 	public function ApplyChanges() {
 		//Never delete this line!
 		parent::ApplyChanges();
+	
 	}
 	
 	public function GetConfigurationForParent() {
-		return '{"BindPort":1234,"EnableBroadcast":true,"EnableReuseAddress":true,"Host":"","Open":true,"Port":60128}';
+		return '{"BindIP":"","BindPort":1234,"EnableBroadcast":true,"EnableReuseAddress":true,"Host":"","Open":true,"Port":60128}';
 	}
 
 	private function InitiateDiscovery()	{
