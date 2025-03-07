@@ -9,6 +9,8 @@ class OnkyoAVRDiscovery extends IPSModule {
 	public function Create() {
 		//Never delete this line!
 		parent::Create();
+
+		$this->ForceParent('{82347F20-F541-41E1-AC5B-A636FD3AE2D8}');
 	}
 
 	public function Destroy() {
@@ -19,6 +21,10 @@ class OnkyoAVRDiscovery extends IPSModule {
 	public function ApplyChanges() {
 		//Never delete this line!
 		parent::ApplyChanges();
+	}
+	
+	public function GetConfigurationForParent() {
+		return '{"BindPort":1234,"EnableBroadcast":true,"EnableReuseAddress":true,"Host":"","Open":true,"Port":60128}';
 	}
 
 	private function InitiateDiscovery()	{
