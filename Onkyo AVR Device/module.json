@@ -1,0 +1,16 @@
+{
+    "id": "{FF80DAC2-0BF3-6A70-F4A8-84A6DE34FDBA}",
+    "name": "Onkyo AVR Device",
+    "type": 3,
+    "vendor": "",
+    "aliases": [],
+    "parentRequirements": [
+        "{1CEDE467-DFFC-5466-5CDF-BBCA3966E657}"
+    ],
+    "childRequirements": [],
+    "implemented": [
+        "{EF1FFC09-B63E-971C-8DC9-A2F6B37046F1}"
+    ],
+    "prefix": "OAVRD",
+    "url": ""
+}

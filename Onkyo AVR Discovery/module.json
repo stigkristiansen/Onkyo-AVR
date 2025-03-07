@@ -1,0 +1,16 @@
+{
+    "id": "{B547EB8A-AD73-20E3-004F-1E5F847DE72A}",
+    "name": "Onkyo AVR Discovery",
+    "type": 5,
+    "vendor": "",
+    "aliases": [],
+    "parentRequirements": [
+        "{C8792760-65CF-4C53-B5C7-A30FCC84FEFE}"
+    ],
+    "childRequirements": [],
+    "implemented": [
+        "{7A1272A4-CBDB-46EF-BFC6-DCF4A53D2FC7}"
+    ],
+    "prefix": "OAVRDISCOVERY",
+    "url": ""
+}

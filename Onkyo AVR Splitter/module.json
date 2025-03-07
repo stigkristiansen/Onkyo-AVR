@@ -1,0 +1,19 @@
+{
+    "id": "{CD39A489-D759-1786-1904-879A571231AF}",
+    "name": "Onkyo AVR Splitter",
+    "type": 2,
+    "vendor": "",
+    "aliases": [],
+    "parentRequirements": [
+        "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}"
+    ],
+    "childRequirements": [
+        "{EF1FFC09-B63E-971C-8DC9-A2F6B37046F1}"
+    ],
+    "implemented": [
+        "{1CEDE467-DFFC-5466-5CDF-BBCA3966E657}",
+        "{018EF6B5-AB94-40C6-AA53-46943E824ACF}"
+    ],
+    "prefix": "OAVRS",
+    "url": ""
+}
