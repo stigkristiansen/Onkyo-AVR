@@ -147,7 +147,7 @@ class OnkyoAVRDiscovery extends IPSModule {
 				'MacAddress' => $macAddress,
 				'Model' => $device['Model'],
 				'IPAddress' => $device['IPAddress'],
-				'Port' => $device['Port'];
+				'Port' => $device['Port'],
 				'instanceID' => 0
 			];
 
