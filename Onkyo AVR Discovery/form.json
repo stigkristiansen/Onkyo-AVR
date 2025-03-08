@@ -22,7 +22,7 @@
             "add": false,
             "delete": true,
             "sort": {
-                "column": "Name",
+                "column": "Model",
                 "direction": "ascending"
             },
             "columns": [
