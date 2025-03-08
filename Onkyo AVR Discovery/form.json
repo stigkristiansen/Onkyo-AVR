@@ -1,5 +1,54 @@
 {
-    "elements": [],
-    "actions": [],
-    "status": []
+    "elements": [
+        {
+            "type": "Image",
+            "image": "data:image/png;base64,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"
+        },
+        {
+            "type" :  "Label" ,  "caption" :  "DISCOVERY"
+        }
+    ],
+    "actions": [
+        {
+            "name": "SearchingInfo",
+			"type": "ProgressBar",
+			"caption": "The configurator is currently searching for devices. Please wait...",
+			"indeterminate": true,
+			"visible": false
+        },
+        {
+            "name": "Discovery",
+            "type": "Configurator",
+            "add": false,
+            "delete": true,
+            "sort": {
+                "column": "Name",
+                "direction": "ascending"
+            },
+            "columns": [
+                {
+                    "caption": "Model",
+                    "name": "Model",
+                    "width": "150px"
+                },
+                {
+                    "caption": "MAC",
+                    "name": "MacAddress",
+                    "width": "auto",
+                    "visible": true
+                },                
+                {
+                    "caption": "IP Address",
+                    "name": "IPAddress",
+                    "width": "auto"
+                },
+                {
+                    "caption": "Port",
+                    "name": "Port",
+                    "width": "auto"
+                }                                
+            ],
+            "values": []
+        }
+    ]
 }
