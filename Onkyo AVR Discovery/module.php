@@ -97,7 +97,7 @@ class OnkyoAVRDiscovery extends IPSModule {
 		$discoveredData = explode('/', substr($discoveredData, $startPos+5, -1));
 		
 		$model = $discoveredData[0];
-		$devicePort = $discoveredData[1];
+		$devicePort = (int)$discoveredData[1];
 		$macAddress = substr($discoveredData[3], 0, 12);
 		$deviceIp = $data->ClientIP;
 
