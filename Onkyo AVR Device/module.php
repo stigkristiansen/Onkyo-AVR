@@ -12,9 +12,6 @@ declare(strict_types=1);
 
 			$this->RegisterPropertyString('MacAddress', '');
 			$this->RegisterPropertyString('Model', '');
-			$this->RegisterPropertyString('IPAddress', '');
-			$this->RegisterPropertyInteger('Port', 0);
-			
 		}
 
 		public function Destroy()

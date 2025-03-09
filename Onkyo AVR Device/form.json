@@ -1,5 +1,17 @@
 {
-    "elements": [],
+    "elements": [
+        {   
+            "type": "Label", 
+            "caption": "Model",
+            "name": "Model"
+        },
+        {   
+            "type": "Label", 
+            "caption": "MAC address",
+            "name": "MacAddress"
+        }
+    
+    ],
     "actions": [],
     "status": []
 }

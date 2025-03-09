@@ -149,8 +149,6 @@ class OnkyoAVRDiscovery extends IPSModule {
 			$value = [
 				'MacAddress' => $macAddress,
 				'Model' => $device['Model'],
-				'IPAddress' => $device['IPAddress'],
-				'Port' => $device['Port'],
 				'instanceID' => 0
 			];
 
@@ -170,9 +168,7 @@ class OnkyoAVRDiscovery extends IPSModule {
 				'moduleID'       => '{FF80DAC2-0BF3-6A70-F4A8-84A6DE34FDBA}',  
 				'configuration'	 => [
 					'MacAddress' 	=> $macAddress,
-					'Model' 		=> $device['Model'],
-					'IPAddress'		=> $device['IPAddress'],
-					'Port'			=> $device['Port']				
+					'Model' 		=> $device['Model']				
 				]
 			];
 
@@ -193,19 +189,7 @@ class OnkyoAVRDiscovery extends IPSModule {
 			];
 
 			$value['create'] = $modules;
-			
-			/*$value['create'] = [
-				'moduleID'       => '{FF80DAC2-0BF3-6A70-F4A8-84A6DE34FDBA}',  
-				'configuration'	 => [
-					'MacAddress' 	=> $macAddress,
-					'Model' 		=> $device['Model'],
-					'IPAddress'		=> $device['IPAddress'],
-					'Port'			=> $device['Port']				
-				]
-			];
-*/
-			
-		
+	
 			$values[] = $value;
 		
 		}
@@ -214,19 +198,15 @@ class OnkyoAVRDiscovery extends IPSModule {
 		if(count($instances)>0) {
 			$this->SendDebug(__FUNCTION__, 'Adding instances that are not discovered, but created earlier...', 0);
 		}
-		foreach ($instances as $instanceId => $serialNumberZone) {
+		foreach ($instances as $instanceId => $macAddress) {
 			$values[] = [
 				'Model'		 	=> json_decode(IPS_GetConfiguration($instanceId),true)['Model'],
-				'Port'		=> json_decode(IPS_GetConfiguration($instanceId),true)['Port'],
-				'IPAddress'	 	=> json_decode(IPS_GetConfiguration($instanceId),true)['IPAddress'],
-				'MacAddress'	 	=> json_decode(IPS_GetConfiguration($instanceId),true)['MacAddress'],
+				'MacAddress'	 	=> $macAddress,
 				'instanceID' 	=> $instanceId,
 				'create'		=> ['moduleID' => '{FF80DAC2-0BF3-6A70-F4A8-84A6DE34FDBA}',
 										'configuration' => [
 											'Model' 	   => json_decode(IPS_GetConfiguration($instanceId),true)['Model'],
-											'MacAddress'   => json_decode(IPS_GetConfiguration($instanceId),true)['MacAddress'],
-											'IPAddress'	   => json_decode(IPS_GetConfiguration($instanceId),true)['IPAddress'],
-											'Port' 		   => json_decode(IPS_GetConfiguration($instanceId),true)['Port']
+											'MacAddress'   => $macAddress
 										]
 								   ]
 			];
