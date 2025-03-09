@@ -149,6 +149,8 @@ class OnkyoAVRDiscovery extends IPSModule {
 			$value = [
 				'MacAddress' => $macAddress,
 				'Model' => $device['Model'],
+				'IPAddress' => $device['IPAddress'],
+				'Port' => $device['Port'],
 				'instanceID' => 0
 			];
 
@@ -199,9 +201,23 @@ class OnkyoAVRDiscovery extends IPSModule {
 			$this->SendDebug(__FUNCTION__, 'Adding instances that are not discovered, but created earlier...', 0);
 		}
 		foreach ($instances as $instanceId => $macAddress) {
+			$ipAddress = '';
+			$port = 0;
+			$instanceInfo = IPS_GetInstance($instanceId);
+			if(isset($instanceInfo['ConnectionID'])) {
+				$instanceInfo = IPS_GetInstance($instanceInfo['ConnectionID']);
+				if(isset($instanceInfo['ConnectionID'])) {
+					$config = json_decode(IPS_GetConfiguration($instanceInfo['ConnectionID']), true);
+					$ipAddress = $config['Host'];
+					$port = $config['Port'];
+				}
+			}
+			$parentID = IPS_GetParent
 			$values[] = [
 				'Model'		 	=> json_decode(IPS_GetConfiguration($instanceId),true)['Model'],
-				'MacAddress'	 	=> $macAddress,
+				'MacAddress'	=> $macAddress,
+				'IPAddress'		=> $ipAddress,
+				'Port'			=> $port;				
 				'instanceID' 	=> $instanceId,
 				'create'		=> ['moduleID' => '{FF80DAC2-0BF3-6A70-F4A8-84A6DE34FDBA}',
 										'configuration' => [
@@ -210,7 +226,6 @@ class OnkyoAVRDiscovery extends IPSModule {
 										]
 								   ]
 			];
-
 
 			$this->SendDebug(__FUNCTION__, sprintf('Added instance "%s" with InstanceID "%s"', IPS_GetName($instanceId), $instanceId), 0);
 		}
