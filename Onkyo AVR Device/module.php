@@ -26,10 +26,10 @@ declare(strict_types=1);
 			parent::ApplyChanges();
 		}
 
-		public function Send()
-		{
-			$this->SendDataToParent(json_encode(['DataID' => '{1CEDE467-DFFC-5466-5CDF-BBCA3966E657}']));
-		}
+		//public function Send()
+		//{
+		//	$this->SendDataToParent(json_encode(['DataID' => '{1CEDE467-DFFC-5466-5CDF-BBCA3966E657}']));
+		//}
 
 		public function ReceiveData($JSONString)
 		{
