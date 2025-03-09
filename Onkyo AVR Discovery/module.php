@@ -97,7 +97,7 @@ class OnkyoAVRDiscovery extends IPSModule {
 		
 		$model = $discoveredData[0];
 		$devicePort = $discoveredData[1];
-		$macAddress = $discoveredData[3];
+		$macAddress = substr($discoveredData[3], 0, 12);
 		$deviceIp = $data->ClientIP;
 
 		$device = [
@@ -229,8 +229,8 @@ class OnkyoAVRDiscovery extends IPSModule {
 			$instances[$instanceId] = IPS_GetProperty($instanceId, 'MacAddress');
 		}
 
-		$this->SendDebug(__FUNCTION__, sprintf('Found %d instance(s) of Onkyo devices', count($instances)), 0);
-		$this->SendDebug(__FUNCTION__, 'Finished searching for Onkyo devices', 0);	
+		$this->SendDebug(__FUNCTION__, sprintf('Found %d existing instance(s) of Onkyo devices', count($instances)), 0);
+		$this->SendDebug(__FUNCTION__, 'Finished searching for existing Onkyo devices', 0);	
 
 		return $instances;
 	}

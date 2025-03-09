@@ -45,7 +45,7 @@
                 {
                     "caption": "Port",
                     "name": "Port",
-                    "width": "150px"
+                    "width": "auto"
                 }                                
             ],
             "values": []
