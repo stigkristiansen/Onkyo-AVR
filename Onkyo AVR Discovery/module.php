@@ -69,6 +69,7 @@ class OnkyoAVRDiscovery extends IPSModule {
 	}
 
 	private function InitiateDiscovery()	{
+		$this->SendDebug( __FUNCTION__ , 'Sending the discovery message...', 0);
 
 		$api = new ISCPCommand('ECN', 'QSTN', '!x');
 		$this->SendDataToParent(json_encode(['DataID' => '{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}', 'Buffer' => $api->ToString()]));
@@ -95,7 +96,7 @@ class OnkyoAVRDiscovery extends IPSModule {
 		$discoveredData = explode('/', substr($discoveredData, $startPos+5, -1));
 		
 		$model = $discoveredData[0];
-		$devicePort = $discoveredDmacata[1];
+		$devicePort = $discoveredData[1];
 		$macAddress = $discoveredData[3];
 		$deviceIp = $data->ClientIP;
 
@@ -125,6 +126,7 @@ class OnkyoAVRDiscovery extends IPSModule {
 		$instances = $this->GetInstances();
 
 		//Wait for discovery to finish...
+		$this->SendDebug(__FUNCTION__, 'Waiting for discovery to complete...', 0);
 		IPS_Sleep(5000);
 
 		$devices = $this->GetDiscoveredDevices();
@@ -210,7 +212,10 @@ class OnkyoAVRDiscovery extends IPSModule {
 	}
 
 	private function GetDiscoveredDevices() : array {
-		return json_decode($this->GetBuffer('Devices'), true);
+		$discoveredDevices = $this->GetBuffer('Devices');
+		$this->SendDebug(__FUNCTION__, sprintf('Discovered devices: %s', $discoveredDevices), 0);
+		
+		return json_decode($discoveredDevices, true);
 	}
 
 	private function GetInstances () : array {

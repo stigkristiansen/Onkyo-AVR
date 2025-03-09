@@ -34,18 +34,18 @@
                 {
                     "caption": "MAC",
                     "name": "MacAddress",
-                    "width": "auto",
+                    "width": "150px",
                     "visible": true
                 },                
                 {
                     "caption": "IP Address",
                     "name": "IPAddress",
-                    "width": "auto"
+                    "width": "150px"
                 },
                 {
                     "caption": "Port",
                     "name": "Port",
-                    "width": "auto"
+                    "width": "150px"
                 }                                
             ],
             "values": []
