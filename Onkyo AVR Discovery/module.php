@@ -13,6 +13,7 @@ class OnkyoAVRDiscovery extends IPSModule {
 		$this->ForceParent('{82347F20-F541-41E1-AC5B-A636FD3AE2D8}');
 
 		$this->SetBuffer('Devices', json_encode([]));
+		$this->SetBuffer('DiscoveredDevices', json_encode([]));
 		$this->SetBuffer('SearchInProgress', json_encode(false));
 
 	}
@@ -110,7 +111,7 @@ class OnkyoAVRDiscovery extends IPSModule {
 
 		$devices[$macAddress] = $device;
 		
-		$this->SetBuffer('Devices', json_encode($devices));
+		$this->SetBuffer('DiscoveredDevices', json_encode($devices));
 		
 		$this->SendDebug( __FUNCTION__ , sprintf('Discovered device: %s:%s:%s:%s', $deviceIp, $devicePort, $model, $macAddress), 0);
 		
@@ -153,7 +154,7 @@ class OnkyoAVRDiscovery extends IPSModule {
 				'instanceID' => 0
 			];
 
-			$this->SendDebug(__FUNCTION__, sprintf('Added device with MAC address "%s"', $macAddress), 0);
+			$this->SendDebug(__FUNCTION__, sprintf('Added device with IP-address "%s"', $device['IPAddress']), 0);
 			
 			// Check if discovered device has an instance that is created earlier. If found, set InstanceID
 			$instanceId = array_search($macAddress, $instances);
@@ -212,7 +213,7 @@ class OnkyoAVRDiscovery extends IPSModule {
 	}
 
 	private function GetDiscoveredDevices() : array {
-		$discoveredDevices = $this->GetBuffer('Devices');
+		$discoveredDevices = $this->GetBuffer('DiscoveredDevices');
 		$this->SendDebug(__FUNCTION__, sprintf('Discovered devices: %s', $discoveredDevices), 0);
 		
 		return json_decode($discoveredDevices, true);
