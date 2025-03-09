@@ -163,8 +163,10 @@ class OnkyoAVRDiscovery extends IPSModule {
 				unset($instances[$instanceId]); // Remove from list to avoid duplicates
 				$value['instanceID'] = $instanceId;
 			} 
-			
-			$value['create'] = [
+
+			$modules = [];
+
+			$modules[] = [
 				'moduleID'       => '{FF80DAC2-0BF3-6A70-F4A8-84A6DE34FDBA}',  
 				'configuration'	 => [
 					'MacAddress' 	=> $macAddress,
@@ -173,6 +175,36 @@ class OnkyoAVRDiscovery extends IPSModule {
 					'Port'			=> $device['Port']				
 				]
 			];
+
+			$modules[] =  [
+				'moduleID' => '{CD39A489-D759-1786-1904-879A571231AF}',
+				'info' => 'Splitter'
+			];
+
+			$modules[] = [
+				'moduleID'       => '{3CFF0FD9-E306-41DB-9B5A-9D06D38576C3}',  
+				'info'			 => 'Client Socket IO',
+				'configuration'	 => [
+					'Host' 			=> $device['IPAddress'],
+					'Open' 			=> true,
+					'Port'			=> $device['Port'],
+					'UseSSL'		=> false
+				]
+			];
+
+			$value['create'] = $modules;
+			
+			/*$value['create'] = [
+				'moduleID'       => '{FF80DAC2-0BF3-6A70-F4A8-84A6DE34FDBA}',  
+				'configuration'	 => [
+					'MacAddress' 	=> $macAddress,
+					'Model' 		=> $device['Model'],
+					'IPAddress'		=> $device['IPAddress'],
+					'Port'			=> $device['Port']				
+				]
+			];
+*/
+			
 		
 			$values[] = $value;
 		

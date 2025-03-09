@@ -9,6 +9,12 @@ declare(strict_types=1);
 			parent::Create();
 
 			$this->RequireParent('{CD39A489-D759-1786-1904-879A571231AF}');
+
+			$this->RegisterPropertyString('MacAddress', '');
+			$this->RegisterPropertyString('Model', '');
+			$this->RegisterPropertyString('IPAddres', '');
+			$this->RegisterPropertyInteger('Port', 0);
+			
 		}
 
 		public function Destroy()
