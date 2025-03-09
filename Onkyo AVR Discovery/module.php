@@ -217,7 +217,7 @@ class OnkyoAVRDiscovery extends IPSModule {
 				'Model'		 	=> json_decode(IPS_GetConfiguration($instanceId),true)['Model'],
 				'MacAddress'	=> $macAddress,
 				'IPAddress'		=> $ipAddress,
-				'Port'			=> $port;				
+				'Port'			=> $port,				
 				'instanceID' 	=> $instanceId,
 				'create'		=> ['moduleID' => '{FF80DAC2-0BF3-6A70-F4A8-84A6DE34FDBA}',
 										'configuration' => [
