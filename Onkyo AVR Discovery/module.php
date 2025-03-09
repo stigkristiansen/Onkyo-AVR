@@ -107,7 +107,7 @@ class OnkyoAVRDiscovery extends IPSModule {
 			'Port' => $devicePort,	
 		];
 		
-		$devices = json_decode($this->GetBuffer('Devices'), true);
+		$devices = json_decode($this->GetBuffer('DiscoveredDevices'), true);
 
 		$devices[$macAddress] = $device;
 		
