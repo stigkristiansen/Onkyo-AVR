@@ -159,7 +159,7 @@ class OnkyoAVRDiscovery extends IPSModule {
 			// Check if discovered device has an instance that is created earlier. If found, set InstanceID
 			$instanceId = array_search($macAddress, $instances);
 			if ($instanceId !== false) {
-				$this->SendDebug(__FUNCTION__, sprintf('The device with MAC address %s already has an instance (%s). Setting InstanceId', $macNumber, $instanceId, 0));
+				$this->SendDebug(__FUNCTION__, sprintf('The device with MAC address %s already has an instance (%s). Setting InstanceId', $macAddress, $instanceId, 0));
 				unset($instances[$instanceId]); // Remove from list to avoid duplicates
 				$value['instanceID'] = $instanceId;
 			} 
