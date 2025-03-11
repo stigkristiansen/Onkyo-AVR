@@ -34,15 +34,15 @@ class ISCPCommand {
             return;
         } 
         
-        $jsonCommand = json_decode($Command);
-        $this->APICommand = $jsonCommand->APICommand;
+        $json = json_decode($Command);
+        $this->Command = $json->Command;
         
-        if (is_bool($jsonCommand->Data)) {
-            $value = $this->BoolValueMapping[$jsonCommand->Data];
-        } elseif (is_int($jsonCommand->Data)) {
-            $value = sprintf('%02X', $jsonCommand->Data);
+        if (is_bool($json->Data)) {
+            $value = $this->BoolValueMapping[$json->Data];
+        } elseif (is_int($json->Data)) {
+            $value = sprintf('%02X', $json->Data);
         } else {
-            $value = $jsonCommand->Data;
+            $value = $json->Data;
         } 
 
         $this->Data = utf8_decode($value);
