@@ -31,7 +31,7 @@ class OnkyoAVRDevice extends IPSModule {
 
 	public function Send() {
 		$command = [
-			'APICommand' = 'PWR';
+			'APICommand' = 'PWR',
 			'Data' = true;
 		]
 
