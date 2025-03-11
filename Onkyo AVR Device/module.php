@@ -32,7 +32,7 @@ class OnkyoAVRDevice extends IPSModule {
 	public function Send() {
 		$command = [
 			'APICommand' => 'PWR',
-			'Data'		 => true;
+			'Data'		 => true
 		];
 
 		$this->SendDataToParent(json_encode(['DataID' => '{1CEDE467-DFFC-5466-5CDF-BBCA3966E657}', 'Buffer' => $command]));
