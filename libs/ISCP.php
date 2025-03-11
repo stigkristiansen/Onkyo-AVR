@@ -33,7 +33,10 @@ class ISCPCommand {
 
             return;
         } 
-
+        
+        $json = json_decode($Command);
+        $this->APICommand = $json->APICommand;
+        $this->Data = utf8_decode($json->Data);
     }
 
     public function ToString() {
