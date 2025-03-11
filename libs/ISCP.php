@@ -36,7 +36,16 @@ class ISCPCommand {
         
         $json = json_decode($Command);
         $this->APICommand = $json->APICommand;
-        $this->Data = utf8_decode($json->Data);
+        
+        if (is_bool($json->Data)) {
+            $Value = $this->BoolValueMapping[$json->Data];
+        } elseif (is_int($json->Data)) {
+            $Value = sprintf('%02X', $json->Data);
+        } else {
+            $Value = $this->Data;
+        } 
+
+        $this->Data = utf8_decode($value);
     }
 
     public function ToString() {
