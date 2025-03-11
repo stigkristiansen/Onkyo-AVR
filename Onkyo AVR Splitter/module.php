@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../libs/ISCP.php';
-require_once __DIR__ . '/../libs/semaphore.php';
+require_once __DIR__ . '/../libs/semaphoreHelper.php';
 
 class OnkyoAVRSplitter extends IPSModule {
 		public function Create() {
