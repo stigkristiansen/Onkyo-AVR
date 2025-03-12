@@ -35,11 +35,11 @@ class Converter {
             }
 
             switch($Data) {
-                'QSTN':
-                'UP':
-                'DOWN':
-                'UP1':
-                'DOWN1': 
+                case 'QSTN':
+                case 'UP':
+                case 'DOWN':
+                case 'UP1':
+                case 'DOWN1': 
                     return $Data;
                 default:
                     throw new Exception('Invalid Data!');            
@@ -74,7 +74,7 @@ class Converter {
             $Data = strtoupper($Data);
 
             if($Data=='QSTN') {
-                return 'QSTN';
+                return $Data;
             }  
 
             if(ctype_xdigit($Data)) {
