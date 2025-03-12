@@ -52,7 +52,7 @@ class OnkyoAVRSplitter extends IPSModule {
 			$buffer = unserialize($this->GetBuffer(self::BUFFER));
 			$bufferLength = strlen($buffer);
 
-			$this->SendDebug( __FUNCTION__ , sprintf('Saved buffer: %s', strlen($buffer)>?$buffer:'<EMPTY>', 0);
+			$this->SendDebug( __FUNCTION__ , sprintf('Saved buffer: %s', strlen($buffer)>0?$buffer:'<EMPTY>'), 0);
 						
 			$startPos = strpos($stream, 'ISCP');
 			if($startPos!==false) {
@@ -111,7 +111,7 @@ class OnkyoAVRSplitter extends IPSModule {
 				}
 			} 
 			
-			$this->SendDebug( __FUNCTION__ , sprintf('New buffer after processing commands: %s', $buffer), 0);
+			$this->SendDebug( __FUNCTION__ , sprintf('New buffer after processing commands: %s', strlen($buffer)>0?$buffer:'<EMPTY>'), 0);
 			
 			$this->SetBuffer(self::BUFFER, serialize($buffer));
 
