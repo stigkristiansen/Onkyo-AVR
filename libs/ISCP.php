@@ -127,7 +127,7 @@ class ISCPCommand {
         
         $json = json_decode($Command);
         $this->Command = $json->Command;
-        $this->Data = $value;
+        $this->Data = $json->Data;
 
         //$convert = new Converter($this->Command);
         //$value = $convert->Execute($json->Data);
