@@ -11,7 +11,9 @@ class Converter {
         'SLI',
         'IFV',
         'IFA',
-        'MVL'
+        'MVL',
+        'SWL', // Må implementeres
+        'CTL'  // Må implemeteres
     ];
 
     public function __construct(string $Command) {
@@ -24,6 +26,10 @@ class Converter {
 
     public function Execute(mixed $Data) {
         return self::{$this->Command}($Data);
+    }
+
+    private function SWL(mixed $Data) : mixed {
+
     }
 
     private function MVL(mixed $Data) : mixed {

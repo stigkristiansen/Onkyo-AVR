@@ -104,7 +104,14 @@ class OnkyoAVRSplitter extends IPSModule {
 					if($startPos==0 && $endPos == strlen($command)-1) {
 						$this->SendDebug( __FUNCTION__ , sprintf('Found command: %s', $command), 0);
 						
-						$api = new ISCPCommand($command); 
+						try {
+							$api = new ISCPCommand($command); 
+						} catch(Exception $e) {
+							$message = sprintf('Failed to decode the command. The error was "%s"', $e->getMessage());
+							$this->SendDebug( __FUNCTION__ , $message, 0);	
+							$this->LogMessage($message, KL_WARNING);
+							break;
+						}
 
 						$this->SendDebug( __FUNCTION__ , sprintf('Decoded command: %s', $api->ToJSON()), 0);
 
