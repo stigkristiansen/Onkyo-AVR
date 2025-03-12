@@ -87,7 +87,7 @@ class OnkyoAVRSplitter extends IPSModule {
 				$commandsToChild = [];
 				foreach($commands as $command) {
 					$startPos = strpos($command, 'ISCP');
-					$endPos = strpos($command, '\x1A');
+					$endPos = strpos($command, "\x1A");
 					if($startPos==0 && $endPos == strlen($command)-1) {
 						$this->SendDebug( __FUNCTION__ , sprintf('Found command: %s', $command), 0);
 						break;
