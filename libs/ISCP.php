@@ -28,8 +28,8 @@ class ISCPCommand {
         }
 
         if ($Command[strlen($Command) - 1] === "\x1A") {
-            $this->Command = substr($Command, 2, 3);
-            $this->Data = substr($Command, 5, -1);
+            $this->Command = substr($Command, 18, 3);
+            $this->Data = substr($Command, 21, -1);
 
             return;
         } 
