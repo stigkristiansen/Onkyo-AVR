@@ -16,7 +16,7 @@ class OnkyoAVRSplitter extends IPSModule {
 
 		$this->ConnectParent('{3CFF0FD9-E306-41DB-9B5A-9D06D38576C3}');
 
-		$this->SetBuffer(serialize(''));
+		$this->SetBuffer(self::BUFFER, serialize(''));
 	}
 
 	public function Destroy() {
