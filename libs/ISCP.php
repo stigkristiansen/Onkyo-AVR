@@ -11,9 +11,14 @@ class Converter {
         'SLI',
         'IFV',
         'IFA',
-        'MVL',
-        'SWL', // Må implementeres
-        'CTL'  // Må implemeteres
+        'MVL'//,
+        //'SWL', // Start må implementeres
+        //'CTL',
+        //'AMT',
+        //'TGA',
+        //'TGB',
+        //'TGC',
+        //'LMD'  // Slutt må implemeteres
     ];
 
     public function __construct(string $Command) {
