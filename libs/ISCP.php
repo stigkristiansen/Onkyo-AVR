@@ -10,7 +10,8 @@ class Converter {
         'PWR',
         'SLI',
         'IFV',
-        'IFA'
+        'IFA',
+        'MVL'
     ];
 
     public function __construct(string $Command) {
@@ -23,6 +24,33 @@ class Converter {
 
     public function Execute(mixed $Data) {
         return self::{$this->Command}($Data);
+    }
+
+    private function MVL(mixed $Data) : mixed {
+        if(is_string($Data)) {
+            $Data = strtoupper($Data);
+
+            if(ctype_xdigit($Data)) {
+                return (int)$Data;
+            }
+
+            switch($Data) {
+                'QSTN':
+                'UP':
+                'DOWN':
+                'UP1':
+                'DOWN1': 
+                    return $Data;
+                default:
+                    throw new Exception('Invalid Data!');            
+            }
+        }
+
+        if(is_numeric($Data)) {
+            return sprintf('%02X', $Data);
+        }
+
+        throw new Exception('Invalid Data!');
     }
 
     private function IFV(mixed $Data) : String {
@@ -43,6 +71,8 @@ class Converter {
 
     private function SLI(mixed $Data) : mixed{
         if(is_string($Data)) {
+            $Data = strtoupper($Data);
+
             if($Data=='QSTN') {
                 return 'QSTN';
             }  
@@ -63,6 +93,7 @@ class Converter {
 
     private function PWR(mixed $Data) : mixed {
         if(is_string($Data)) {
+            $Data = strtoupper($Data);
             switch($Data) {
                 case '00':
                     return false;
@@ -128,22 +159,9 @@ class ISCPCommand {
         $json = json_decode($Command);
         $this->Command = $json->Command;
         $this->Data = $json->Data;
-
-        //$convert = new Converter($this->Command);
-        //$value = $convert->Execute($json->Data);
-        //$this->Data = utf8_decode($value);
     }
 
     public function ToString() {
-        /*if (is_bool($this->Data)) {
-            $value = $this->BoolValueMapping[$this->Data];
-        } elseif (is_int($this->Data)) {
-            $value = sprintf('%02X', $this->Data);
-        } else {
-            $value = $this->Data;
-        }
-*/
-
         $convert = new Converter($this->Command);
         $value = $convert->Execute($this->Data);
 
@@ -157,7 +175,6 @@ class ISCPCommand {
      }
 
      public function ToJSON() {
-
         $data = [
             'Command' => $this->Command,
             'Data' => $this->Data

@@ -68,7 +68,7 @@ class OnkyoAVRSplitter extends IPSModule {
 				if($bufferLength==0) {
 					$separator = '';
 					if(strlen($reason)>0) {
-						$separator = '|';
+						$separator = ' | ';
 					}
 						$reason = $reason . $separator . 'Size of buffer is 0';
 				}
