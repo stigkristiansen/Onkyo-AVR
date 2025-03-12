@@ -135,15 +135,19 @@ class ISCPCommand {
     }
 
     public function ToString() {
-        if (is_bool($this->Data)) {
-            $Value = $this->BoolValueMapping[$this->Data];
+        /*if (is_bool($this->Data)) {
+            $value = $this->BoolValueMapping[$this->Data];
         } elseif (is_int($this->Data)) {
-            $Value = sprintf('%02X', $this->Data);
+            $value = sprintf('%02X', $this->Data);
         } else {
-            $Value = $this->Data;
+            $value = $this->Data;
         }
+*/
 
-        $payload = $this->Prefix . $this->Command . $Value . "\r\n";
+        $convert = new Converter($this->Command);
+        $value = $convert->Execute($ythis->Data);
+
+        $payload = $this->Prefix . $this->Command . $value . "\r\n";
         $payloadLen = pack('N', strlen($payload));
         
         $ISCPHeader = $payloadLen . "\x01\x00\x00\x00";
