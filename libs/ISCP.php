@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 
-class Convert { 
+class Converter { 
     private string $Command;
 
     private array $SupportedCommands = [
@@ -118,7 +118,7 @@ class ISCPCommand {
         if ($Command[strlen($Command) - 1] === "\x1A") {
             $this->Command = substr($Command, 18, 3);
             
-            $convert = new Convert($this->Command);
+            $convert = new Converter($this->Command);
             $data = substr($Command, 21, -1);
             $this->Data = $convert->Execute($data);
 
@@ -127,16 +127,7 @@ class ISCPCommand {
         
         $json = json_decode($Command);
         $this->Command = $json->Command;
-        
-        if (is_bool($json->Data)) {
-            $value = $this->BoolValueMapping[$json->Data];
-        } elseif (is_int($json->Data)) {
-            $value = sprintf('%02X', $json->Data);
-        } else {
-            $value = $json->Data;
-        } 
-
-        $this->Data = utf8_decode($value);
+        $this->Data = utf8_decode($json->Data);
     }
 
     public function ToString() {
