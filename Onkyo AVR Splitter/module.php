@@ -62,7 +62,21 @@ class OnkyoAVRSplitter extends IPSModule {
 			
 
 			if($bufferLength==0 || $startPos==0) {
-				$this->SendDebug( __FUNCTION__ , 'Setting saved buffer to received stream', 0);
+				$reason = '';
+				if($startPos==0) {
+					$reason = 'ISCP is at position 0';
+				}
+				
+				if($bufferLength==0) {
+					$separator = '';
+					if(strlen($reason)>0) {
+						$separator = ', '
+					}
+						$reason = $reason . $separator . 'Size of buffer is 0';
+				}
+				
+				$this->SendDebug( __FUNCTION__ , sprintf('Setting saved buffer to received stream. Reason: %s), $reason', 0);
+				
 				$buffer = $stream;
 			}
 			
