@@ -68,7 +68,7 @@ class OnkyoAVRSplitter extends IPSModule {
 			}
 
 			if(strpos($buffer, '\x0D\x0A')>0) {
-				$commands = explode('\x0D\x0A', $buffer)
+				$commands = explode('\x0D\x0A', $buffer);
 				$buffer = '';
 
 				$commandsToChild = [];
