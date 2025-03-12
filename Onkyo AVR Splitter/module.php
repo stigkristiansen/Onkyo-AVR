@@ -51,23 +51,34 @@ class OnkyoAVRSplitter extends IPSModule {
 		if(self::Lock(self::BUFFER)) {
 			$buffer = unserialize($this->GetBuffer(self::BUFFER));
 			$bufferLength = strlen($buffer);
+
+			$this->SendDebug( __FUNCTION__ , sprintf('Saved buffer: %s', $buffer), 0);
+			$this->SendDebug( __FUNCTION__ , sprintf('Buffer length: %d', $bufferLength), 0);
 			
 			$startPos = strpos($stream, 'ISCP');
+			if($startPos!==false) {
+				$this->SendDebug( __FUNCTION__ , 'Found prefix "ISCP" in received stream', 0);
+			}
+			
 
 			if($bufferLength == 0 || $startPos=0) {
+				$this->SendDebug( __FUNCTION__ , 'Setting saved buffer to received stream', 0);
 				$buffer = $stream;
 			}
 			
 			if(($startPos>0 || $startPos===false) && $bufferLength>0) {
+				$this->SendDebug( __FUNCTION__ , 'Concatinating saved buffer and received stream', 0);
 				$buffer.=$stream;
 				$startPos = strpos($buffer, 'ISCP');
 			} 
 
 			if($startPos>0) {
+				$this->SendDebug( __FUNCTION__ , 'Removing data before prefix', 0);
 				$buffer = substr($buffer, $startPos);
 			}
 
 			if(strpos($buffer, '\x0D\x0A')>0) {
+				$this->SendDebug( __FUNCTION__ , 'At least one complete command has been received', 0);
 				$commands = explode('\x0D\x0A', $buffer);
 				$buffer = '';
 
