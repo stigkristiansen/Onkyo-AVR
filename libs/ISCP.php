@@ -120,7 +120,7 @@ class ISCPCommand {
             
             $convert = new Convert($this->Command);
             $data = substr($Command, 21, -1);
-            $this->Data = $convert->Excecute($data);
+            $this->Data = $convert->Execute($data);
 
             return;
         } 
