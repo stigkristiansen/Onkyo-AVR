@@ -145,7 +145,7 @@ class ISCPCommand {
 */
 
         $convert = new Converter($this->Command);
-        $value = $convert->Execute($ythis->Data);
+        $value = $convert->Execute($this->Data);
 
         $payload = $this->Prefix . $this->Command . $value . "\r\n";
         $payloadLen = pack('N', strlen($payload));
