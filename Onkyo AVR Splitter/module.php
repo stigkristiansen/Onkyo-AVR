@@ -56,7 +56,7 @@ class OnkyoAVRSplitter extends IPSModule {
 						
 			$startPos = strpos($stream, 'ISCP');
 			if($startPos!==false) {
-				$this->SendDebug( __FUNCTION__ , sprintf('Found prefix "ISCP" in received stream: %d', $startPos), 0);
+				$this->SendDebug( __FUNCTION__ , sprintf('Found prefix "ISCP" in received stream at position %d', $startPos), 0);
 			}
 			
 			if($bufferLength==0 || $startPos==0) {
@@ -91,6 +91,7 @@ class OnkyoAVRSplitter extends IPSModule {
 
 			$this->SendDebug( __FUNCTION__ , sprintf('New buffer after received stream and before handeling complete command(s): %s', $buffer), 0);
 
+			$commandsToChild = [];
 			if(strpos($buffer, "\x0d\x0a")>0) {
 				$this->SendDebug( __FUNCTION__ , 'At least one complete command has been received', 0);
 				$commands = explode("\x0d\x0a", $buffer);
@@ -102,6 +103,11 @@ class OnkyoAVRSplitter extends IPSModule {
 					$endPos = strpos($command, "\x1A");
 					if($startPos==0 && $endPos == strlen($command)-1) {
 						$this->SendDebug( __FUNCTION__ , sprintf('Found command: %s', $command), 0);
+						
+						$api = new ISCPCommand($command); 
+
+						$this->SendDebug( __FUNCTION__ , sprintf('Decoded command: %s', $api->ToJSON()), 0);
+
 						break;
 					} else {
 						$this->SendDebug( __FUNCTION__ , sprintf('Invalid command or last in stream: %s', $command), 0);
