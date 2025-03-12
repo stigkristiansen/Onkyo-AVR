@@ -17,6 +17,6 @@ trait Semaphore {
     }
 
     private function Unlock($Id) {
-        IPS_SemaphoreLeave((string) $this->InstanceID . (string) $ident);
+        IPS_SemaphoreLeave((string) $this->InstanceID . (string) $Id);
     }
 }
