@@ -127,7 +127,11 @@ class ISCPCommand {
         
         $json = json_decode($Command);
         $this->Command = $json->Command;
-        $this->Data = utf8_decode($json->Data);
+        $this->Data = $value;
+
+        //$convert = new Converter($this->Command);
+        //$value = $convert->Execute($json->Data);
+        //$this->Data = utf8_decode($value);
     }
 
     public function ToString() {
