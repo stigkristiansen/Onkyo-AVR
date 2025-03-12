@@ -52,15 +52,13 @@ class OnkyoAVRSplitter extends IPSModule {
 			$buffer = unserialize($this->GetBuffer(self::BUFFER));
 			$bufferLength = strlen($buffer);
 
-			$this->SendDebug( __FUNCTION__ , sprintf('Saved buffer: %s', $buffer), 0);
-			$this->SendDebug( __FUNCTION__ , sprintf('Buffer length: %d', $bufferLength), 0);
-			
+			$this->SendDebug( __FUNCTION__ , sprintf('Saved buffer: %s', strlen($buffer)>?$buffer:'<EMPTY>', 0);
+						
 			$startPos = strpos($stream, 'ISCP');
 			if($startPos!==false) {
 				$this->SendDebug( __FUNCTION__ , sprintf('Found prefix "ISCP" in received stream: %d', $startPos), 0);
 			}
 			
-
 			if($bufferLength==0 || $startPos==0) {
 				$reason = '';
 				if($startPos==0) {
@@ -70,7 +68,7 @@ class OnkyoAVRSplitter extends IPSModule {
 				if($bufferLength==0) {
 					$separator = '';
 					if(strlen($reason)>0) {
-						$separator = ', ';
+						$separator = '|';
 					}
 						$reason = $reason . $separator . 'Size of buffer is 0';
 				}
@@ -87,11 +85,11 @@ class OnkyoAVRSplitter extends IPSModule {
 			} 
 
 			if($startPos>0) {
-				$this->SendDebug( __FUNCTION__ , 'Removing data before prefix', 0);
+				$this->SendDebug( __FUNCTION__ , 'Removing data before prefix "ISCP"', 0);
 				$buffer = substr($buffer, $startPos);
 			}
 
-			$this->SendDebug( __FUNCTION__ , sprintf('New buffer after receiving stream and before handeling complete commands: %s', $buffer), 0);
+			$this->SendDebug( __FUNCTION__ , sprintf('New buffer after received stream and before handeling complete command(s): %s', $buffer), 0);
 
 			if(strpos($buffer, "\x0d\x0a")>0) {
 				$this->SendDebug( __FUNCTION__ , 'At least one complete command has been received', 0);
@@ -110,12 +108,10 @@ class OnkyoAVRSplitter extends IPSModule {
 						$buffer = $command;
 						break;
 					}
-
-					
 				}
 			} 
 			
-			$this->SendDebug( __FUNCTION__ , sprintf('New buffer after handeling commands: %s', $buffer), 0);
+			$this->SendDebug( __FUNCTION__ , sprintf('New buffer after processing commands: %s', $buffer), 0);
 			
 			$this->SetBuffer(self::BUFFER, serialize($buffer));
 
