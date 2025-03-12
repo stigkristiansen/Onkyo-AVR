@@ -6,42 +6,97 @@ require_once __DIR__ . '/../libs/ISCP.php';
 require_once __DIR__ . '/../libs/semaphoreHelper.php';
 
 class OnkyoAVRSplitter extends IPSModule {
-		public function Create() {
-			//Never delete this line!
-			parent::Create();
+	use Semaphore;
 
-			$this->ConnectParent('{3CFF0FD9-E306-41DB-9B5A-9D06D38576C3}');
-		}
+	const BUFFER = 'Incoming';
 
-		public function Destroy() {
-			//Never delete this line!
-			parent::Destroy();
-		}
+	public function Create() {
+		//Never delete this line!
+		parent::Create();
 
-		public function ApplyChanges() {
-			//Never delete this line!
-			parent::ApplyChanges();
-		}
+		$this->ConnectParent('{3CFF0FD9-E306-41DB-9B5A-9D06D38576C3}');
 
-		public function ForwardData($JSONString) {
-			$data = json_decode($JSONString);
-			$command = json_encode($data->Buffer);
-
-			$this->SendDebug( __FUNCTION__ , sprintf('Received data for forwaring to IO-instance: %s', $command), 0);
-
-			$api = new ISCPCommand($command);
-			
-			$result = $this->SendDataToParent(json_encode(['DataID' => '{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}', 'Buffer' => $api->ToString()]));
-
-			return $result;
-		}
-
-		public function ReceiveData($JSONString) {
-			$data = json_decode($JSONString);
-			$this->SendDebug( __FUNCTION__ , sprintf('Received data for from the IO-instance: %s', utf8_decode($data->Buffer)), 0);
-
-
-
-			//$this->SendDataToChildren(json_encode(['DataID' => '{EF1FFC09-B63E-971C-8DC9-A2F6B37046F1}', 'Buffer' => $data->Buffer]));
-		}
+		$this->SetBuffer(serialize(''));
 	}
+
+	public function Destroy() {
+		//Never delete this line!
+		parent::Destroy();
+	}
+
+	public function ApplyChanges() {
+		//Never delete this line!
+		parent::ApplyChanges();
+	}
+
+	public function ForwardData($JSONString) {
+		$data = json_decode($JSONString);
+		$command = json_encode($data->Buffer);
+
+		$this->SendDebug( __FUNCTION__ , sprintf('Received data for forwaring to IO-instance: %s', $command), 0);
+
+		$api = new ISCPCommand($command);
+		
+		$result = $this->SendDataToParent(json_encode(['DataID' => '{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}', 'Buffer' => $api->ToString()]));
+
+		return $result;
+	}
+
+	public function ReceiveData($JSONString) {
+		$data = json_decode($JSONString);
+		$stream = utf8_decode($data->Buffer);
+		
+		$this->SendDebug( __FUNCTION__ , sprintf('Received data for from the IO-instance: %s', $stream), 0);
+
+		if(self::Lock(self::BUFFER)) {
+			$buffer = unserialize($this->GetBuffer(self::BUFFER));
+			$bufferLength = strlen($buffer);
+			
+			$startPos = strpos($stream, 'ISCP');
+
+			if($bufferLength == 0 || $startPos=0) {
+				$buffer = $stream;
+			}
+			
+			if(($startPos>0 || $startPos===false) && $bufferLength>0) {
+				$buffer.=$stream;
+				$startPos = strpos($buffer, 'ISCP');
+			} 
+
+			if($startPos>0) {
+				$buffer = substr($buffer, $startPos);
+			}
+
+			if(strpos($buffer, '\x0D\x0A')>0) {
+				$commands = explode('\x0D\x0A', $buffer)
+				$buffer = '';
+
+				$commandsToChild = [];
+				foreach($commands as $command) {
+					$startPos = strpos($command, 'ISCP');
+					$endPos = strpos($command, '\x1A')
+					if($startPos==0 && $endPos == strlen($command)-1) {
+						$this->SendDebug( __FUNCTION__ , sprintf('Found command: %s', $command), 0);
+						break;
+					} else {
+						$this->SendDebug( __FUNCTION__ , sprintf('Invalid command or last in stream: %s', $command), 0);
+						$buffer = $command;
+						break;
+					}
+
+					
+				}
+			} 
+			
+			$this->SendDebug( __FUNCTION__ , sprintf('New buffer after receiving stream: %s', $buffer), 0);
+			
+			$this->SetBuffer(self::BUFFER, serialize($buffer));
+
+			self::Unlock(self::BUFFER);
+		}
+
+
+
+		//$this->SendDataToChildren(json_encode(['DataID' => '{EF1FFC09-B63E-971C-8DC9-A2F6B37046F1}', 'Buffer' => $data->Buffer]));
+	}
+}
