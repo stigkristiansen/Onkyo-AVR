@@ -75,7 +75,7 @@ class OnkyoAVRSplitter extends IPSModule {
 						$reason = $reason . $separator . 'Size of buffer is 0';
 				}
 				
-				$this->SendDebug( __FUNCTION__ , sprintf('Setting saved buffer to received stream. Reason: %s), $reason', 0);
+				$this->SendDebug( __FUNCTION__ , sprintf('Setting saved buffer to received stream. Reason: %s', $reason'), 0);
 				
 				$buffer = $stream;
 			}
