@@ -2,6 +2,94 @@
 
 declare(strict_types=1);
 
+
+class Convert { 
+    private string $Command;
+
+    private array $SupportedCommands = [
+        'PWR',
+        'SLI',
+        'IFV',
+        'IFA'
+    ];
+
+    public function __construct(string $Command) {
+        if(array_search($Command, $this->SupportedCommands)===false) {
+            throw new Exception(sprintf('The command "%s" is not supported', $Command));
+        }
+
+        $this->Command = strtoupper($Command);
+    }
+
+    public function Execute(mixed $Data) {
+        return self::{$this->Command}($Data);
+    }
+
+    private function IFV(mixed $Data) : String {
+        if(is_string($Data)) {
+            return $Data;
+        }
+
+        throw new Exception('Invalid Data!');
+    }
+
+    private function IFA(mixed $Data) : String {
+        if(is_string($Data)) {
+            return $Data;
+        }
+
+        throw new Exception('Invalid Data!');
+    }
+
+    private function SLI(mixed $Data) : mixed{
+        if(is_string($Data)) {
+            if($Data=='QSTN') {
+                return 'QSTN';
+            }  
+
+            if(ctype_xdigit($Data)) {
+                return (int)$Data;
+            } else {
+                throw new Exception('Invalid hexadesimal number!');
+            }
+        }
+
+        if(is_numeric($Data)) {
+            return sprintf('%02X', $Data);
+        }
+
+        throw new Exception('Invalid Data!');
+    }
+
+    private function PWR(mixed $Data) : mixed {
+        if(is_string($Data)) {
+            switch($Data) {
+                case '00':
+                    return false;
+                case '01':
+                    return true;
+                case 'QSTN':
+                    return 'QSTN';
+                default:
+                    throw new Exception('Invalid Data!');
+            }
+        }
+
+        if(is_bool($Data)) {
+            switch($Data) {
+                case true:
+                    return '01';
+                case false:
+                    return '00';
+                default:
+                    throw new Exception('Invalid Data!');
+            }
+        }
+
+        throw new Exception('Invalid Data!');
+    }
+}
+
 class ISCPCommand {
     public $Command;
     public $Data;
@@ -29,7 +117,10 @@ class ISCPCommand {
 
         if ($Command[strlen($Command) - 1] === "\x1A") {
             $this->Command = substr($Command, 18, 3);
-            $this->Data = substr($Command, 21, -1);
+            
+            $convert = new Convert($this->Command);
+            $data = substr($Command, 21, -1);
+            $this->Data = $convert->Excecute($data);
 
             return;
         } 

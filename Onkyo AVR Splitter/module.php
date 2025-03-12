@@ -89,7 +89,7 @@ class OnkyoAVRSplitter extends IPSModule {
 				$buffer = substr($buffer, $startPos);
 			}
 
-			$this->SendDebug( __FUNCTION__ , sprintf('New buffer after received stream and before handeling complete command(s): %s', $buffer), 0);
+			$this->SendDebug( __FUNCTION__ , sprintf('New buffer after received stream and before processing complete command(s): %s', $buffer), 0);
 
 			$commandsToChild = [];
 			if(strpos($buffer, "\x0d\x0a")>0) {
