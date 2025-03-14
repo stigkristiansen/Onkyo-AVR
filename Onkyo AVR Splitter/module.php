@@ -135,8 +135,8 @@ class OnkyoAVRSplitter extends IPSModule {
 			
 			$this->SetBuffer(self::BUFFER, serialize($buffer));
 
-			if(count($commandsToChild)> 0) {
-				$this->SendDebug( __FUNCTION__ , 'Sending commnand(s) to child instans(es), 0);
+			if(count($commandsToChild) > 0) {
+				$this->SendDebug( __FUNCTION__ , 'Sending commnand(s) to child instans(es)', 0);
 				$this->SendDataToChildren(json_encode(['DataID' => '{EF1FFC09-B63E-971C-8DC9-A2F6B37046F1}', 'Buffer' => $commandsToChild]));
 			}
 			
