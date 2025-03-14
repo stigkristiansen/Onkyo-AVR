@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 trait MainCommands {
     private function ECN($Data) {
-        return;
+        return $Data;
     }
+    
     private function TGA($Data) : mixed {
         return self::PWR($Data);
     }
