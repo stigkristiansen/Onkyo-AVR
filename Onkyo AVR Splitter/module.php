@@ -58,6 +58,8 @@ class OnkyoAVRSplitter extends IPSModule {
 			if($startPos!==false) {
 				$this->SendDebug( __FUNCTION__ , sprintf('Found prefix "ISCP" in received stream at position %d', $startPos), 0);
 			}
+
+			$commandsToChild = [];
 			
 			if($bufferLength==0 || $startPos==0) {
 				$reason = '';
@@ -91,7 +93,6 @@ class OnkyoAVRSplitter extends IPSModule {
 
 			$this->SendDebug( __FUNCTION__ , sprintf('New buffer after received stream and before processing complete command(s): %s', $buffer), 0);
 
-			$commandsToChild = [];
 			if(strpos($buffer, "\x0d\x0a")>0) {
 				$this->SendDebug( __FUNCTION__ , 'At least one complete command has been received', 0);
 				$commands = explode("\x0d\x0a", $buffer);
@@ -106,6 +107,9 @@ class OnkyoAVRSplitter extends IPSModule {
 						
 						try {
 							$api = new ISCPCommand($command); 
+							$jsonCommand = $api->ToJSON();
+							
+							$commandsToChild[] = $jsonCommand;
 						} catch(Exception $e) {
 							$message = sprintf('Failed to decode the command. The error was: %s', $e->getMessage());
 							$this->SendDebug( __FUNCTION__ , $message, 0);	
@@ -113,10 +117,10 @@ class OnkyoAVRSplitter extends IPSModule {
 							break;
 						} 
 
-						$jsonCommand = $api->ToJSON();
-						$commandsToChild[] = $jsonCommand;
+						
 
 						$this->SendDebug( __FUNCTION__ , sprintf('Decoded command: %s', $jsonCommand), 0);
+						
 
 						break;
 					} else {
@@ -131,8 +135,12 @@ class OnkyoAVRSplitter extends IPSModule {
 			
 			$this->SetBuffer(self::BUFFER, serialize($buffer));
 
-			$this->SendDataToChildren(json_encode(['DataID' => '{EF1FFC09-B63E-971C-8DC9-A2F6B37046F1}', 'Buffer' => commandsToChild]));
-
+			if(count($commandsToChild)> 0) {
+				$this->SendDebug( __FUNCTION__ , 'Sending commnand(s) to child instans(es), 0);
+				$this->SendDataToChildren(json_encode(['DataID' => '{EF1FFC09-B63E-971C-8DC9-A2F6B37046F1}', 'Buffer' => $commandsToChild]));
+			}
+			
+			
 			self::Unlock(self::BUFFER);
 		}
 
