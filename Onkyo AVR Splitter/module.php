@@ -113,7 +113,10 @@ class OnkyoAVRSplitter extends IPSModule {
 							break;
 						} 
 
-						$this->SendDebug( __FUNCTION__ , sprintf('Decoded command: %s', $api->ToJSON()), 0);
+						$jsonCommand = 4api->ToJSON();
+						$this->SendDebug( __FUNCTION__ , sprintf('Decoded command: %s', $jsonCommand), 0);
+
+						$commandsToChild[] = $jsonCommand;
 
 						break;
 					} else {
@@ -128,11 +131,10 @@ class OnkyoAVRSplitter extends IPSModule {
 			
 			$this->SetBuffer(self::BUFFER, serialize($buffer));
 
+			$this->SendDataToChildren(json_encode(['DataID' => '{EF1FFC09-B63E-971C-8DC9-A2F6B37046F1}', 'Buffer' => commandsToChild]));
+
 			self::Unlock(self::BUFFER);
 		}
 
-
-
-		//$this->SendDataToChildren(json_encode(['DataID' => '{EF1FFC09-B63E-971C-8DC9-A2F6B37046F1}', 'Buffer' => $data->Buffer]));
 	}
 }
