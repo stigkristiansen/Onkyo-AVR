@@ -29,6 +29,24 @@ class OnkyoAVRDevice extends IPSModule {
 		parent::ApplyChanges();
 	}
 
+	public function RequestAction($Ident, $Value) {
+		$this->SendDebug(__FUNCTION__, sprintf('RequestAction was called: %s:%s', (string)$Ident, (string)$Value), 0);
+		
+		try {
+			switch (strtoupper($Ident)) {
+				'RECEIVEDCOMMANDS':
+					break;
+				default:
+					throw new Exeption(sprintf('Unknown Ident: %s', $Ident));
+			}
+		} catch(Exception $e) {
+			$msg = sprintf('An unexpected error occured. The error was: %s', $e->getMessage());
+			$this->SendDebug( __FUNCTION__ , $msg, 0);	
+			$this->LogMessage($msg, KL_WARNING);
+		} 
+	}
+
+
 	public function Send() {
 		$command = [
 			'Command' => 'PWR',
@@ -42,5 +60,12 @@ class OnkyoAVRDevice extends IPSModule {
 		$data = json_decode($JSONString);
 		
 		$this->SendDebug( __FUNCTION__ , sprintf('Received data: %s', $JSONString), 0);
+
+		$commands = json_encode($data->Buffer);
+		
+		$this->SendDebug( __FUNCTION__ , 'Creating a timer to process incoming data in a new thread.', 0);
+
+		$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "ReceivedCommands",\''.$commands.'\');';
+		$this->RegisterOnceTimer('ReceivedCommands', $script);
 	}
 }
