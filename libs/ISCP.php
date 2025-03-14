@@ -5,7 +5,7 @@ declare(strict_types=1);
 require __DIR__ . '/../libs/ISCPMain.php';
 
 class Converter { 
-    use MainCommands
+    use MainCommands;
 
     private string $Command;
 
