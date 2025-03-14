@@ -18,7 +18,7 @@ trait MainCommands {
                 case 'DOWN':
                     return $Data;
                 default:
-                    throw new Exception(sprintf('Invalid data string: %s', $Data);            
+                    throw new Exception(sprintf('Invalid data string: %s', $Data));            
             }
         }
 
