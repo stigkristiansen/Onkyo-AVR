@@ -18,7 +18,7 @@ trait MainCommands {
                 case 'DOWN':
                     return $Data;
                 default:
-                    throw new Exception('Invalid Data!');            
+                    throw new Exception(sprintf('Invalid data string: %s', $Data);            
             }
         }
 
@@ -27,7 +27,7 @@ trait MainCommands {
             return sprintf('%s%s', prefix, sprintf('%X', $Data));
         }
 
-        throw new Exception('Invalid Data!');
+        throw new Exception('Invalid Data:' . (string)$Data);
     }
 
     
