@@ -11,7 +11,7 @@ trait MainCommands {
             if($prefix=='-' or $prefix='+') {
                 $Data = substr($Data, 1);
 
-                if(prefix=='-') {
+                if($prefix=='-') {
                     $neg = -1;
                 }
             }
