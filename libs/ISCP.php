@@ -32,7 +32,7 @@ class Converter {
         $this->Command = strtoupper($Command);
     }
 
-    public function Execute(mixed $Data) {
+    public function Convert(mixed $Data) {
         return self::{$this->Command}($Data);
     }
 
@@ -67,9 +67,9 @@ class ISCPCommand {
         if ($Command[strlen($Command) - 1] === "\x1A") {
             $this->Command = substr($Command, 18, 3);
             
-            $convert = new Converter($this->Command);
+            $converter = new Converter($this->Command);
             $data = substr($Command, 21, -1);
-            $this->Data = $convert->Execute($data);
+            $this->Data = $converter->Convert($data);
 
             return;
         } 
@@ -80,10 +80,10 @@ class ISCPCommand {
     }
 
     public function ToString() {
-        $convert = new Converter($this->Command);
-        $value = $convert->Execute($this->Data);
+        $converter = new Converter($this->Command);
+        $data = $converter->Convert($this->Data);
 
-        $payload = $this->Prefix . $this->Command . $value . "\r\n";
+        $payload = $this->Prefix . $this->Command . $data . "\r\n";
         $payloadLen = pack('N', strlen($payload));
         
         $ISCPHeader = $payloadLen . "\x01\x00\x00\x00";
