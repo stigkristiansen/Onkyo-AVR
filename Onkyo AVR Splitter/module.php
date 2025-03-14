@@ -107,20 +107,20 @@ class OnkyoAVRSplitter extends IPSModule {
 						try {
 							$api = new ISCPCommand($command); 
 						} catch(Exception $e) {
-							$message = sprintf('Failed to decode the command. The error was "%s"', $e->getMessage());
+							$message = sprintf('Failed to decode the command. The error was: %s', $e->getMessage());
 							$this->SendDebug( __FUNCTION__ , $message, 0);	
 							$this->LogMessage($message, KL_WARNING);
 							break;
-						}
+						} 
 
 						$this->SendDebug( __FUNCTION__ , sprintf('Decoded command: %s', $api->ToJSON()), 0);
 
 						break;
 					} else {
-						$this->SendDebug( __FUNCTION__ , sprintf('Invalid command or last in stream: %s', $command), 0);
+						$this->SendDebug( __FUNCTION__ , sprintf('Incomplete command saved for later usage: %s', $command), 0);
 						$buffer = $command;
 						break;
-					}
+					} 
 				}
 			} 
 			

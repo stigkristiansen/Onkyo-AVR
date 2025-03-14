@@ -2,8 +2,11 @@
 
 declare(strict_types=1);
 
+require __DIR__ . '/../libs/ISCPMain.php';
 
 class Converter { 
+    use MainCommands
+
     private string $Command;
 
     private array $SupportedCommands = [
@@ -11,8 +14,8 @@ class Converter {
         'SLI',
         'IFV',
         'IFA',
-        'MVL'//,
-        //'SWL', // Start må implementeres
+        'MVL',
+        'SWL'//, // Start må implementeres
         //'CTL',
         //'AMT',
         //'TGA',
@@ -33,103 +36,7 @@ class Converter {
         return self::{$this->Command}($Data);
     }
 
-    private function SWL(mixed $Data) : mixed {
-
-    }
-
-    private function MVL(mixed $Data) : mixed {
-        if(is_string($Data)) {
-            $Data = strtoupper($Data);
-
-            if(ctype_xdigit($Data)) {
-                return (int)$Data;
-            }
-
-            switch($Data) {
-                case 'QSTN':
-                case 'UP':
-                case 'DOWN':
-                case 'UP1':
-                case 'DOWN1': 
-                    return $Data;
-                default:
-                    throw new Exception('Invalid Data!');            
-            }
-        }
-
-        if(is_numeric($Data)) {
-            return sprintf('%02X', $Data);
-        }
-
-        throw new Exception('Invalid Data!');
-    }
-
-    private function IFV(mixed $Data) : String {
-        if(is_string($Data)) {
-            return $Data;
-        }
-
-        throw new Exception('Invalid Data!');
-    }
-
-    private function IFA(mixed $Data) : String {
-        if(is_string($Data)) {
-            return $Data;
-        }
-
-        throw new Exception('Invalid Data!');
-    }
-
-    private function SLI(mixed $Data) : mixed{
-        if(is_string($Data)) {
-            $Data = strtoupper($Data);
-
-            if($Data=='QSTN') {
-                return $Data;
-            }  
-
-            if(ctype_xdigit($Data)) {
-                return (int)$Data;
-            } else {
-                throw new Exception('Invalid hexadesimal number!');
-            }
-        }
-
-        if(is_numeric($Data)) {
-            return sprintf('%02X', $Data);
-        }
-
-        throw new Exception('Invalid Data!');
-    }
-
-    private function PWR(mixed $Data) : mixed {
-        if(is_string($Data)) {
-            $Data = strtoupper($Data);
-            switch($Data) {
-                case '00':
-                    return false;
-                case '01':
-                    return true;
-                case 'QSTN':
-                    return 'QSTN';
-                default:
-                    throw new Exception('Invalid Data!');
-            }
-        }
-
-        if(is_bool($Data)) {
-            switch($Data) {
-                case true:
-                    return '01';
-                case false:
-                    return '00';
-                default:
-                    throw new Exception('Invalid Data!');
-            }
-        }
-
-        throw new Exception('Invalid Data!');
-    }
+    
 }
 
 class ISCPCommand {
