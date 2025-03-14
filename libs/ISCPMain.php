@@ -2,7 +2,10 @@
 
 declare(strict_types=1);
 
-trait MainCommands { 
+trait MainCommands {
+    private function ECN($Data) {
+        return;
+    }
     private function TGA($Data) : mixed {
         return self::PWR($Data);
     }

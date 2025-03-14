@@ -21,7 +21,8 @@ class Converter {
         'TGA',
         'TGB',
         'TGC',
-        'LMD'
+        'LMD',
+        'ECN'
     ];
 
     public function __construct(string $Command) {
