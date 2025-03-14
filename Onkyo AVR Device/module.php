@@ -41,6 +41,6 @@ class OnkyoAVRDevice extends IPSModule {
 	public function ReceiveData($JSONString) {
 		$data = json_decode($JSONString);
 		
-		$this->SendDebug( __FUNCTION__ , sprintf('Received data: %s', utf8_decode($data->Buffer)), 0);
+		$this->SendDebug( __FUNCTION__ , sprintf('Received data: %s', $data->Buffer), 0);
 	}
 }
