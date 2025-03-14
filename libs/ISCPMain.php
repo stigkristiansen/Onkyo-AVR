@@ -37,7 +37,7 @@ trait MainCommands {
             return sprintf('%s%s', prefix, sprintf('%X', $Data));
         }
 
-        throw new Exception('Invalid Data:' . (string)$Data);
+        throw new Exception(sprint('Invalid Data: %s', (string)$Data));
     }
 
     
@@ -46,7 +46,7 @@ trait MainCommands {
             $Data = strtoupper($Data);
 
             if(ctype_xdigit($Data)) {
-                return (int)$Data;
+                return hexdec($Data);
             }
 
             switch($Data) {
@@ -57,7 +57,7 @@ trait MainCommands {
                 case 'DOWN1': 
                     return $Data;
                 default:
-                    throw new Exception('Invalid Data!');            
+                    throw new Exception(sprintf('Invalid Data: %s', (string)$Data));            
             }
         }
 
@@ -65,7 +65,7 @@ trait MainCommands {
             return sprintf('%02X', $Data);
         }
 
-        throw new Exception('Invalid Data!');
+        throw new Exception(sprintf('Invalid Data: %s', (string)$Data));
     }
 
     private function IFV(mixed $Data) : String {
@@ -73,7 +73,7 @@ trait MainCommands {
             return $Data;
         }
 
-        throw new Exception('Invalid Data!');
+        throw new Exception(sprintf('Invalid Data: %s', (string)$Data));
     }
 
     private function IFA(mixed $Data) : String {
@@ -81,7 +81,7 @@ trait MainCommands {
             return $Data;
         }
 
-        throw new Exception('Invalid Data!');
+        throw new Exception(sprintf('Invalid Data: %s', (string)$Data));
     }
 
     private function SLI(mixed $Data) : mixed{
@@ -93,9 +93,9 @@ trait MainCommands {
             }  
 
             if(ctype_xdigit($Data)) {
-                return (int)$Data;
+                return hexdec($Data);
             } else {
-                throw new Exception('Invalid hexadesimal number!');
+                throw new Exception(sprintf('Invalid Data: %s', (string)$Data));
             }
         }
 
@@ -103,7 +103,7 @@ trait MainCommands {
             return sprintf('%02X', $Data);
         }
 
-        throw new Exception('Invalid Data!');
+        throw new Exception(sprintf('Invalid Data: %s', (string)$Data));
     }
 
     private function PWR(mixed $Data) : mixed {
@@ -117,7 +117,7 @@ trait MainCommands {
                 case 'QSTN':
                     return 'QSTN';
                 default:
-                    throw new Exception('Invalid Data!');
+                    throw new Exception(sprintf('Invalid Data: %s', (string)$Data));
             }
         }
 
@@ -128,10 +128,10 @@ trait MainCommands {
                 case false:
                     return '00';
                 default:
-                    throw new Exception('Invalid Data!');
+                    throw new Exception(sprintf('Invalid Data: %s', (string)$Data));
             }
         }
 
-        throw new Exception('Invalid Data!');
+        throw new Exception(sprintf('Invalid Data: %s', (string)$Data));
     }
 }
