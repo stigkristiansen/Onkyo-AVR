@@ -3,6 +3,25 @@
 declare(strict_types=1);
 
 trait MainCommands { 
+    private function TGA($Data) : mixed {
+        return self::PWR($Data);
+    }
+
+    private function TGB($Data) : mixed {
+        return self::PWR($Data);
+    }
+    
+    private function TGC($Data) : mixed {
+        return self::PWR($Data);
+    }
+
+    private function AMT(mixed $Data) : mixed {
+        return self::PWR($Data);    
+    }
+
+    private function CTL(mixed $Data) : mixed {
+        return self::SWL($Data);
+    }
     
     private function SWL(mixed $Data) : mixed {
         if(is_string($Data)) {
@@ -38,6 +57,38 @@ trait MainCommands {
         }
 
         throw new Exception(sprint('Invalid Data: %s', (string)$Data));
+    }
+
+    private function LMD($Dsata) : mixed {
+        if(is_string($Data)) {
+            $Data = strtoupper($Data);
+
+            if(ctype_xdigit($Data)) {
+                return hexdec($Data);
+            }
+
+            switch($Data) {
+                case 'QSTN':
+                case 'STEREO':
+                case 'SURR':
+                case 'AUTO':
+                case 'THX':
+                case 'GAME':
+                case 'MUSIC':
+                case 'MOVIE':
+                case 'DOWN':
+                case 'UP':                    
+                    return $Data;
+                default:
+                    throw new Exception(sprintf('Invalid Data: %s', (string)$Data));            
+            }
+        }
+
+        if(is_numeric($Data)) {
+            return sprintf('%02X', $Data);
+        }
+
+        throw new Exception(sprintf('Invalid Data: %s', (string)$Data));
     }
 
     

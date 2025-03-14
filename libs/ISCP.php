@@ -15,13 +15,13 @@ class Converter {
         'IFV',
         'IFA',
         'MVL',
-        'SWL'//, // Start må implementeres
-        //'CTL',
-        //'AMT',
-        //'TGA',
-        //'TGB',
-        //'TGC',
-        //'LMD'  // Slutt må implemeteres
+        'SWL',
+        'CTL', 
+        'AMT', 
+        'TGA',
+        'TGB',
+        'TGC',
+        'LMD'
     ];
 
     public function __construct(string $Command) {
