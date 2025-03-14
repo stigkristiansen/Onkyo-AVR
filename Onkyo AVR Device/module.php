@@ -34,7 +34,7 @@ class OnkyoAVRDevice extends IPSModule {
 		
 		try {
 			switch (strtoupper($Ident)) {
-				'RECEIVEDCOMMANDS':
+				case 'RECEIVEDCOMMANDS':
 					break;
 				default:
 					throw new Exeption(sprintf('Unknown Ident: %s', $Ident));
