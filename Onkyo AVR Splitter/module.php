@@ -113,10 +113,10 @@ class OnkyoAVRSplitter extends IPSModule {
 							break;
 						} 
 
-						$jsonCommand = 4api->ToJSON();
-						$this->SendDebug( __FUNCTION__ , sprintf('Decoded command: %s', $jsonCommand), 0);
-
+						$jsonCommand = $api->ToJSON();
 						$commandsToChild[] = $jsonCommand;
+
+						$this->SendDebug( __FUNCTION__ , sprintf('Decoded command: %s', $jsonCommand), 0);
 
 						break;
 					} else {
