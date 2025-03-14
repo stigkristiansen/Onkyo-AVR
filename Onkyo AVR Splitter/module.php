@@ -109,7 +109,7 @@ class OnkyoAVRSplitter extends IPSModule {
 							$api = new ISCPCommand($command); 
 							$jsonCommand = $api->ToJSON();
 							
-							$commandsToChild[] = $jsonCommand;
+							$commandsToChild[] = json_decode($jsonCommand, true);
 						} catch(Exception $e) {
 							$message = sprintf('Failed to decode the command. The error was: %s', $e->getMessage());
 							$this->SendDebug( __FUNCTION__ , $message, 0);	
@@ -117,10 +117,7 @@ class OnkyoAVRSplitter extends IPSModule {
 							break;
 						} 
 
-						
-
 						$this->SendDebug( __FUNCTION__ , sprintf('Decoded command: %s', $jsonCommand), 0);
-						
 
 						break;
 					} else {
@@ -139,7 +136,6 @@ class OnkyoAVRSplitter extends IPSModule {
 				$this->SendDebug( __FUNCTION__ , 'Sending commnand(s) to child instans(es)', 0);
 				$this->SendDataToChildren(json_encode(['DataID' => '{EF1FFC09-B63E-971C-8DC9-A2F6B37046F1}', 'Buffer' => $commandsToChild]));
 			}
-			
 			
 			self::Unlock(self::BUFFER);
 		}
