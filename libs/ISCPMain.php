@@ -59,7 +59,7 @@ trait MainCommands {
         throw new Exception(sprint('Invalid Data: %s', (string)$Data));
     }
 
-    private function LMD($Dsata) : mixed {
+    private function LMD($Data) : mixed {
         if(is_string($Data)) {
             $Data = strtoupper($Data);
 
