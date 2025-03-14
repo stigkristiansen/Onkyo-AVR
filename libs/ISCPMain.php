@@ -6,8 +6,18 @@ trait MainCommands {
     
     private function SWL(mixed $Data) : mixed {
         if(is_string($Data)) {
+            $prefix = substr($Data, 0,1);
+            $neg = 1;
+            if($prefix=='-' or $prefix='+') {
+                $Data = substr($Data, 1);
+
+                if(prefix=='-') {
+                    $neg = -1;
+                }
+            }
+
             if(ctype_xdigit($Data)) {
-                return (int)$Data;
+                return (int)$Data*$neg;
             }
 
             $Data = strtoupper($Data);
