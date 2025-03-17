@@ -61,7 +61,7 @@ class OnkyoAVRSplitter extends IPSModule {
 
 			$commandsToChild = [];
 			
-			if($bufferLength==0 || $startPos==0) {
+			if($bufferLength==0 || ($startPos!==false && $startPos==0)) {
 				$reason = '';
 				if($startPos==0) {
 					$reason = 'ISCP is at position 0';
