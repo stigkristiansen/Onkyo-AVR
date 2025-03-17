@@ -7,7 +7,6 @@ require_once __DIR__ . '/../libs/variables.php';
 
 
 class OnkyoAVRDevice extends IPSModule {
-	use Variables;
 	use Profile;
 
 	public function Create()
