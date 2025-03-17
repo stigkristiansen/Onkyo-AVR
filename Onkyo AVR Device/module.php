@@ -94,7 +94,7 @@ class OnkyoAVRDevice extends IPSModule {
 	}
 
 	public function Send() {
-		$this->ExecuteCommand('PWR', true);
+		$this->ExecuteCommand('NRI', 'QSTN');
 	}
 
 	public function ReceiveData($JSONString) {
