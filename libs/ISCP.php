@@ -23,7 +23,7 @@ class Converter {
         'IFA',
         'SWL',
         'CTL',
-        'SNI'
+        'NRI'
     ];
 
     public function __construct(string $Command) {
