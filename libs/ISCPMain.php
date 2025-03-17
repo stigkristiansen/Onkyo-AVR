@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 trait MainCommands {
-    private function SNI($Data) {
+    private function NRI($Data) {
         return $Data;
     }
 
