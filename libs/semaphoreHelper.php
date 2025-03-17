@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 trait Semaphore {
     
-    private function Lock(string $Id) {
+    protected function Lock(string $Id) {
         for ($i = 0; $i < 100; $i++) {
             if (IPS_SemaphoreEnter((string) $this->InstanceID . $Id, 1)) {
                 return true;
@@ -16,7 +16,7 @@ trait Semaphore {
         return false;
     }
 
-    private function Unlock($Id) {
+    protected function Unlock($Id) {
         IPS_SemaphoreLeave((string) $this->InstanceID . (string) $Id);
     }
 }

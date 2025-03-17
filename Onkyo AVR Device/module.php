@@ -2,10 +2,14 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/../libs/ISCP.php';
+require_once __DIR__ . '/../libs/profileHelper.php';
+require_once __DIR__ . '/../libs/variables.php';
 
 
 class OnkyoAVRDevice extends IPSModule {
+	use Variables;
+	use Profile;
+
 	public function Create()
 	{
 		//Never delete this line!
@@ -15,10 +19,30 @@ class OnkyoAVRDevice extends IPSModule {
 
 		$this->RegisterPropertyString('MacAddress', '');
 		$this->RegisterPropertyString('Model', '');
+
+		$this->RegisterVariableBoolean('PWR', 'Power', '~Switch', 1);
+		$this->EnableAction('PWR');
+
+		$this->RegisterVariableInteger('MVL', 'Volume', '~Intensity.100', 2);
+		$this->EnableAction('MVL');
+
+		$profileName = 'OAVRD.Mute';
+		$this->RegisterProfileBooleanEx($profileName, 'Speaker', '', '', [
+			[true, 'Muted', '', -1],
+			[false, 'Unmuted', '', -1]
+		]);
+
+		$this->RegisterVariableBoolean('AMT', 'Mute', $profileName, 3);
+		$this->EnableAction('AMT');
+
 	}
 
-	public function Destroy()
-	{
+	public function Destroy() {
+		$module = json_decode(file_get_contents(__DIR__ . '/module.json'));
+		if(count(IPS_GetInstanceListByModuleID($module->id))==0) {
+			$this->DeleteProfile('OAVRD.Mute');
+		}
+
 		//Never delete this line!
 		parent::Destroy();
 	}
@@ -35,6 +59,13 @@ class OnkyoAVRDevice extends IPSModule {
 		try {
 			switch (strtoupper($Ident)) {
 				case 'RECEIVEDCOMMANDS':
+					$this->HandleCommands($Value);
+					break;
+				case 'PWR':
+				case 'MVL':
+				case 'AMT':
+				case 'SLI':
+					$this->ExecuteCommand($Ident, $Value);
 					break;
 				default:
 					throw new Exeption(sprintf('Unknown Ident: %s', $Ident));
@@ -46,14 +77,25 @@ class OnkyoAVRDevice extends IPSModule {
 		} 
 	}
 
-
-	public function Send() {
+	private function ExecuteCommand($Ident, $Value) {
 		$command = [
-			'Command' => 'PWR',
-			'Data'	  => true
+			'Command' => $Ident,
+			'Data'	  => $Value
 		];
 
 		$this->SendDataToParent(json_encode(['DataID' => '{1CEDE467-DFFC-5466-5CDF-BBCA3966E657}', 'Buffer' => $command]));
+	}
+
+	private function HandleCommands($Commands) {
+		$commands = json_decode($Commands);
+		foreach($commands as $command) {
+
+			$this->SetValue($command->Command, $command->Data);
+		}
+	}
+
+	public function Send() {
+		$this->ExecuteCommand('PWR', true);
 	}
 
 	public function ReceiveData($JSONString) {

@@ -12,17 +12,18 @@ class Converter {
     private array $SupportedCommands = [
         'PWR',
         'SLI',
-        'IFV',
-        'IFA',
         'MVL',
-        'SWL',
-        'CTL', 
         'AMT', 
+        'LMD',
+        'ECN',
         'TGA',
         'TGB',
         'TGC',
-        'LMD',
-        'ECN'
+        'IFV',
+        'IFA',
+        'SWL',
+        'CTL',
+        'SNI'
     ];
 
     public function __construct(string $Command) {

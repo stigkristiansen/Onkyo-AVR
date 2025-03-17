@@ -111,7 +111,7 @@ class OnkyoAVRSplitter extends IPSModule {
 							
 							$commandsToChild[] = json_decode($jsonCommand, true);
 						} catch(Exception $e) {
-							$message = sprintf('Failed to decode the command. The error was: %s', $e->getMessage());
+							$message = sprintf('Failed to decode the command. The cause was: %s', $e->getMessage());
 							$this->SendDebug( __FUNCTION__ , $message, 0);	
 							$this->LogMessage($message, KL_WARNING);
 							break;

@@ -3,10 +3,14 @@
 declare(strict_types=1);
 
 trait MainCommands {
+    private function SNI($Data) {
+        return $Data;
+    }
+
     private function ECN($Data) {
         return $Data;
     }
-    
+
     private function TGA($Data) : mixed {
         return self::PWR($Data);
     }
@@ -101,7 +105,7 @@ trait MainCommands {
             $Data = strtoupper($Data);
 
             if(ctype_xdigit($Data)) {
-                return hexdec($Data);
+                return (int)(hexdec($Data)/2);
             }
 
             switch($Data) {
@@ -117,7 +121,7 @@ trait MainCommands {
         }
 
         if(is_numeric($Data)) {
-            return sprintf('%02X', $Data);
+            return sprintf('%02X', $Data*2);
         }
 
         throw new Exception(sprintf('Invalid Data: %s', (string)$Data));
