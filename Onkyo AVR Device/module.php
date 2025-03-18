@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../libs/profileHelper.php';
-require_once __DIR__ . '/../libs/variables.php';
+require_once __DIR__ . '/../libs/zones.php';
 
 
 class OnkyoAVRDevice extends IPSModule {
@@ -59,18 +59,13 @@ class OnkyoAVRDevice extends IPSModule {
 			switch (strtoupper($Ident)) {
 				case 'RECEIVEDCOMMANDS':
 					$this->HandleCommands($Value);
-					break;
-				case 'PWR':
-				case 'MVL':
-				case 'AMT':
-				case 'SLI':
-					$this->ExecuteCommand($Ident, $Value);
-					break;
-				default:
-					throw new Exeption(sprintf('Unknown Ident: %s', $Ident));
+					return;
 			}
+			
+			$this->ExecuteCommand($Ident, $Value);
+
 		} catch(Exception $e) {
-			$msg = sprintf('An unexpected error occured. The error was: %s', $e->getMessage());
+			$msg = sprintf('An error occured. The error was: %s', $e->getMessage());
 			$this->SendDebug( __FUNCTION__ , $msg, 0);	
 			$this->LogMessage($msg, KL_WARNING);
 		} 
@@ -89,7 +84,7 @@ class OnkyoAVRDevice extends IPSModule {
 		$commands = json_decode(base64_decode($Commands));
 		foreach($commands as $command) {
 			$this->SendDebug( __FUNCTION__ , sprintf('Received command "%s" with data "%s"', $command->Command, $command->Data), 0);
-			//$this->SetValue($command->Command, $command->Data);
+			$this->SetValue($command->Command, $command->Data);
 		}
 	}
 
