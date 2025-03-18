@@ -57,10 +57,6 @@ class Zones {
                 'Assoc' => [],
                 'Enabled' => true
             ]
-        ],
-        self::ZONE2 [
-
         ]
-        
     ];
 }
