@@ -80,11 +80,22 @@ class OnkyoAVRDevice extends IPSModule {
 		$this->SendDataToParent(json_encode(['DataID' => '{1CEDE467-DFFC-5466-5CDF-BBCA3966E657}', 'Buffer' => $command]));
 	}
 
+	private function ValidIdent($Ident, $Zone) {
+		if(isset(Zones::VARIABLES[$Zone][$Ident])) {
+			return true;
+		}
+
+		return false;
+	}
+
 	private function HandleCommands($Commands) {
 		$commands = json_decode(base64_decode($Commands));
 		foreach($commands as $command) {
 			$this->SendDebug( __FUNCTION__ , sprintf('Received command "%s" with data "%s"', $command->Command, $command->Data), 0);
-			$this->SetValue($command->Command, $command->Data);
+			
+			if($this->ValidIdent($command->Command, Zones::MAIN)) {
+				$this->SetValue($command->Command, $command->Data);
+			}
 		}
 	}
 
