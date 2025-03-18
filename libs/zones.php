@@ -13,7 +13,7 @@ class Zones {
     const ZoneNames = [
         self::MAIN => 'Main',
         self::ZONE2 => 'Zone2'
-    ]
+    ];
     
 
     const VARIABELS = [
