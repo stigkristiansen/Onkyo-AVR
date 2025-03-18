@@ -94,7 +94,10 @@ class OnkyoAVRDevice extends IPSModule {
 			$this->SendDebug( __FUNCTION__ , sprintf('Received command "%s" with data "%s"', $command->Command, $command->Data), 0);
 			
 			if($this->ValidIdent($command->Command, Zones::MAIN)) {
+				$this->SendDebug( __FUNCTION__ , sprintf('Updating variable with ident "%s" with value "%s"', $command->Command, $command->Data), 0);
 				$this->SetValue($command->Command, $command->Data);
+			} else {
+				$this->SendDebug( __FUNCTION__ , sprintf('Skipping update of variable with ident "%s". The variable does not exist', $command->Command), 0);
 			}
 		}
 	}
