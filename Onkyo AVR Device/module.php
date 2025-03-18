@@ -81,7 +81,7 @@ class OnkyoAVRDevice extends IPSModule {
 	}
 
 	private function ValidIdent($Ident, $Zone) {
-		if(isset(Zones::VARIABLES[$Zone][$Ident])) {
+		if(isset(Zones::VARIABELS[$Zone][$Ident])) {
 			return true;
 		}
 
