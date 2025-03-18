@@ -86,7 +86,7 @@ class OnkyoAVRDevice extends IPSModule {
 	}
 
 	private function HandleCommands($Commands) {
-		$commands = json_decode(utf8_decode($Commands));
+		$commands = json_decode(base64_decode($Commands));
 		foreach($commands as $command) {
 			$this->SendDebug( __FUNCTION__ , sprintf('Received command "%s" with data "%s"', $command->Command, $command->Data), 0);
 			//$this->SetValue($command->Command, $command->Data);
@@ -102,7 +102,7 @@ class OnkyoAVRDevice extends IPSModule {
 		
 		$this->SendDebug( __FUNCTION__ , sprintf('Received data: %s', $JSONString), 0);
 
-		$commands = utf8_encode(json_encode($data->Buffer));
+		$commands = base64_encode(json_encode($data->Buffer));
 		
 		$this->SendDebug( __FUNCTION__ , 'Creating a timer to process incoming data in a new thread.', 0);
 
