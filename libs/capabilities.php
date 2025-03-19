@@ -59,7 +59,7 @@ class capabilities {
                 'Name'    => trim((string)$zone['name']),
                 'VolMax'  => (int)$zone['volmax'],
                 'VolStep' => (int)$zone['volstep']
-            ]
+            ];
         }
         $this->ZoneList = $zoneList;
 
