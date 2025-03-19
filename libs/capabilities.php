@@ -17,7 +17,7 @@ class capabilities {
     public function __construct(string $NRIXML) {
         try {
             $this->xml = new SimpleXMLElement($NRIXML, LIBXML_NOBLANKS + LIBXML_NONET + LIBXML_NOERROR);
-        } catch  {
+        } catch(Exception $e) {
             $this->xml = '';
         }
     }
