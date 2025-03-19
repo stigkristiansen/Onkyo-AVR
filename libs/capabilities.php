@@ -35,7 +35,7 @@ class capabilities {
             $this->ModelYear = (string)$year;
         }
 
-        foreach($xml->xpath('//firmwareversion') as $firmwareversion) {
+        foreach($this->xml->xpath('//firmwareversion') as $firmwareversion) {
             $this->FirmwareVersion = (string)$firmwareVersion;
         }
 
