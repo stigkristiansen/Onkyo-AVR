@@ -40,7 +40,7 @@ class capabilities {
         }
 
         $netServiceList = [];
-        foreach($Xml->xpath('//netservice') as $netService) {
+        foreach($this->xml->xpath('//netservice') as $netService) {
             if ((string)$netService['value']=='0') {
                 continue;
             }
@@ -50,7 +50,7 @@ class capabilities {
         $this->NetServiceList = $netServiceList;
 
         $zoneList = [];
-        foreach($Xml->xpath('//zone') as $zone) {
+        foreach($this->xml->xpath('//zone') as $zone) {
             if ((string)$zone['value']=='0') {
                 continue;
             }
@@ -64,7 +64,7 @@ class capabilities {
         $this->ZoneList = $zoneList;
 
         $selectorList = [];
-        foreach($Xml->xpath('//selector') as $selector) {
+        foreach($this->xml->xpath('//selector') as $selector) {
             if ((string)$selector['value']=='0') {
                 continue;
             }
@@ -77,7 +77,7 @@ class capabilities {
         $this->SelectorList = $selectorList;
 
         $listenModeList = [];
-        foreach($Xml->xpath('//control') as $control) {
+        foreach($this->xml->xpath('//control') as $control) {
             if ((string)$control['value']=='0') {
                 continue;
             }
