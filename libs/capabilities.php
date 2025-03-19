@@ -22,6 +22,10 @@ class capabilities {
         }
     }
 
+    public XML(){
+        return serialize($this->xml);
+    }
+
     public function Decode() : bool {
         if($this->xml=='') {
             return false;
