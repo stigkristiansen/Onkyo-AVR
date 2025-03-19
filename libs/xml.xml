@@ -142,5 +142,6 @@
         <function id="WifiSetup" value="1" />
         <function id="Nettune" value="0" />
         <function id="Initialize" value="0" />
-    </functionlist><\/device>
+    </functionlist>
+    </device>
 </response>

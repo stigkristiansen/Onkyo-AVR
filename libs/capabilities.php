@@ -18,16 +18,12 @@ class capabilities {
         try {
             $this->xml = new SimpleXMLElement($NRIXML, LIBXML_NOBLANKS + LIBXML_NONET + LIBXML_NOERROR);
         } catch(Exception $e) {
-            $this->xml = '';
+            $this->xml = null;
         }
     }
 
-    public function XML(){
-        return serialize($this->xml);
-    }
-
     public function Decode() : bool {
-        if($this->xml=='') {
+        if(is_object($this->xml) && $this->xml==null) {
             return false;
         }
 
@@ -39,7 +35,7 @@ class capabilities {
             $this->ModelYear = (string)$year;
         }
 
-        foreach($Xml->xpath('//firmwareversion') as $firmwareVersion) {
+        foreach($xml->xpath('//firmwareversion') as $firmwareversion) {
             $this->FirmwareVersion = (string)$firmwareVersion;
         }
 
