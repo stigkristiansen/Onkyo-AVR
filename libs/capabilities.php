@@ -22,7 +22,7 @@ class capabilities {
         }
     }
 
-    public XML(){
+    public function XML(){
         return serialize($this->xml);
     }
 
