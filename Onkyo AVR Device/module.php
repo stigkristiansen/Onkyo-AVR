@@ -101,7 +101,7 @@ class OnkyoAVRDevice extends IPSModule {
 			} 
 
 			if($command->Command=='NRI') {
-				$capabilites = new Capabilities($command->Data);
+				$capabilities = new Capabilities($command->Data);
 				$capabilities->Decode();
 
 				$this->SendDebug( __FUNCTION__ , sprintf('Firmware: %s', $capabilities->Firmware), 0);
