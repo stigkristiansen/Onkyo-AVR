@@ -22,7 +22,7 @@ class capabilities {
         }
     }
 
-    public function Decode() : Boolean {
+    public function Decode() : boolean {
         if($this->xml=='') {
             return false;
         }
