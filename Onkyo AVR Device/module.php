@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../libs/profileHelper.php';
 require_once __DIR__ . '/../libs/zones.php';
-
+require_once __DIR__ . '/../libs/capabilities.php';
 
 class OnkyoAVRDevice extends IPSModule {
 	use Profile;
@@ -81,7 +81,7 @@ class OnkyoAVRDevice extends IPSModule {
 	}
 
 	private function ValidIdent($Ident, $Zone) {
-		if(isset(Zones::VARIABELS[$Zone][$Ident])) {
+		if(isset(Zones::VARIABLES[$Zone][$Ident])) {
 			return true;
 		}
 
@@ -97,8 +97,16 @@ class OnkyoAVRDevice extends IPSModule {
 			if($this->ValidIdent($command->Command, Zones::MAIN)) {
 				$this->SendDebug( __FUNCTION__ , sprintf('Updating variable with ident "%s" to value "%s"', $command->Command, $command->Data), 0);
 				$this->SetValue($command->Command, $command->Data);
-			} else {
-				$this->SendDebug( __FUNCTION__ , sprintf('Skipping update of variable with ident "%s". The variable does not exist', $command->Command), 0);
+				return;
+			} 
+
+			if($command->Command=='NRI') {
+				$capabilites = new Capabilities($command->Data);
+				$capabilities->Decode();
+
+				$this->SendDebug( __FUNCTION__ , sprintf('Firmware: %s', $capabilities->Firmware), 0);
+
+				return;
 			}
 		}
 	}

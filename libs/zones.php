@@ -16,7 +16,7 @@ class Zones {
     ];
     
 
-    const VARIABELS = [
+    const VARIABLES = [
         self::MAIN => [
             'PWR' => [
                 'Ident' => 'PWR',
