@@ -29,13 +29,16 @@ class OnkyoAVRDevice extends IPSModule {
 		$this->RegisterVariableInteger('MVL', 'Volume', '~Intensity.100', 2);
 		$this->EnableAction('MVL');
 
+		$this->RegisterVariableInteger('SLI', 'Input', '', 3);
+		$this->EnableAction('SLI');
+
 		$profileName = 'OAVRD.Mute';
 		$this->RegisterProfileBooleanEx($profileName, 'Speaker', '', '', [
 			[true, 'Muted', '', -1],
 			[false, 'Unmuted', '', -1]
 		]);
 
-		$this->RegisterVariableBoolean('AMT', 'Mute', $profileName, 3);
+		$this->RegisterVariableBoolean('AMT', 'Mute', $profileName, 4);
 		$this->EnableAction('AMT');
 
 	}
