@@ -5,7 +5,7 @@ trait InstanceStatus {
     const PARENTID = 'ParentID';
 
     protected function HandleInstanceMessages($TimeStamp, $SenderID, $Message, $Data) {
-        $this->SendDebug( __FUNCTION__ , sprintf('Received message "%s" from instance "%s" with data "%s"', (string)$Message, (string)$SenderID, serialize($Data)), 0);
+        $this->SendDebug( __FUNCTION__ , sprintf('Received message "%s" from instance "%s" with data "%s"', (string)$Message, (string)$SenderID, json_encode($Data)), 0);
         switch ($Message) {
             case IM_CHANGESETTINGS: 
             case FM_CONNECT:
