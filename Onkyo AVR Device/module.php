@@ -3,9 +3,12 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../libs/profileHelper.php';
+require_once __DIR__ . '/../libs/semaphoreHelper.php';
 require_once __DIR__ . '/../libs/zones.php';
 require_once __DIR__ . '/../libs/capabilities.php';
 require_once __DIR__ . '/../libs/instanceStatus.php';
+
+
 
 class OnkyoAVRDevice extends IPSModule {
 	use Profile;
