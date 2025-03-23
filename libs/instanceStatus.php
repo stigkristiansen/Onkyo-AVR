@@ -46,8 +46,8 @@ trait InstanceStatus {
             if ($parentID > 0) {
                 $this->SendDebug(__FUNCTION__, 'Registering IM_CHANGESETTINGS and IM_CHANGESTATUS', 0);
 
-                $this->RegisterMessage($this->parentID, IM_CHANGESETTINGS);
-                $this->RegisterMessage($this->parentID, IM_CHANGESTATUS);
+                $this->RegisterMessage($parentID, IM_CHANGESETTINGS);
+                $this->RegisterMessage($parentID, IM_CHANGESTATUS);
             } 
 
             $this->parentID = $parentID;
