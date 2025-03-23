@@ -8,7 +8,7 @@ require_once __DIR__ . '/../libs/instanceStatus.php';
 
 class OnkyoAVRSplitter extends IPSModule {
 	use Semaphore;
-	use INstanceStatus;
+	use InstanceStatus;
 
 	const BUFFER = 'Incoming';
 

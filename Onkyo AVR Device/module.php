@@ -12,9 +12,8 @@ require_once __DIR__ . '/../libs/instanceStatus.php';
 
 class OnkyoAVRDevice extends IPSModule {
 	use Profile;
+	use Semaphore;
 	use InstanceStatus;
-
-	
 
 	public function Create()
 	{
