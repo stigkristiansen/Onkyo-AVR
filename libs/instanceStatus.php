@@ -43,7 +43,7 @@ trait InstanceStatus {
         $this->SendDebug(__FUNCTION__, sprintf('New retrieved parent ID is %s',(string)$parentID), 0);
 				
         if ($parentID != $savedParentID) {
-            if ($this->parentID > 0) {
+            if ($savedParentID > 0) {
                 $this->SendDebug(__FUNCTION__, 'Unregistering IM_CHANGESETTINGS and IM_CHANGESTATUS', 0);
 
                 $this->UnregisterMessage($savedParentID, IM_CHANGESETTINGS);
