@@ -34,7 +34,8 @@ trait InstanceStatus {
 			$parentID = 0;
 		}
 
-        $this->SendDebug(__FUNCTION__, sprintf('Parent ID is %s',(string)$parentID), 0);
+        $this->SendDebug(__FUNCTION__, sprintf('Earlier parent ID is %s',(string)$this->parentID), 0);
+        $this->SendDebug(__FUNCTION__, sprintf('Retrieved parent ID is %s',(string)$parentID), 0);
 				
         if ($parentID != $this->parentID) {
             if ($this->parentID > 0) {
