@@ -29,7 +29,7 @@ trait InstanceStatus {
 	protected function RegisterParent() {
         try {
 			$parentID = IPS_GetInstance($this->InstanceID)['ConnectionID'];
-		} catch() {
+		} catch(Exception $e) {
 			$parentID = 0;
 		}
 				
