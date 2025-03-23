@@ -5,9 +5,13 @@ declare(strict_types=1);
 require_once __DIR__ . '/../libs/profileHelper.php';
 require_once __DIR__ . '/../libs/zones.php';
 require_once __DIR__ . '/../libs/capabilities.php';
+require_once __DIR__ . '/../libs/instanceStatus.php';
 
 class OnkyoAVRDevice extends IPSModule {
 	use Profile;
+	use InstanceStatus;
+
+	private $parentID;
 
 	public function Create()
 	{
@@ -50,6 +54,13 @@ class OnkyoAVRDevice extends IPSModule {
 	{
 		//Never delete this line!
 		parent::ApplyChanges();
+
+		if (IPS_GetKernelRunlevel() == KR_READY) {
+			$this->RegisterMessage($this->InstanceID, FM_CONNECT);
+			$this->RegisterMessage($this->InstanceID, FM_DISCONNECT);    
+
+			$this->RegisterParent();
+        }
 	}
 
 	public function RequestAction($Ident, $Value) {
@@ -71,13 +82,32 @@ class OnkyoAVRDevice extends IPSModule {
 		} 
 	}
 
+	public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
+		parent::MessageSink($TimeStamp, $SenderID, $Message, $Data);
+
+        if ($Message == IPS_KERNELMESSAGE && $Data[0] == KR_READY) {
+			$this->RegisterMessage($this->InstanceID, FM_CONNECT);
+			$this->RegisterMessage($this->InstanceID, FM_DISCONNECT);
+
+			$this->RegisterParent();
+		}
+
+		$this->HandleInstanceMessages($TimeStamp, $SenderID, $Message, $Data);
+    }
+
 	private function ExecuteCommand($Ident, $Value) {
 		$command = [
 			'Command' => $Ident,
 			'Data'	  => $Value
 		];
 
-		$this->SendDataToParent(json_encode(['DataID' => '{1CEDE467-DFFC-5466-5CDF-BBCA3966E657}', 'Buffer' => $command]));
+		if($this->HasActiveParent()) {
+			$this->SendDataToParent(json_encode(['DataID' => '{1CEDE467-DFFC-5466-5CDF-BBCA3966E657}', 'Buffer' => $command]));
+		} else {
+			$this->SendDebug(__FUNCTION__ , 'The command was not sent. Parent instances are not active', 0);	
+		}
+
+		
 	}
 
 	private function ValidIdent($Ident, $Zone) {
