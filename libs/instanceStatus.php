@@ -74,6 +74,7 @@ trait InstanceStatus {
     protected function SaveParentID(int $ParentID) {
         if(self::Lock(self::PARENTID)) {
             $this->SetBuffer(self::PARENTID, serialize($ParentID));
+            self::Unlock(self::PARENTID);
         }
     }
 
