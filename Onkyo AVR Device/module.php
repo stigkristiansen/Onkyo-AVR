@@ -58,7 +58,11 @@ class OnkyoAVRDevice extends IPSModule {
 		//Never delete this line!
 		parent::ApplyChanges();
 
+		$this->SendDebug(__FUNCTION__, 'Applying changes', 0);
+
 		if (IPS_GetKernelRunlevel() == KR_READY) {
+			$this->SendDebug(__FUNCTION__, 'Registering FM_CONNECT and FM_DISCONNECT', 0);
+
 			$this->RegisterMessage($this->InstanceID, FM_CONNECT);
 			$this->RegisterMessage($this->InstanceID, FM_DISCONNECT);    
 

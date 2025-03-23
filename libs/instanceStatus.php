@@ -33,13 +33,19 @@ trait InstanceStatus {
 		} catch(Exception $e) {
 			$parentID = 0;
 		}
+
+        $this->SendDebug(__FUNCTION__, sprintf('Parent ID is %s',(string)$parentID), 0);
 				
         if ($parentID != $this->parentID) {
             if ($this->parentID > 0) {
+                $this->SendDebug(__FUNCTION__, 'Unregistering IM_CHANGESETTINGS and IM_CHANGESTATUS', 0);
+
                 $this->UnregisterMessage($this->parentID, IM_CHANGESETTINGS);
                 $this->UnregisterMessage($this->parentID, IM_CHANGESTATUS);
             }
             if ($parentID > 0) {
+                $this->SendDebug(__FUNCTION__, 'Registering IM_CHANGESETTINGS and IM_CHANGESTATUS', 0);
+
                 $this->RegisterMessage($this->parentID, IM_CHANGESETTINGS);
                 $this->RegisterMessage($this->parentID, IM_CHANGESTATUS);
             } 

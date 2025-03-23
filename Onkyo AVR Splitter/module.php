@@ -35,6 +35,8 @@ class OnkyoAVRSplitter extends IPSModule {
 		parent::ApplyChanges();
 
 		if (IPS_GetKernelRunlevel() == KR_READY) {
+			$this->SendDebug(__FUNCTION__, 'Registering FM_CONNECT and FM_DISCONNECT', 0);
+
 			$this->RegisterMessage($this->InstanceID, FM_CONNECT);
 			$this->RegisterMessage($this->InstanceID, FM_DISCONNECT);    
 
