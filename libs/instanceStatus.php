@@ -1,6 +1,9 @@
 <?php
 
 trait InstanceStatus {
+
+    const PARENTID = 'ParentID';
+
     protected function HandleInstanceMessages($TimeStamp, $SenderID, $Message, $Data) {
         $this->SendDebug( __FUNCTION__ , sprintf('Received message "%s" from instance "%s" with data "%s"', (string)$Message, (string)$SenderID, serialize($Data)), 0);
         switch ($Message) {
@@ -34,15 +37,17 @@ trait InstanceStatus {
 			$parentID = 0;
 		}
 
-        $this->SendDebug(__FUNCTION__, sprintf('Earlier parent ID is %s',(string)$this->parentID), 0);
-        $this->SendDebug(__FUNCTION__, sprintf('Retrieved parent ID is %s',(string)$parentID), 0);
+        $savedParentID = GetSavedPatrentID();
+
+        $this->SendDebug(__FUNCTION__, sprintf('Earlier parent ID is %s',(string)$savedParentID), 0);
+        $this->SendDebug(__FUNCTION__, sprintf('New retrieved parent ID is %s',(string)$parentID), 0);
 				
-        if ($parentID != $this->parentID) {
+        if ($parentID != $savedParentID) {
             if ($this->parentID > 0) {
                 $this->SendDebug(__FUNCTION__, 'Unregistering IM_CHANGESETTINGS and IM_CHANGESTATUS', 0);
 
-                $this->UnregisterMessage($this->parentID, IM_CHANGESETTINGS);
-                $this->UnregisterMessage($this->parentID, IM_CHANGESTATUS);
+                $this->UnregisterMessage($savedParentID, IM_CHANGESETTINGS);
+                $this->UnregisterMessage($savedParentID, IM_CHANGESTATUS);
             }
             if ($parentID > 0) {
                 $this->SendDebug(__FUNCTION__, 'Registering IM_CHANGESETTINGS and IM_CHANGESTATUS', 0);
@@ -51,7 +56,24 @@ trait InstanceStatus {
                 $this->RegisterMessage($parentID, IM_CHANGESTATUS);
             } 
 
-            $this->parentID = $parentID;
+            $this->SaveParentID($parentID);
+        }
+    }
+
+    protected function GetSavedParentID() : int {
+        if(self::Lock(self::PARENTID)) {
+            $parentID = (int)unserialize($this->GetBuffer(self::PARENTID));
+            self::Unlock(self::PARENTID);
+
+            return $parentID;
+        }
+
+        return 0;
+    }
+
+    protected function SaveParentID(int $ParentID) {
+        if(self::Lock(self::PARENTID)) {
+            $this->SetBuffer(self::PARENTID, serialize($ParentID));
         }
     }
 

@@ -12,8 +12,6 @@ class OnkyoAVRSplitter extends IPSModule {
 
 	const BUFFER = 'Incoming';
 
-	private $parentID=0;
-
 	public function Create() {
 		//Never delete this line!
 		parent::Create();

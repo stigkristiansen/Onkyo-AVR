@@ -11,7 +11,7 @@ class OnkyoAVRDevice extends IPSModule {
 	use Profile;
 	use InstanceStatus;
 
-	private $parentID=0;
+	
 
 	public function Create()
 	{
