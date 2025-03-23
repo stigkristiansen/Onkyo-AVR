@@ -37,7 +37,7 @@ trait InstanceStatus {
 			$parentID = 0;
 		}
 
-        $savedParentID = $this->GetSavedPatrentID();
+        $savedParentID = $this->GetSavedParentID();
 
         $this->SendDebug(__FUNCTION__, sprintf('Earlier parent ID is %s',(string)$savedParentID), 0);
         $this->SendDebug(__FUNCTION__, sprintf('New retrieved parent ID is %s',(string)$parentID), 0);
