@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../libs/ISCP.php';
 require_once __DIR__ . '/../libs/semaphoreHelper.php';
-require_once __DIR__ . '/../libs/instanceStatus.php';
+require_once __DIR__ . '/../libs/parentStatus.php';
 
 class OnkyoAVRSplitter extends IPSModule {
 	use Semaphore;
-	use InstanceStatus;
+	use ParentStatus;
 
 	const BUFFER = 'Incoming';
 
@@ -33,11 +33,8 @@ class OnkyoAVRSplitter extends IPSModule {
 		parent::ApplyChanges();
 
 		if (IPS_GetKernelRunlevel() == KR_READY) {
-			$this->SendDebug(__FUNCTION__, 'Registering FM_CONNECT and FM_DISCONNECT', 0);
-
-			$this->RegisterMessage($this->InstanceID, FM_CONNECT);
-			$this->RegisterMessage($this->InstanceID, FM_DISCONNECT);    
-
+			$this->SendDebug(__FUNCTION__, 'Kernel is ready. Initializing module', 0);
+			
 			$this->RegisterParent();
         }
 	}
@@ -46,13 +43,12 @@ class OnkyoAVRSplitter extends IPSModule {
 		parent::MessageSink($TimeStamp, $SenderID, $Message, $Data);
 
         if ($Message == IPS_KERNELMESSAGE && $Data[0] == KR_READY) {
-			$this->RegisterMessage($this->InstanceID, FM_CONNECT);
-			$this->RegisterMessage($this->InstanceID, FM_DISCONNECT);
-
 			$this->RegisterParent();
+
+			return;
 		}
 
-		$this->HandleInstanceMessages($TimeStamp, $SenderID, $Message, $Data);
+		$this->HandleParentMessages($TimeStamp, $SenderID, $Message, $Data);
     }
 
 	public function ForwardData($JSONString) {

@@ -6,14 +6,14 @@ require_once __DIR__ . '/../libs/profileHelper.php';
 require_once __DIR__ . '/../libs/semaphoreHelper.php';
 require_once __DIR__ . '/../libs/zones.php';
 require_once __DIR__ . '/../libs/capabilities.php';
-require_once __DIR__ . '/../libs/instanceStatus.php';
+require_once __DIR__ . '/../libs/parentStatus.php';
 
 
 
 class OnkyoAVRDevice extends IPSModule {
 	use Profile;
 	use Semaphore;
-	use InstanceStatus;
+	use ParentStatus;
 
 	public function Create()
 	{
@@ -63,14 +63,25 @@ class OnkyoAVRDevice extends IPSModule {
 		$this->SendDebug(__FUNCTION__, 'Applying changes', 0);
 
 		if (IPS_GetKernelRunlevel() == KR_READY) {
-			$this->SendDebug(__FUNCTION__, 'Registering FM_CONNECT and FM_DISCONNECT', 0);
-
-			$this->RegisterMessage($this->InstanceID, FM_CONNECT);
-			$this->RegisterMessage($this->InstanceID, FM_DISCONNECT);    
+			$this->SendDebug(__FUNCTION__, 'Kernel is ready. Initializing module', 0);
 
 			$this->RegisterParent();
         }
 	}
+
+	public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
+		parent::MessageSink($TimeStamp, $SenderID, $Message, $Data);
+
+        if ($Message == IPS_KERNELMESSAGE && $Data[0] == KR_READY) {
+			$this->SendDebug(__FUNCTION__, 'Kernel is ready. Initializing module', 0);
+			
+			$this->RegisterParent();
+
+			return;
+		}
+
+		$this->HandleParentMessages($TimeStamp, $SenderID, $Message, $Data);
+    }
 
 	public function RequestAction($Ident, $Value) {
 		$this->SendDebug(__FUNCTION__, sprintf('RequestAction was called: %s:%s', (string)$Ident, (string)$Value), 0);
@@ -90,19 +101,6 @@ class OnkyoAVRDevice extends IPSModule {
 			$this->LogMessage($msg, KL_WARNING);
 		} 
 	}
-
-	public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
-		parent::MessageSink($TimeStamp, $SenderID, $Message, $Data);
-
-        if ($Message == IPS_KERNELMESSAGE && $Data[0] == KR_READY) {
-			$this->RegisterMessage($this->InstanceID, FM_CONNECT);
-			$this->RegisterMessage($this->InstanceID, FM_DISCONNECT);
-
-			$this->RegisterParent();
-		}
-
-		$this->HandleInstanceMessages($TimeStamp, $SenderID, $Message, $Data);
-    }
 
 	private function ExecuteCommand($Ident, $Value) {
 		$command = [
