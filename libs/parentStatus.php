@@ -10,15 +10,22 @@ trait ParentStatus {
             case IM_CHANGESETTINGS: 
                 $this->SendDebug(__FUNCTION__, 'The message was IM_CHANGESETTINGS', 0);
                 $this->RegisterParent();
+                
                 if ($this->HasActiveParent()) {
                     $state = IS_ACTIVE;
                 } else {
                     $state = IS_INACTIVE;
                 }
+                
                 break;
             case IM_CHANGESTATUS:
                 $this->SendDebug(__FUNCTION__, 'The message was IM_CHANGESTATUS', 0);
                 $state = $Data[0];
+                
+                if($state>=200) {
+                    $state = IS_INACTIVE; 
+                }
+                
                 break;
             default:
                 return;
