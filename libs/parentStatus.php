@@ -23,8 +23,9 @@ trait ParentStatus {
             default:
                 return;
         }
-        
-		$this->SetStatus($state);
+
+        $this->SetStatus($state);
+        $this->SendDebug(__FUNCTION__, sprintf('Changed the modules status to %s', (string)$state), 0);
     }
 
 	protected function RegisterParent() {
