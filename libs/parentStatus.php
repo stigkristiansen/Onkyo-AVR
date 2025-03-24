@@ -8,6 +8,7 @@ trait ParentStatus {
         $this->SendDebug( __FUNCTION__ , sprintf('Received message "%s" from instance "%s" with data "%s"', (string)$Message, (string)$SenderID, json_encode($Data)), 0);
         switch ($Message) {
             case IM_CHANGESETTINGS: 
+                $this->SendDebug(__FUNCTION__, 'The message was IM_CHANGESETTINGS', 0);
                 $this->RegisterParent();
                 if ($this->HasActiveParent()) {
                     $state = IS_ACTIVE;
@@ -16,6 +17,7 @@ trait ParentStatus {
                 }
                 break;
             case IM_CHANGESTATUS:
+                $this->SendDebug(__FUNCTION__, 'The message was IM_CHANGESTATUS', 0);
                 $state = $Data[0];
                 break;
             default:
