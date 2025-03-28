@@ -59,7 +59,7 @@ class OnkyoAVRSplitter extends IPSModule {
 
 		$this->SendDebug( __FUNCTION__ , sprintf('Received data for forwaring to IO-instance: %s', $command), 0);
 
-		if($data->Buffer->Command=='CAPABILITIES') {
+		if($data->Buffer->Command=='CAP' && $data->Buffer->Data=='QSTN') {
 			$this->SendDebug( __FUNCTION__ , 'Received query for capabilities', 0);
 			return unserialize($this->GetBuffer(Capabilities::BUFFER));
 		}
@@ -152,7 +152,8 @@ class OnkyoAVRSplitter extends IPSModule {
 									];
 
 									$this->SetBuffer(Capabilities::BUFFER, serialize($temp));
-									$this->SendDebug( __FUNCTION__ , 'Saved NRI data to the buffer', 0);
+									$this->SendDebug( __FUNCTION__ , 'Saved NRI data to the Capabilities-buffer', 0);
+									$this->SendDebug( __FUNCTION__ , sprintf('NRI data: %s', json_encode($temp)), 0);
 								} else {
 									$this->SendDebug( __FUNCTION__ , 'XML decode failed!', 0);
 								}
