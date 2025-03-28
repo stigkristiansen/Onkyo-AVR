@@ -30,7 +30,10 @@ trait ParentStatus {
             default:
                 return;
         }
-
+        if($state==IS_ACTIVE) {
+            $this->GetCapabilities();
+        }
+        
         $this->SetStatus($state);
         $this->SendDebug(__FUNCTION__, sprintf('Changed the modules status to %s', (string)$state), 0);
     }

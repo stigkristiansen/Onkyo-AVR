@@ -38,6 +38,8 @@ class OnkyoAVRSplitter extends IPSModule {
 			$this->SendDebug(__FUNCTION__, 'Kernel is ready. Initializing module', 0);
 			
 			$this->RegisterParent();
+
+			$this->GetCapabilities();
         }
 	}
 
@@ -47,11 +49,22 @@ class OnkyoAVRSplitter extends IPSModule {
         if ($Message == IPS_KERNELMESSAGE && $Data[0] == KR_READY) {
 			$this->RegisterParent();
 
+			$this->GetCapabilities();
+
 			return;
 		}
 
 		$this->HandleParentMessages($TimeStamp, $SenderID, $Message, $Data);
     }
+
+
+	private function GetCapabilities() {
+		$api = new ISCPCommand('NRI', 'QSTN');
+		
+		$this->SendDataToParent(json_encode(['DataID' => '{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}', 'Buffer' => $api->ToString()]));
+	}
+	
+
 
 	public function ForwardData($JSONString) {
 		$data = json_decode($JSONString);
@@ -60,7 +73,7 @@ class OnkyoAVRSplitter extends IPSModule {
 		$this->SendDebug( __FUNCTION__ , sprintf('Received data for forwaring to IO-instance: %s', $command), 0);
 
 		if($data->Buffer->Command=='CAP' && $data->Buffer->Data=='QSTN') {
-			$this->SendDebug( __FUNCTION__ , 'Received query for capabilities', 0);
+			$this->SendDebug( __FUNCTION__ , 'Received query for capabilities. returning queried data', 0);
 			return json_encode(unserialize($this->GetBuffer(Capabilities::BUFFER)));
 		}
 
