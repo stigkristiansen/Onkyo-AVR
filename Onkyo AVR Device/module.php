@@ -63,6 +63,8 @@ class OnkyoAVRDevice extends IPSModule {
 			$this->SendDebug(__FUNCTION__, 'Kernel is ready. Initializing module', 0);
 
 			$this->RegisterParent();
+
+			$this->GetCapabilities();
         }
 	}
 
@@ -73,6 +75,8 @@ class OnkyoAVRDevice extends IPSModule {
 			$this->SendDebug(__FUNCTION__, 'Kernel is ready. Initializing module', 0);
 			
 			$this->RegisterParent();
+
+			$this->GetCapabilities();
 
 			return;
 		}
@@ -160,8 +164,8 @@ class OnkyoAVRDevice extends IPSModule {
 	public function Send() {
 		$this->ExecuteCommand('NRI', 'QSTN');
 	}
-
-	public function GetCapabilites() {
+	                
+	public function GetCapabilities() {
 		$this->ExecuteCommand('CAP', 'QSTN');
 	}
 
