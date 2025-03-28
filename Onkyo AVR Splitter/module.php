@@ -144,14 +144,14 @@ class OnkyoAVRSplitter extends IPSModule {
 				
 								if($capabilities->Decode()){
 									$this->SendDebug( __FUNCTION__ , 'Decoded NRI data', 0);
-									$buffer = [
+									$temp = [
 										'NetserviceList' => $capabilities->NetserviceList,
 										'ZoneList' => $capabilities->ZoneList,
 										'SelectorList' => $capabilities->SelectorList,
 										'ListenModeList' => $capabilities->ListenModeList
 									];
 
-									$this->SetBuffer(Capabilities::BUFFER, serialize($buffer));
+									$this->SetBuffer(Capabilities::BUFFER, serialize($temp));
 									$this->SendDebug( __FUNCTION__ , 'Saved NRI data to the buffer', 0);
 								} else {
 									$this->SendDebug( __FUNCTION__ , 'XML decode failed!', 0);
@@ -159,8 +159,6 @@ class OnkyoAVRSplitter extends IPSModule {
 							} else {
 								$commandsToChild[] = json_decode($jsonCommand, true);
 							}
-							
-
 
 						} catch(Exception $e) {
 							$message = sprintf('Failed to decode the command. The cause was: %s', $e->getMessage());
