@@ -5,7 +5,7 @@ declare(strict_types=1);
 class Capabilities {
     private $xml;
 
-    const $BUFFER = 'Capabilities';
+    const BUFFER = 'Capabilities';
     
     public $ModelName = '';
     public $ModelYear = '';
