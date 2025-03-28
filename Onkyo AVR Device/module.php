@@ -99,18 +99,25 @@ class OnkyoAVRDevice extends IPSModule {
 		} 
 	}
 
-	private function ExecuteCommand($Ident, $Value) {
-		$command = [
-			'Command' => $Ident,
-			'Data'	  => $Value
-		];
-
+	private function ExecuteCommand($Command, $Data) {
+		
 		if($this->HasActiveParent()) {
+			$command = [
+				'Command' => $Command,
+				'Data'	  => $Data
+			];
+			
+			if($Command=='CAPABILITIES') {
+				$capabilities = $this->SendDataToParent(json_encode(['DataID' => '{1CEDE467-DFFC-5466-5CDF-BBCA3966E657}', 'Buffer' => $command]));	
+
+				$this->SendDebug( __FUNCTION__ , sprintf('Capabilites: %s', $json_encode($capabilities)), 0);
+				return;
+			}
+				
 			$this->SendDataToParent(json_encode(['DataID' => '{1CEDE467-DFFC-5466-5CDF-BBCA3966E657}', 'Buffer' => $command]));
 		} else {
 			$this->SendDebug(__FUNCTION__ , 'The command was not sent. Parent instances are not active', 0);	
 		}
-
 		
 	}
 

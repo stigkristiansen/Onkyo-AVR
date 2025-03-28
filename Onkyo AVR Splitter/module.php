@@ -59,6 +59,11 @@ class OnkyoAVRSplitter extends IPSModule {
 
 		$this->SendDebug( __FUNCTION__ , sprintf('Received data for forwaring to IO-instance: %s', $command), 0);
 
+		if($data->Buffer->Command=='CAPABILITIES') {
+			$this->SendDebug( __FUNCTION__ , 'Received query for capabilities', 0);
+			return = unserialize($this->GetBuffer(Capabilities::BUFFER));
+		}
+
 		$api = new ISCPCommand($command);
 		
 		$result = $this->SendDataToParent(json_encode(['DataID' => '{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}', 'Buffer' => $api->ToString()]));
