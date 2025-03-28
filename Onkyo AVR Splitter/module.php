@@ -135,7 +135,7 @@ class OnkyoAVRSplitter extends IPSModule {
 							
 							if($api->Command=='NRI') {
 								$this->SendDebug( __FUNCTION__ , 'The command received was NRI', 0);
-								$capabilities = new Capabilities($command->Data);
+								$capabilities = new Capabilities($api->Data);
 				
 								if($capabilities->Decode()){
 									$this->SendDebug( __FUNCTION__ , 'Decoded NRI data', 0);
