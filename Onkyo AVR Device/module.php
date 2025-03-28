@@ -112,7 +112,7 @@ class OnkyoAVRDevice extends IPSModule {
 
 				$capabilities = $this->SendDataToParent(json_encode(['DataID' => '{1CEDE467-DFFC-5466-5CDF-BBCA3966E657}', 'Buffer' => $command]));	
 
-				$this->SendDebug( __FUNCTION__ , sprintf('Capabilites: %s', json_encode($capabilities)), 0);
+				$this->SendDebug( __FUNCTION__ , sprintf('Capabilites: %s', $capabilities), 0);
 				return;
 			}
 				

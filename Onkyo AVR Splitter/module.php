@@ -61,7 +61,7 @@ class OnkyoAVRSplitter extends IPSModule {
 
 		if($data->Buffer->Command=='CAP' && $data->Buffer->Data=='QSTN') {
 			$this->SendDebug( __FUNCTION__ , 'Received query for capabilities', 0);
-			return unserialize($this->GetBuffer(Capabilities::BUFFER));
+			return json_encode(unserialize($this->GetBuffer(Capabilities::BUFFER)));
 		}
 
 		$api = new ISCPCommand($command);
