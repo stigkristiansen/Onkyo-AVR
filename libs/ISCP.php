@@ -109,7 +109,7 @@ class ISCPCommand {
             'Data' => $this->Data
         ];
 
-        return data;
+        return $data;
      }
 
 }
