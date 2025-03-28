@@ -84,9 +84,10 @@ class Capabilities {
                 continue;
             }
 
-            if(strpos((string)$control['id'], 'LMD')===0) {
+            $id = trim((string)$control['id']);
+            if(strpos($id, 'LMD')===0) {
                 $listenModeList[(int)$control['position']] = [
-                    'Name' => trim(substr((string)$control['id'], 4)),
+                    'Name' => trim(substr($id, 4)),
                     'Code' => (string)$control['code'],
                 ];
             }
