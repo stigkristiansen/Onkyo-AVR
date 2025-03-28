@@ -35,10 +35,7 @@ class OnkyoAVRDevice extends IPSModule {
 		$this->EnableAction('SLI');
 
 		$profileName = 'OAVRD.Mute';
-		$this->RegisterProfileBooleanEx($profileName, 'Speaker', '', '', [
-			[true, 'Muted', '', -1],
-			[false, 'Unmuted', '', -1]
-		]);
+		$this->RegisterProfileBooleanEx($profileName, 'Speaker', '', '', Zones::VARIABLES[Zones::MAIN]['AMT']['Assoc']);
 
 		$this->RegisterVariableBoolean('AMT', 'Mute', $profileName, 4);
 		$this->EnableAction('AMT');
@@ -142,6 +139,7 @@ class OnkyoAVRDevice extends IPSModule {
 				
 				if($capabilities->Decode()){
 					$this->SendDebug( __FUNCTION__ , sprintf('Firmware: %s', $capabilities->FirmwareVersion), 0);
+					
 				} else {
 					$this->SendDebug( __FUNCTION__ , 'XML decode failed!', 0);
 				}

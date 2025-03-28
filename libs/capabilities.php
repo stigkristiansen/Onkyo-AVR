@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
-class capabilities {
+class Capabilities {
     private $xml;
+
+    const $BUFFER = 'Capabilities';
     
     public $ModelName = '';
     public $ModelYear = '';

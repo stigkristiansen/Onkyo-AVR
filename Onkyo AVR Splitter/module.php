@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../libs/ISCP.php';
 require_once __DIR__ . '/../libs/semaphoreHelper.php';
+require_once __DIR__ . '/../libs/capabilities.php';
 require_once __DIR__ . '/../libs/parentStatus.php';
 
 class OnkyoAVRSplitter extends IPSModule {
@@ -19,6 +20,7 @@ class OnkyoAVRSplitter extends IPSModule {
 		$this->ConnectParent('{3CFF0FD9-E306-41DB-9B5A-9D06D38576C3}');
 
 		$this->SetBuffer(self::BUFFER, serialize(''));
+		$this->SetBuffer(Capabilities::BUFFER, serialize([]));
 
 		$this->RegisterMessage(0, IPS_KERNELSTARTED);
 	}
@@ -131,7 +133,30 @@ class OnkyoAVRSplitter extends IPSModule {
 							$api = new ISCPCommand($command); 
 							$jsonCommand = $api->ToJSON();
 							
-							$commandsToChild[] = json_decode($jsonCommand, true);
+							if($api->Command=='NRI') {
+								$this->SendDebug( __FUNCTION__ , 'The command received was NRI', 0);
+								$capabilities = new Capabilities($command->Data);
+				
+								if($capabilities->Decode()){
+									$this->SendDebug( __FUNCTION__ , 'Decoded NRI data', 0);
+									$buffer = [
+										'NetserviceList' => $capabilities->NetserviceList,
+										'ZoneList' => $capabilities->ZoneList,
+										'SelectorList' => $capabilities->SelectorList,
+										'ListenModeList' => $capabilities->ListenModeList
+									];
+
+									$this->SetBuffer(Capabilities::BUFFER, serialize($buffer));
+									$this->SendDebug( __FUNCTION__ , 'Saved NRI data to the buffer', 0);
+								} else {
+									$this->SendDebug( __FUNCTION__ , 'XML decode failed!', 0);
+								}
+							} else {
+								$commandsToChild[] = json_decode($jsonCommand, true);
+							}
+							
+
+
 						} catch(Exception $e) {
 							$message = sprintf('Failed to decode the command. The cause was: %s', $e->getMessage());
 							$this->SendDebug( __FUNCTION__ , $message, 0);	

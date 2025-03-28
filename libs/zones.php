@@ -11,17 +11,17 @@ class Zones {
     const ZONE2 = 2;
 
     const ZoneNames = [
-        self::MAIN => 'Main',
-        self::ZONE2 => 'Zone2'
+        Zones::MAIN => 'Main',
+        Zones::ZONE2 => 'Zone2'
     ];
     
 
     const VARIABLES = [
-        self::MAIN => [
+        Zones::MAIN => [
             'PWR' => [
                 'Ident' => 'PWR',
                 'Caption' => 'Power',
-                'Type' => self::BOOLEAN,
+                'Type' => Zones::BOOLEAN,
                 'Profile' => '~Switch',
                 'Icon' => '',
                 'Assoc' => [],
@@ -30,7 +30,7 @@ class Zones {
             'AMT' => [
                 'Ident' => 'AMT',
                 'Caption' => 'Mute',
-                'Type' => self::BOOLEAN,
+                'Type' => Zones::BOOLEAN,
                 'Profile' => 'OAVRD.Mute',
                 'Icon' => 'Speaker',
                 'Assoc' => [
@@ -42,7 +42,7 @@ class Zones {
             'MVL' => [
                 'Ident' => 'MVL',
                 'Caption' => 'Volume',
-                'Type' => self::INTEGER,
+                'Type' => Zones::INTEGER,
                 'Profile' => '~Intensity.100',
                 'Icon' => '',
                 'Assoc' => [],
@@ -50,8 +50,8 @@ class Zones {
             ],
             'SLI' => [
                 'Ident' => 'SLI',
-                'Caption' => 'Volume',
-                'Type' => self::INTEGER,
+                'Caption' => 'Input',
+                'Type' => Zones::INTEGER,
                 'Profile' => 'OAVRD.Input',
                 'Icon' => '',
                 'Assoc' => [],

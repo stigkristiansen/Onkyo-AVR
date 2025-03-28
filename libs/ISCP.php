@@ -88,19 +88,28 @@ class ISCPCommand {
         $payload = $this->Prefix . $this->Command . $data . "\r\n";
         $payloadLen = pack('N', strlen($payload));
         
-        $ISCPHeader = $payloadLen . "\x01\x00\x00\x00";
-        $ISCPHeaderLen = pack('N', strlen($ISCPHeader) + 8);
+        $iscpHeader = $payloadLen . "\x01\x00\x00\x00";
+        $iscpHeaderLen = pack('N', strlen($iscpHeader) + 8);
         
-        return 'ISCP' . $ISCPHeaderLen . $ISCPHeader . $payload;
+        return 'ISCP' . $iscpHeaderLen . $iscpHeader . $payload;
      }
 
      public function ToJSON() {
+        /*$data = [
+            'Command' => $this->Command,
+            'Data' => $this->Data
+        ];*/
+
+        return json_encode($this->ToArray());
+     }
+
+     public function ToArray() {
         $data = [
             'Command' => $this->Command,
             'Data' => $this->Data
         ];
 
-        return json_encode($data);
+        return data;
      }
 
 }
