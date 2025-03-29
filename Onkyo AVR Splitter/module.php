@@ -149,7 +149,7 @@ class OnkyoAVRSplitter extends IPSModule {
 						
 						try {
 							$api = new ISCPCommand($command); 
-							$jsonCommand = $api->ToJSON();
+							//$jsonCommand = $api->ToJSON();
 							
 							if($api->Command=='NRI') {
 								$this->SendDebug( __FUNCTION__ , 'The command received was NRI', 0);
@@ -167,11 +167,17 @@ class OnkyoAVRSplitter extends IPSModule {
 									$this->SetBuffer(Capabilities::BUFFER, serialize($temp));
 									$this->SendDebug( __FUNCTION__ , 'Saved NRI data to the Capabilities-buffer', 0);
 									$this->SendDebug( __FUNCTION__ , sprintf('NRI data: %s', json_encode($temp)), 0);
+
+									$commandToChild[] = [
+										'Command' => 'CAP',
+										'Data' => $temp
+									];
 								} else {
 									$this->SendDebug( __FUNCTION__ , 'XML decode failed!', 0);
 								}
 							} else {
-								$commandsToChild[] = json_decode($jsonCommand, true);
+								//$commandsToChild[] = json_decode($jsonCommand, true);
+								$commandsToChild[] = $api->ToArray();;
 							}
 
 						} catch(Exception $e) {
@@ -181,7 +187,7 @@ class OnkyoAVRSplitter extends IPSModule {
 							break;
 						} 
 
-						$this->SendDebug( __FUNCTION__ , sprintf('Decoded command: %s', $jsonCommand), 0);
+						$this->SendDebug( __FUNCTION__ , sprintf('Decoded command: %s', $api->ToJSON()), 0);
 
 						break;
 					} else {
