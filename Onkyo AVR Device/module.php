@@ -139,7 +139,7 @@ class OnkyoAVRDevice extends IPSModule {
 		$commands = json_decode(base64_decode($Commands));
 		
 		foreach($commands as $command) {
-			$this->SendDebug( __FUNCTION__ , sprintf('Decoded the data. Command "%s" with data "%s"', $command->Command, $command->Data), 0);
+			$this->SendDebug( __FUNCTION__ , sprintf('Decoded the data. Command "%s" with data "%s"', $command->Command, json_encode($command->Data)), 0);
 			
 			if($this->ValidIdent($command->Command, Zones::MAIN)) {
 				$this->SendDebug( __FUNCTION__ , sprintf('Updating variable with ident "%s" to value "%s"', $command->Command, $command->Data), 0);
