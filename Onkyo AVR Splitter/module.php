@@ -158,7 +158,7 @@ class OnkyoAVRSplitter extends IPSModule {
 								if($capabilities->Decode()){
 									$this->SendDebug( __FUNCTION__ , 'Decoded NRI data', 0);
 									$temp = [
-										'NetserviceList' => $capabilities->NetserviceList,
+										'NetserviceList' => $capabilities->NetServiceList,
 										'ZoneList' => $capabilities->ZoneList,
 										'SelectorList' => $capabilities->SelectorList,
 										'ListenModeList' => $capabilities->ListenModeList
