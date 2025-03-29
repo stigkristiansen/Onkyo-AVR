@@ -168,7 +168,7 @@ class OnkyoAVRSplitter extends IPSModule {
 									$this->SendDebug( __FUNCTION__ , 'Saved NRI data to the Capabilities-buffer', 0);
 									$this->SendDebug( __FUNCTION__ , sprintf('NRI data: %s', json_encode($temp)), 0);
 
-									$commandToChild[] = [
+									$commandsToChild[] = [
 										'Command' => 'CAP',
 										'Data' => $temp
 									];
