@@ -11,7 +11,7 @@ class Capabilities {
     public $ModelYear = '';
     public $FirmwareVersion = '';
 
-    public $NetServiceList = [];
+    public $NetserviceList = [];
     public $ZoneList = [];
     public $SelectorList = [];
     public $ListenModeList = [];
@@ -41,15 +41,15 @@ class Capabilities {
             $this->FirmwareVersion = (string)$firmwareVersion;
         }
 
-        $netServiceList = [];
+        $netserviceList = [];
         foreach($this->xml->xpath('//netservice') as $netService) {
             if ((string)$netService['value']=='0') {
                 continue;
             }
 
-            $netServiceList[hexdec((string)$netService['id'])] = trim((string)$netService['name']);
+            $netserviceList[hexdec((string)$netService['id'])] = trim((string)$netService['name']);
         }
-        $this->NetServiceList = $netServiceList;
+        $this->NetserviceList = $netserviceList;
 
         $zoneList = [];
         foreach($this->xml->xpath('//zone') as $zone) {

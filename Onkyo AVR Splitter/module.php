@@ -153,7 +153,7 @@ class OnkyoAVRSplitter extends IPSModule {
 								$capabilities = new Capabilities($api->Data);
 
 								$temp = [
-									'NetserviceList' => $capabilities->NetServiceList,
+									'NetserviceList' => $capabilities->NetserviceList,
 									'ZoneList' => $capabilities->ZoneList,
 									'SelectorList' => $capabilities->SelectorList,
 									'ListenModeList' => $capabilities->ListenModeList
