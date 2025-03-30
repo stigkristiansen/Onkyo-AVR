@@ -61,11 +61,9 @@ class OnkyoAVRSplitter extends IPSModule {
 	private function GetCapabilities() {
 		$api = new ISCPCommand('NRI', 'QSTN');
 		
-		$this->SendDataToParent(json_encode(['DataID' => '{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}', 'Buffer' => $api->ToString()]));
+		$this->SendDataToParent(json_encode(['DataID' => '{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}', 'Buffer' => $api->ToEISCP()]));
 	}
 	
-
-
 	public function ForwardData($JSONString) {
 		$data = json_decode($JSONString);
 		$command = json_encode($data->Buffer);
@@ -79,7 +77,7 @@ class OnkyoAVRSplitter extends IPSModule {
 
 		$api = new ISCPCommand($command);
 		
-		$result = $this->SendDataToParent(json_encode(['DataID' => '{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}', 'Buffer' => $api->ToString()]));
+		$result = $this->SendDataToParent(json_encode(['DataID' => '{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}', 'Buffer' => $api->ToEISCP()]));
 
 		return $result;
 	}
@@ -149,34 +147,38 @@ class OnkyoAVRSplitter extends IPSModule {
 						
 						try {
 							$api = new ISCPCommand($command); 
-							//$jsonCommand = $api->ToJSON();
 							
 							if($api->Command=='NRI') {
 								$this->SendDebug( __FUNCTION__ , 'The command received was NRI', 0);
 								$capabilities = new Capabilities($api->Data);
-				
+
+								$temp = [
+									'NetserviceList' => $capabilities->NetServiceList,
+									'ZoneList' => $capabilities->ZoneList,
+									'SelectorList' => $capabilities->SelectorList,
+									'ListenModeList' => $capabilities->ListenModeList
+								];
+			
 								if($capabilities->Decode()){
 									$this->SendDebug( __FUNCTION__ , 'Decoded NRI data', 0);
-									$temp = [
-										'NetserviceList' => $capabilities->NetServiceList,
-										'ZoneList' => $capabilities->ZoneList,
-										'SelectorList' => $capabilities->SelectorList,
-										'ListenModeList' => $capabilities->ListenModeList
-									];
+									if(self::Lock(Capabilities::BUFFER)) {
+										$this->SetBuffer(Capabilities::BUFFER, serialize($temp));
+										self::Unlock(Capabilities::BUFFER);
 
-									$this->SetBuffer(Capabilities::BUFFER, serialize($temp));
-									$this->SendDebug( __FUNCTION__ , 'Saved NRI data to the Capabilities-buffer', 0);
-									$this->SendDebug( __FUNCTION__ , sprintf('NRI data: %s', json_encode($temp)), 0);
+										$this->SendDebug( __FUNCTION__ , 'Saved NRI data to the Capabilities-buffer', 0);
+										$this->SendDebug( __FUNCTION__ , sprintf('NRI data: %s', json_encode($temp)), 0);
+									}
 
-									$commandsToChild[] = [
+									$commandsToChild[] = (new ISCPCommand('CAP', $temp))->ToArray();
+
+									/*[
 										'Command' => 'CAP',
 										'Data' => $temp
-									];
+									];*/
 								} else {
 									$this->SendDebug( __FUNCTION__ , 'XML decode failed!', 0);
 								}
 							} else {
-								//$commandsToChild[] = json_decode($jsonCommand, true);
 								$commandsToChild[] = $api->ToArray();;
 							}
 

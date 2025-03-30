@@ -81,7 +81,7 @@ class ISCPCommand {
         $this->Data = $json->Data;
     }
 
-    public function ToString() {
+    public function ToEISCP() {
         $converter = new Converter($this->Command);
         $data = $converter->Convert($this->Data);
 
@@ -95,11 +95,6 @@ class ISCPCommand {
      }
 
      public function ToJSON() {
-        /*$data = [
-            'Command' => $this->Command,
-            'Data' => $this->Data
-        ];*/
-
         return json_encode($this->ToArray());
      }
 
