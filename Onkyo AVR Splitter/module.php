@@ -151,22 +151,24 @@ class OnkyoAVRSplitter extends IPSModule {
 							if($api->Command=='NRI') {
 								$this->SendDebug( __FUNCTION__ , 'The command received was NRI', 0);
 								$capabilities = new Capabilities($api->Data);
-
-								$temp = [
-									'NetserviceList' => $capabilities->NetserviceList,
-									'ZoneList' => $capabilities->ZoneList,
-									'SelectorList' => $capabilities->SelectorList,
-									'ListenModeList' => $capabilities->ListenModeList
-								];
 			
 								if($capabilities->Decode()){
+									$temp = [
+										'NetserviceList' => $capabilities->NetserviceList,
+										'ZoneList' => $capabilities->ZoneList,
+										'SelectorList' => $capabilities->SelectorList,
+										'ListenModeList' => $capabilities->ListenModeList
+									];
+
 									$this->SendDebug( __FUNCTION__ , 'Decoded NRI data', 0);
+									$this->SendDebug( __FUNCTION__ , sprintf('NRI data: %s', json_encode($temp)), 0);
+
 									if(self::Lock(Capabilities::BUFFER)) {
 										$this->SetBuffer(Capabilities::BUFFER, serialize($temp));
 										self::Unlock(Capabilities::BUFFER);
 
 										$this->SendDebug( __FUNCTION__ , 'Saved NRI data to the Capabilities-buffer', 0);
-										$this->SendDebug( __FUNCTION__ , sprintf('NRI data: %s', json_encode($temp)), 0);
+										
 									}
 
 									$commandsToChild[] = (new ISCPCommand('CAP', $temp))->ToArray();
