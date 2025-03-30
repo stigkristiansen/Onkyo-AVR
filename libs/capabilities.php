@@ -11,7 +11,7 @@ class Capabilities {
     public $ModelYear = '';
     public $FirmwareVersion = '';
 
-    public $NetserviceList = [];
+    public $NetServiceList = [];
     public $ZoneList = [];
     public $SelectorList = [];
     public $ListenModeList = [];

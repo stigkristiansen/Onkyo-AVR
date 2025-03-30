@@ -52,7 +52,7 @@ class ISCPCommand {
         true  => '01',
         ];
     
-    public function __construct(string $Command = null, string $Data = null, string $Prefix = '!1') {
+    public function __construct(string $Command = null, mixed $Data = null, string $Prefix = '!1') {
         if ($Command === null) {
             return;
         }
