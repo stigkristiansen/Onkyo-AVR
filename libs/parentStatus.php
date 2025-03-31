@@ -18,7 +18,7 @@ trait ParentStatus {
                 
                 if ($this->HasActiveParent()) {
                     $state = IS_ACTIVE;
-                /} else {
+                } else {
                     $state = IS_INACTIVE;
                 }
                 
