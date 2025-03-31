@@ -40,7 +40,7 @@ trait ParentStatus {
         }
         
         $this->SetStatus($state);
-        $this->SendDebug(__FUNCTION__, sprintf('Changed the modules status to %s', self::STATUSMAPPING[$state], 0);
+        $this->SendDebug(__FUNCTION__, sprintf('Changed the modules status to %s', self::STATUSMAPPING[$state]), 0);
     }
 
 	protected function RegisterParent() {
