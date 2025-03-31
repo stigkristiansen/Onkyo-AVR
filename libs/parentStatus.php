@@ -4,7 +4,7 @@ trait ParentStatus {
 
     const PARENTID = 'ParentID';
 
-    const STATUSMAPPING [
+    const STATUSMAPPING = [
         IS_ACTIVE => 'IS_ACTIVE',
         IS_INACTIVE => 'IS_INACTIVE'
     ];
