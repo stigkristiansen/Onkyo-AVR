@@ -4,6 +4,11 @@ trait ParentStatus {
 
     const PARENTID = 'ParentID';
 
+    const STATUSMAPPING [
+        IS_ACTIVE => 'IS_ACTIVE',
+        IS_INACTIVE => 'IS_INACTIVE'
+    ];
+
     protected function HandleParentMessages($TimeStamp, $SenderID, $Message, $Data) {
         $this->SendDebug( __FUNCTION__ , sprintf('Received message "%s" from instance "%s" with data "%s"', (string)$Message, (string)$SenderID, json_encode($Data)), 0);
         switch ($Message) {
@@ -13,7 +18,7 @@ trait ParentStatus {
                 
                 if ($this->HasActiveParent()) {
                     $state = IS_ACTIVE;
-                } else {
+                /} else {
                     $state = IS_INACTIVE;
                 }
                 
@@ -35,7 +40,7 @@ trait ParentStatus {
         }
         
         $this->SetStatus($state);
-        $this->SendDebug(__FUNCTION__, sprintf('Changed the modules status to %s', (string)$state), 0);
+        $this->SendDebug(__FUNCTION__, sprintf('Changed the modules status to %s', self::STATUSMAPPING[$state], 0);
     }
 
 	protected function RegisterParent() {
@@ -53,15 +58,11 @@ trait ParentStatus {
         if ($parentID != $savedParentID) {
             if ($savedParentID > 0) {
                 $this->SendDebug(__FUNCTION__, 'Unregistering IM_CHANGESETTINGS and IM_CHANGESTATUS', 0);
-
                 $this->UnregisterMessage($savedParentID, IM_CHANGESETTINGS);
-                $this->UnregisterMessage($savedParentID, IM_CHANGESTATUS);
             }
             if ($parentID > 0) {
                 $this->SendDebug(__FUNCTION__, 'Registering IM_CHANGESETTINGS and IM_CHANGESTATUS', 0);
-
                 $this->RegisterMessage($parentID, IM_CHANGESETTINGS);
-                $this->RegisterMessage($parentID, IM_CHANGESTATUS);
             } 
 
             $this->SaveParentID($parentID);

@@ -168,15 +168,9 @@ class OnkyoAVRSplitter extends IPSModule {
 										self::Unlock(Capabilities::BUFFER);
 
 										$this->SendDebug( __FUNCTION__ , 'Saved NRI data to the Capabilities-buffer', 0);
-										
 									}
 
 									$commandsToChild[] = (new ISCPCommand('CAP', $temp))->ToArray();
-
-									/*[
-										'Command' => 'CAP',
-										'Data' => $temp
-									];*/
 								} else {
 									$this->SendDebug( __FUNCTION__ , 'XML decode failed!', 0);
 								}
@@ -207,7 +201,7 @@ class OnkyoAVRSplitter extends IPSModule {
 			$this->SetBuffer(self::BUFFER, serialize($buffer));
 
 			if(count($commandsToChild) > 0) {
-				$this->SendDebug( __FUNCTION__ , 'Sending commnand(s) to child instans(es)', 0);
+				$this->SendDebug( __FUNCTION__ , 'Sending command(s) to child instans(es)', 0);
 				$this->SendDataToChildren(json_encode(['DataID' => '{EF1FFC09-B63E-971C-8DC9-A2F6B37046F1}', 'Buffer' => $commandsToChild]));
 			}
 			
