@@ -24,21 +24,7 @@ class OnkyoAVRDevice extends IPSModule {
 
 		$this->RegisterPropertyString('MacAddress', '');
 		$this->RegisterPropertyString('Model', '');
-
-		$this->RegisterVariableBoolean('PWR', 'Power', '~Switch', 1);
-		$this->EnableAction('PWR');
-
-		$this->RegisterVariableInteger('MVL', 'Volume', '~Intensity.100', 2);
-		$this->EnableAction('MVL');
-
-		$this->RegisterVariableInteger('SLI', 'Input', '', 3);
-		$this->EnableAction('SLI');
-
-		$profileName = 'OAVRD.Mute';
-		$this->RegisterProfileBooleanEx($profileName, 'Speaker', '', '', Zones::VARIABLES[Zones::MAIN]['AMT']['Assoc']);
-
-		$this->RegisterVariableBoolean('AMT', 'Mute', $profileName, 4);
-		$this->EnableAction('AMT');
+		$this->RegisterPropertyInteger('Zone', Zones::MAIN);
 
 	}
 
@@ -52,8 +38,7 @@ class OnkyoAVRDevice extends IPSModule {
 		parent::Destroy();
 	}
 
-	public function ApplyChanges()
-	{
+	public function ApplyChanges() {
 		//Never delete this line!
 		parent::ApplyChanges();
 
@@ -65,7 +50,25 @@ class OnkyoAVRDevice extends IPSModule {
 			$this->RegisterParent();
 
 			$this->GetCapabilities();
+
+			$this->CreateVariables();
         }
+
+		/*$this->RegisterVariableBoolean('PWR', 'Power', '~Switch', 1);
+		$this->EnableAction('PWR');
+
+		$this->RegisterVariableInteger('MVL', 'Volume', '~Intensity.100', 2);
+		$this->EnableAction('MVL');
+
+		$this->RegisterVariableInteger('SLI', 'Input', '', 3);
+		$this->EnableAction('SLI');
+
+		$profileName = 'OAVRD.Mute';
+		$this->RegisterProfileBooleanEx($profileName, 'Speaker', '', '', Zones::VARIABLES[Zones::MAIN]['AMT']['Assoc']);
+
+		$this->RegisterVariableBoolean('AMT', 'Mute', $profileName, 4);
+		$this->EnableAction('AMT');
+*/
 	}
 
 	public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
@@ -77,6 +80,8 @@ class OnkyoAVRDevice extends IPSModule {
 			$this->RegisterParent();
 
 			$this->GetCapabilities();
+
+			
 
 			return;
 		}
@@ -103,6 +108,80 @@ class OnkyoAVRDevice extends IPSModule {
 		} 
 	}
 
+	private function CreateVariables() {
+		$zone = $this->ReadPropertyInteger('Zone');
+		$position = 0;
+		foreach(Zones::VARIABLES[$zone] as $ident => $variable) {
+			$assoc = [];
+			if(strpos($variable['Profile'], '~')===false) {
+				if(is_string($variable['Assoc'])) {
+					$capabilities = $this->GetBuffer(Capabilities::BUFFER);
+					if(count($capabilities)>0) {
+						$zones = new Zones();
+						$assoc = $zones->GetAssocArray($variable['Assoc'], $capabilities, $zone);
+					} else {
+						$assoc = [];
+					}
+				} else {
+					$assoc = $variable['Assoc'];
+				}
+			}
+
+			$profileName = $variable['Profile'];
+			$icon = $variable['Icon'];
+			$caption = $variable['Caption'];
+			$enabled = $variable['Enabled'];
+			$prefix = '';
+			$suffix = '';
+			$position++;
+			
+			if(count($assoc)>0) {
+				switch ($variable['Type']) {
+					case Zones::BOOLEAN:
+						$this->RegisterProfileBooleanEx($profileName, $icon, $prefix, $suffix, $assoc);
+						break;
+					case Zones::INTEGER:
+						$this->RegisterProfileIntegerEx($profileName, $icon, $prefix, $suffix, $assoc);
+						break;
+					case case Zones::STRING:
+						$this->RegisterProfileStringEx($profileName, $icon, $prefix, $suffix, $assoc);
+						break;
+				}
+			} else {
+				switch ($variable['Type']) {
+					case Zones::BOOLEAN:
+						$this->RegisterProfileBoolean($profileName, $icon, $prefix, $suffix);
+						break;
+					case Zones::INTEGER:
+						$this->RegisterProfileInteger($profileName, $icon, $prefix, $suffix);
+						break;
+					case case Zones::STRING:
+						$this->RegisterProfileString($profileName, $icon, $prefix, $suffix);
+						break;
+				}
+			}
+
+			
+
+			switch ($variable['Type']) {
+				case Zones::BOOLEAN:
+					$this->RegisterVariableBoolean($ident, $caption, $profileName, $position);
+					break;
+				case Zones::INTEGER:
+					$this->RegisterVariableInteger($ident, $caption, $profileName, $position);
+					break;
+				case Zones::STRING:
+					$this->RegisterVariableString($ident, $caption, $profileName, $position);
+					break;
+			}
+
+			$enabled?$this->EnableAction($ident):$this-D>isableAction($ident);
+		}
+
+		
+
+	}
+
 	private function ExecuteCommand($Command, $Data) {
 		
 		if($this->HasActiveParent()) {
@@ -115,6 +194,11 @@ class OnkyoAVRDevice extends IPSModule {
 				$this->SendDebug( __FUNCTION__ , 'Querying for capabilities...', 0);
 
 				$capabilities = $this->SendDataToParent(json_encode(['DataID' => '{1CEDE467-DFFC-5466-5CDF-BBCA3966E657}', 'Buffer' => $command]));	
+
+				if($this->Lock(Capabilities::BUFFER)) {
+					$this->SetBuffer(Capabilities::BUFFER, serialize($capabilities));
+					$this->Unlock(Capabilities::BUFFER);
+				}
 
 				$this->SendDebug( __FUNCTION__ , sprintf('Capabilites: %s', $capabilities), 0);
 				return;
@@ -141,7 +225,7 @@ class OnkyoAVRDevice extends IPSModule {
 		foreach($commands as $command) {
 			$this->SendDebug( __FUNCTION__ , sprintf('Decoded the data. Command "%s" with data "%s"', $command->Command, json_encode($command->Data)), 0);
 			
-			if($this->ValidIdent($command->Command, Zones::MAIN)) {
+			if($this->ValidIdent($command->Command,  $this->Get>ReadPropertyInteger('Zone'))) {
 				$this->SendDebug( __FUNCTION__ , sprintf('Updating variable with ident "%s" to value "%s"', $command->Command, $command->Data), 0);
 				$this->SetValue($command->Command, $command->Data);
 				return;

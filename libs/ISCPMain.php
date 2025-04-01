@@ -12,15 +12,15 @@ trait MainCommands {
     }
 
     private function TGA($Data) : mixed {
-        return self::PWR($Data);
+        return self::IFA($Data);
     }
 
     private function TGB($Data) : mixed {
-        return self::PWR($Data);
+        return self::IFA($Data);
     }
     
     private function TGC($Data) : mixed {
-        return self::PWR($Data);
+        return self::IFA($Data);
     }
 
     private function AMT(mixed $Data) : mixed {

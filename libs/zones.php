@@ -6,6 +6,7 @@ declare(strict_types=1);
 class Zones {
     const BOOLEAN = 'Boolean';
     const INTEGER = 'Integer';
+    const STRING = 'String';
 
     const MAIN = 1;
     const ZONE2 = 2;
@@ -44,7 +45,7 @@ class Zones {
                 'Caption' => 'Volume',
                 'Type' => Zones::INTEGER,
                 'Profile' => '~Intensity.100',
-                'Icon' => '',
+                'Icon' => 'Speaker',
                 'Assoc' => [],
                 'Enabled' => true
             ],
@@ -53,10 +54,28 @@ class Zones {
                 'Caption' => 'Input',
                 'Type' => Zones::INTEGER,
                 'Profile' => 'OAVRD.Input',
-                'Icon' => '',
-                'Assoc' => [],
+                'Icon' => 'Music',
+                'Assoc' => 'OAVRD_Input',
                 'Enabled' => true
             ]
         ]
     ];
+
+    public function GetAssocArray(string $Function, mixed $Capabilities, int $Zone ) : array {
+        return self::{$Function}($Capabilities, $Zone);
+    }
+
+    private function OAVRD_Input(mixed $Capabilities, int $Zone) : array {
+        // SelectorList
+        $selectorList = [];
+
+        foreach($Capabilities['SelectorList'] as $id => $selector) {
+            if($selector['Zone'] & $Zone) {
+                $selectorList[] = [$id, $selector['Name'], '', -1];
+            }
+        }
+
+        return $selectorList;
+    }
+    
 }

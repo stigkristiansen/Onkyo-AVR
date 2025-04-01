@@ -47,11 +47,6 @@ class ISCPCommand {
 
     private $Prefix = '';
 
-    private $BoolValueMapping = [
-        false => '00',
-        true  => '01',
-        ];
-    
     public function __construct(string $Command = null, mixed $Data = null, string $Prefix = '!1') {
         if ($Command === null) {
             return;
