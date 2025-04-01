@@ -49,7 +49,7 @@ class OnkyoAVRDevice extends IPSModule {
 		if (IPS_GetKernelRunlevel() == KR_READY) {
 			$this->SendDebug(__FUNCTION__, 'Kernel is ready. Initializing module', 0);
 
-			$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "Initialize",\''.0.'\');';
+			$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "Initialize",\'0\');';
 			$this->RegisterOnceTimer('Initialize', $script);
         }
 
