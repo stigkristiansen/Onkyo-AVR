@@ -56,21 +56,6 @@ class OnkyoAVRDevice extends IPSModule {
 			$this->CreateVariables();
         }
 
-		/*$this->RegisterVariableBoolean('PWR', 'Power', '~Switch', 1);
-		$this->EnableAction('PWR');
-
-		$this->RegisterVariableInteger('MVL', 'Volume', '~Intensity.100', 2);
-		$this->EnableAction('MVL');
-
-		$this->RegisterVariableInteger('SLI', 'Input', '', 3);
-		$this->EnableAction('SLI');
-
-		$profileName = 'OAVRD.Mute';
-		$this->RegisterProfileBooleanEx($profileName, 'Speaker', '', '', Zones::VARIABLES[Zones::MAIN]['AMT']['Assoc']);
-
-		$this->RegisterVariableBoolean('AMT', 'Mute', $profileName, 4);
-		$this->EnableAction('AMT');
-*/
 	}
 
 	public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
@@ -113,6 +98,8 @@ class OnkyoAVRDevice extends IPSModule {
 	private function CreateVariables() {
 		$zone = $this->ReadPropertyInteger('Zone');
 		$position = 0;
+
+		$this->SendDebug( __FUNCTION__ , sprintf('Creating the variables for zone "%s"', Zones::ZoneNames[$Zone]), 0);	
 		foreach(Zones::VARIABLES[$zone] as $ident => $variable) {
 			$assoc = [];
 
@@ -123,8 +110,13 @@ class OnkyoAVRDevice extends IPSModule {
 			$prefix = '';
 			$suffix = '';
 			$position++;
+
+			$this->SendDebug( __FUNCTION__ , sprintf('Creating variable "%s"', $caption), 0);
 			
-			if(strpos($variable['Profile'], '~')===false) {
+			if(strpos($profileName, '~')===false) {
+				
+				$this->SendDebug( __FUNCTION__ , 'The variable has a custom profile', 0);
+				
 				if(is_string($variable['Assoc'])) {
 					$capabilities = unserialize($this->GetBuffer(Capabilities::BUFFER));
 					if(count($capabilities)>0) {
@@ -136,6 +128,8 @@ class OnkyoAVRDevice extends IPSModule {
 				} else {
 					$assoc = $variable['Assoc'];
 				}
+
+				$this->SendDebug( __FUNCTION__ , sprintf('The variable has a associations: %s', json_encode($assoc)), 0);
 				
 				if(count($assoc)>0) {
 					switch ($variable['Type']) {
@@ -162,7 +156,12 @@ class OnkyoAVRDevice extends IPSModule {
 							break;
 					}
 				}
+
+				$this->SendDebug( __FUNCTION__ , 'The custom profile is registered', 0);
 			}
+
+
+			$this->SendDebug( __FUNCTION__ , 'Registering the variable...', 0);
 
 			switch ($variable['Type']) {
 				case Zones::BOOLEAN:
@@ -177,6 +176,8 @@ class OnkyoAVRDevice extends IPSModule {
 			}
 
 			$enabled?$this->EnableAction($ident):$this-D>isableAction($ident);
+
+			$this->SendDebug( __FUNCTION__ , 'The variable is registered', 0);
 		}
 
 		
