@@ -155,7 +155,7 @@ class OnkyoAVRDevice extends IPSModule {
 							$this->RegisterProfileBoolean($profileName, $icon, $prefix, $suffix);
 							break;
 						case Zones::INTEGER:
-							$this->RegisterProfileInteger($profileName, $icon, $prefix, $suffix);
+							$this->RegisterProfileInteger($profileName, $icon, $prefix, $suffix, 0, 0, 0);
 							break;
 						case Zones::STRING:
 							$this->RegisterProfileString($profileName, $icon, $prefix, $suffix);
