@@ -26,6 +26,8 @@ class OnkyoAVRDevice extends IPSModule {
 		$this->RegisterPropertyString('Model', '');
 		$this->RegisterPropertyInteger('Zone', Zones::MAIN);
 
+		$this->SetBuffer(Capabilities::BUFFER, serialize([]));
+
 	}
 
 	public function Destroy() {
