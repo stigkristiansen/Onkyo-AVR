@@ -113,6 +113,15 @@ class OnkyoAVRDevice extends IPSModule {
 		$position = 0;
 		foreach(Zones::VARIABLES[$zone] as $ident => $variable) {
 			$assoc = [];
+
+			$profileName = $variable['Profile'];
+			$icon = $variable['Icon'];
+			$caption = $variable['Caption'];
+			$enabled = $variable['Enabled'];
+			$prefix = '';
+			$suffix = '';
+			$position++;
+			
 			if(strpos($variable['Profile'], '~')===false) {
 				if(is_string($variable['Assoc'])) {
 					$capabilities = $this->GetBuffer(Capabilities::BUFFER);
@@ -125,14 +134,6 @@ class OnkyoAVRDevice extends IPSModule {
 				} else {
 					$assoc = $variable['Assoc'];
 				}
-
-				$profileName = $variable['Profile'];
-				$icon = $variable['Icon'];
-				$caption = $variable['Caption'];
-				$enabled = $variable['Enabled'];
-				$prefix = '';
-				$suffix = '';
-				$position++;
 				
 				if(count($assoc)>0) {
 					switch ($variable['Type']) {
