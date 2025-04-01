@@ -111,7 +111,7 @@ class OnkyoAVRDevice extends IPSModule {
 			
 			if(strpos($profileName, '~')===false) {
 				
-				$this->SendDebug( __FUNCTION__ , sprintf()'The variable has a custom profile: %s',$profileName), 0);
+				$this->SendDebug( __FUNCTION__ , sprintf('The variable has a custom profile: %s', $profileName), 0);
 				
 				if(is_string($variable['Assoc'])) {
 					$capabilities = unserialize($this->GetBuffer(Capabilities::BUFFER));
