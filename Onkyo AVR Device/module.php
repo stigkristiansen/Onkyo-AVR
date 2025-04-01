@@ -206,7 +206,7 @@ class OnkyoAVRDevice extends IPSModule {
 			if($Command=='CAP' && $Data=='QSTN') {
 				$this->SendDebug( __FUNCTION__ , 'Querying for capabilities...', 0);
 
-				$capabilities = $this->SendDataToParent(json_encode(['DataID' => '{1CEDE467-DFFC-5466-5CDF-BBCA3966E657}', 'Buffer' => $command]));	
+				$capabilities = json_decode($this->SendDataToParent(json_encode(['DataID' => '{1CEDE467-DFFC-5466-5CDF-BBCA3966E657}', 'Buffer' => $command])), true);	
 
 				if($this->Lock(Capabilities::BUFFER)) {
 					$this->SetBuffer(Capabilities::BUFFER, serialize($capabilities));

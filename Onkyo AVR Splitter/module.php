@@ -38,17 +38,17 @@ class OnkyoAVRSplitter extends IPSModule {
 			$this->SendDebug(__FUNCTION__, 'Kernel is ready. Initializing module', 0);
 			
 			$this->RegisterParent();
-
 			$this->GetCapabilities();
         }
 	}
 
 	public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
 		parent::MessageSink($TimeStamp, $SenderID, $Message, $Data);
-
+		
         if ($Message == IPS_KERNELMESSAGE && $Data[0] == KR_READY) {
-			$this->RegisterParent();
+			$this->SendDebug(__FUNCTION__, 'Kernel is ready. Initializing module', 0);
 
+			$this->RegisterParent();
 			$this->GetCapabilities();
 
 			return;
