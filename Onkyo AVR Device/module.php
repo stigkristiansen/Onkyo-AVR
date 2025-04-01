@@ -90,7 +90,7 @@ class OnkyoAVRDevice extends IPSModule {
 		} 
 	}
 
-	private function Initialize(bool $Timer=false;) {
+	private function Initialize(bool $Timer=false) {
 		if($Timer) {
 			$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "Initialize",\'0\');';
 			$this->RegisterOnceTimer('Initialize', $script);
