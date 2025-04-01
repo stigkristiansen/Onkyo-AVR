@@ -99,7 +99,7 @@ class OnkyoAVRDevice extends IPSModule {
 		$zone = $this->ReadPropertyInteger('Zone');
 		$position = 0;
 
-		$this->SendDebug( __FUNCTION__ , sprintf('Creating the variables for zone "%s"', Zones::ZoneNames[$Zone]), 0);	
+		$this->SendDebug( __FUNCTION__ , sprintf('Creating the variables for zone "%s"', Zones::ZoneNames[$zone]), 0);	
 		foreach(Zones::VARIABLES[$zone] as $ident => $variable) {
 			$assoc = [];
 
