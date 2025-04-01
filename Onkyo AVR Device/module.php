@@ -213,7 +213,7 @@ class OnkyoAVRDevice extends IPSModule {
 					$this->Unlock(Capabilities::BUFFER);
 				}
 
-				$this->SendDebug( __FUNCTION__ , sprintf('Capabilites: %s', $capabilities), 0);
+				$this->SendDebug( __FUNCTION__ , sprintf('Capabilites: %s', json_encode($capabilities)), 0);
 				return;
 			}
 				
