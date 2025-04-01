@@ -50,9 +50,7 @@ class OnkyoAVRDevice extends IPSModule {
 			$this->SendDebug(__FUNCTION__, 'Kernel is ready. Initializing module', 0);
 
 			$this->RegisterParent();
-
 			$this->GetCapabilities();
-
 			$this->CreateVariables();
         }
 
@@ -65,10 +63,8 @@ class OnkyoAVRDevice extends IPSModule {
 			$this->SendDebug(__FUNCTION__, 'Kernel is ready. Initializing module', 0);
 			
 			$this->RegisterParent();
-
 			$this->GetCapabilities();
-
-			
+			$this->CreateVariables();
 
 			return;
 		}
@@ -115,7 +111,7 @@ class OnkyoAVRDevice extends IPSModule {
 			
 			if(strpos($profileName, '~')===false) {
 				
-				$this->SendDebug( __FUNCTION__ , 'The variable has a custom profile', 0);
+				$this->SendDebug( __FUNCTION__ , sprintf()'The variable has a custom profile: %s',$profileName), 0);
 				
 				if(is_string($variable['Assoc'])) {
 					$capabilities = unserialize($this->GetBuffer(Capabilities::BUFFER));
@@ -129,9 +125,9 @@ class OnkyoAVRDevice extends IPSModule {
 					$assoc = $variable['Assoc'];
 				}
 
-				$this->SendDebug( __FUNCTION__ , sprintf('The variable has a associations: %s', json_encode($assoc)), 0);
-				
 				if(count($assoc)>0) {
+					$this->SendDebug( __FUNCTION__ , sprintf('The profile has a associations: %s', json_encode($assoc)), 0);
+
 					switch ($variable['Type']) {
 						case Zones::BOOLEAN:
 							$this->RegisterProfileBooleanEx($profileName, $icon, $prefix, $suffix, $assoc);

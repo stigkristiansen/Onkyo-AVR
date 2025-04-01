@@ -14,6 +14,7 @@ trait ParentStatus {
         switch ($Message) {
             case IM_CHANGESETTINGS: 
                 $this->SendDebug(__FUNCTION__, 'The message was IM_CHANGESETTINGS', 0);
+                
                 $this->RegisterParent();
                 
                 if ($this->HasActiveParent()) {
