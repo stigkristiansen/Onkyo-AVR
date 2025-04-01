@@ -102,6 +102,15 @@ class OnkyoAVRDevice extends IPSModule {
 		$this->RegisterParent();
 		$this->GetCapabilities();
 		$this->CreateVariables();
+		$this->QueryVariables();
+	}
+
+	private function QueryVariables(){
+		$zone = $this->ReadPropertyInteger('Zone');	
+
+		foreach(Zones::VARIABLES[$zone] as $ident => $variable) {
+			$this->ExecuteCommand($ident, 'QSTN');
+		}
 	}
 
 	private function GetCapabilities() {
