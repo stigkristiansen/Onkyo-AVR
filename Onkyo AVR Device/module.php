@@ -125,39 +125,39 @@ class OnkyoAVRDevice extends IPSModule {
 				} else {
 					$assoc = $variable['Assoc'];
 				}
-			}
 
-			$profileName = $variable['Profile'];
-			$icon = $variable['Icon'];
-			$caption = $variable['Caption'];
-			$enabled = $variable['Enabled'];
-			$prefix = '';
-			$suffix = '';
-			$position++;
-			
-			if(count($assoc)>0) {
-				switch ($variable['Type']) {
-					case Zones::BOOLEAN:
-						$this->RegisterProfileBooleanEx($profileName, $icon, $prefix, $suffix, $assoc);
-						break;
-					case Zones::INTEGER:
-						$this->RegisterProfileIntegerEx($profileName, $icon, $prefix, $suffix, $assoc);
-						break;
-					case Zones::STRING:
-						$this->RegisterProfileStringEx($profileName, $icon, $prefix, $suffix, $assoc);
-						break;
-				}
-			} else {
-				switch ($variable['Type']) {
-					case Zones::BOOLEAN:
-						$this->RegisterProfileBoolean($profileName, $icon, $prefix, $suffix);
-						break;
-					case Zones::INTEGER:
-						$this->RegisterProfileInteger($profileName, $icon, $prefix, $suffix);
-						break;
-					case Zones::STRING:
-						$this->RegisterProfileString($profileName, $icon, $prefix, $suffix);
-						break;
+				$profileName = $variable['Profile'];
+				$icon = $variable['Icon'];
+				$caption = $variable['Caption'];
+				$enabled = $variable['Enabled'];
+				$prefix = '';
+				$suffix = '';
+				$position++;
+				
+				if(count($assoc)>0) {
+					switch ($variable['Type']) {
+						case Zones::BOOLEAN:
+							$this->RegisterProfileBooleanEx($profileName, $icon, $prefix, $suffix, $assoc);
+							break;
+						case Zones::INTEGER:
+							$this->RegisterProfileIntegerEx($profileName, $icon, $prefix, $suffix, $assoc);
+							break;
+						case Zones::STRING:
+							$this->RegisterProfileStringEx($profileName, $icon, $prefix, $suffix, $assoc);
+							break;
+					}
+				} else {
+					switch ($variable['Type']) {
+						case Zones::BOOLEAN:
+							$this->RegisterProfileBoolean($profileName, $icon, $prefix, $suffix);
+							break;
+						case Zones::INTEGER:
+							$this->RegisterProfileInteger($profileName, $icon, $prefix, $suffix);
+							break;
+						case Zones::STRING:
+							$this->RegisterProfileString($profileName, $icon, $prefix, $suffix);
+							break;
+					}
 				}
 			}
 
@@ -223,7 +223,7 @@ class OnkyoAVRDevice extends IPSModule {
 		foreach($commands as $command) {
 			$this->SendDebug( __FUNCTION__ , sprintf('Decoded the data. Command "%s" with data "%s"', $command->Command, json_encode($command->Data)), 0);
 			
-			if($this->ValidIdent($command->Command,  $this->Get>ReadPropertyInteger('Zone'))) {
+			if($this->ValidIdent($command->Command,  $this->ReadPropertyInteger('Zone'))) {
 				$this->SendDebug( __FUNCTION__ , sprintf('Updating variable with ident "%s" to value "%s"', $command->Command, $command->Data), 0);
 				$this->SetValue($command->Command, $command->Data);
 				return;
