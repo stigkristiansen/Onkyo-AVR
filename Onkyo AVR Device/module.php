@@ -143,7 +143,7 @@ class OnkyoAVRDevice extends IPSModule {
 					case Zones::INTEGER:
 						$this->RegisterProfileIntegerEx($profileName, $icon, $prefix, $suffix, $assoc);
 						break;
-					case case Zones::STRING:
+					case Zones::STRING:
 						$this->RegisterProfileStringEx($profileName, $icon, $prefix, $suffix, $assoc);
 						break;
 				}
@@ -155,13 +155,11 @@ class OnkyoAVRDevice extends IPSModule {
 					case Zones::INTEGER:
 						$this->RegisterProfileInteger($profileName, $icon, $prefix, $suffix);
 						break;
-					case case Zones::STRING:
+					case Zones::STRING:
 						$this->RegisterProfileString($profileName, $icon, $prefix, $suffix);
 						break;
 				}
 			}
-
-			
 
 			switch ($variable['Type']) {
 				case Zones::BOOLEAN:
