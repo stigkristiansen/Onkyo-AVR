@@ -124,7 +124,7 @@ class OnkyoAVRDevice extends IPSModule {
 			
 			if(strpos($variable['Profile'], '~')===false) {
 				if(is_string($variable['Assoc'])) {
-					$capabilities = $this->GetBuffer(Capabilities::BUFFER);
+					$capabilities = unserialize($this->GetBuffer(Capabilities::BUFFER));
 					if(count($capabilities)>0) {
 						$zones = new Zones();
 						$assoc = $zones->GetAssocArray($variable['Assoc'], $capabilities, $zone);
