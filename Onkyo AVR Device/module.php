@@ -181,7 +181,9 @@ class OnkyoAVRDevice extends IPSModule {
 	}
 
 	private function ExecuteCommand($Command, $Data) {
-		
+		$this->SendDebug( __FUNCTION__ , sprintf('The command to execute is: %s', $Command), 0);
+		$this->SendDebug( __FUNCTION__ , sprintf('The command data is: %s', $Data), 0);
+
 		if($this->HasActiveParent()) {
 			$command = [
 				'Command' => $Command,
@@ -203,8 +205,9 @@ class OnkyoAVRDevice extends IPSModule {
 			}
 				
 			$this->SendDataToParent(json_encode(['DataID' => '{1CEDE467-DFFC-5466-5CDF-BBCA3966E657}', 'Buffer' => $command]));
+			$this->SendDebug( __FUNCTION__ , 'The command was sent', 0);
 		} else {
-			$this->SendDebug(__FUNCTION__ , 'The command was not sent. Parent instances are not active', 0);	
+			$this->SendDebug(__FUNCTION__ ,'The command was not sent. Parent instance(s) are not active', 0);	
 		}
 		
 	}
