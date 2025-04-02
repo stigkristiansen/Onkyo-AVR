@@ -21,10 +21,7 @@
             "type": "Configurator",
             "add": false,
             "delete": true,
-            "sort": {
-                "column": "Model",
-                "direction": "ascending"
-            },
+            "rowCount": 4,
             "columns": [
                 {
                     "caption": "Model",
