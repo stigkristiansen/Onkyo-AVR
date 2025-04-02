@@ -7,6 +7,9 @@ require_once __DIR__ . '/../libs/semaphoreHelper.php';
 require_once __DIR__ . '/../libs/miscHelper.php';
 	
 class OnkyoAVRConfigurator extends IPSModule {
+	use ExecuteCommand;
+	use Semaphore;
+
 	public function Create() {
 		//Never delete this line!
 		parent::Create();
