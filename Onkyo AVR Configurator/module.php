@@ -54,6 +54,7 @@ class OnkyoAVRConfigurator extends IPSModule {
 	}
 
 	private function GetCapabilities() {
+		IPS_Sleep(2000);
 		$this->ExecuteCommand('CAP', 'QSTN');
 	}
 }
