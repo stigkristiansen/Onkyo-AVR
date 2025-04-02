@@ -37,7 +37,7 @@ declare(strict_types=1);
 						'items' => [
 							[
 								'type'    => 'Label',
-								'caption' => 'This instance has no active parent.',
+								'caption' => 'This instance has no active parent(s).',
 							]
 						]
 					]
@@ -46,26 +46,7 @@ declare(strict_types=1);
 				return json_encode($form);
 			}
 
-			$splitter = IPS_GetInstance($this->InstanceID)['ConnectionID'];
-			$IO = IPS_GetInstance($splitter)['ConnectionID'];
 			
-			if ($IO == 0) {
-				$form['actions'][] = [
-					'name' => 'NoIOConnected',
-					'type'  => 'PopupAlert',
-					'popup' => [
-						'items' => [
-							[
-								'type'    => 'Label',
-								'caption' => 'The splitter (parent) as no IO-instance connected to it',
-							]
-						]
-					]
-				];
-				
-				return json_encode($form);
-			}
-
 
 		}
 	}
