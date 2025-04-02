@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../libs/semaphoreHelper.php';
+require_once __DIR__ . '/../libs/capabilities.php';
 
 trait ExecuteCommand {
     private function ExecuteCommand($Command, $Data) {
