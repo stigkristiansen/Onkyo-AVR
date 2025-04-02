@@ -72,7 +72,7 @@ class OnkyoAVRDiscovery extends IPSModule {
 		$this->SendDebug( __FUNCTION__ , 'Sending the discovery message...', 0);
 
 		$api = new ISCPCommand('ECN', 'QSTN', '!x');
-		$this->SendDataToParent(json_encode(['DataID' => '{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}', 'Buffer' => $api->ToString()]));
+		$this->SendDataToParent(json_encode(['DataID' => '{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}', 'Buffer' => $api->ToEISCP()]));
 	}
 
 	public function ReceiveData($JSONString) {
