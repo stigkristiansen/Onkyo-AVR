@@ -54,7 +54,7 @@ class OnkyoAVRConfigurator extends IPSModule {
 
 		$instances = $this->GetInstances();
 
-		$zones = $this->GetCapabilities();
+		$zones = $this->GetZones();
 
 	}
 
