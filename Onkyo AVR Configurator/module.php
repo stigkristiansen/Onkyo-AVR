@@ -48,7 +48,7 @@ class OnkyoAVRConfigurator extends IPSModule {
 		}
 
 
-
+		$this->GetCapabilities();
 
 
 	}
