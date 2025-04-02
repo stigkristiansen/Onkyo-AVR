@@ -29,7 +29,7 @@
                 {
                     "caption": "Name",
                     "name": "Name",
-                    "width": "300px"
+                    "width": "auto"
                 }
             ],
             "values": []
