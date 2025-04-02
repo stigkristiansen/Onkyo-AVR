@@ -64,7 +64,7 @@ class OnkyoAVRConfigurator extends IPSModule {
 		$this->ExecuteCommand('CAP', 'QSTN');
 		$capabilities = unserialize($this->GetBuffer(Capabilities::BUFFER));
 		
-		$return $capabilities['ZoneList'];
+		return $capabilities['ZoneList'];
 		
 	}
 	
