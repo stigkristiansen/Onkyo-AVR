@@ -61,7 +61,7 @@ class OnkyoAVRConfigurator extends IPSModule {
 		$model = $this->ReadPropertyString('Model');
 		
 		$values = [];
-		
+
 		foreach($zones as $zoneId => $zone) {
 			$value = [
 				'Type' 		 => 'Zone',
@@ -156,7 +156,7 @@ class OnkyoAVRConfigurator extends IPSModule {
 			if($ioId!=0) { //Client socket
 				$ioModuleId = @IPS_GetInstance($InstanceID)['ModuleInfo']['ModuleID'];
 				if($ioModuleId=='{3CFF0FD9-E306-41DB-9B5A-9D06D38576C3}') {
-					return = IPS_GetProperty($ioId, 'Host');
+					return IPS_GetProperty($ioId, 'Host');
 				} else {
 					return false;	
 				}
