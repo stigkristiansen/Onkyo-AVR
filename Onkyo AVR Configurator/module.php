@@ -136,11 +136,18 @@ class OnkyoAVRConfigurator extends IPSModule {
 
 		$instanceIds = IPS_GetInstanceListByModuleID('{FF80DAC2-0BF3-6A70-F4A8-84A6DE34FDBA}');
 
+		$this->SendDebug(__FUNCTION__, sprintf('Found %d instance(s) before filtering by ip-address', count(instanceIds)), 0);
+
 		$ipAddress = $this->GetIpAddressById($this->InstanceID);
+
 		
+
 		if($ipAddress!==false) {
+			$this->SendDebug(__FUNCTION__, sprintf('The configurators ip-address is: %s', $ipAddress), 0);
+
 			foreach ($instanceIds as $instanceId) {
 				$instanceIpAddress = $this->GetIpAddressById($instanceId);
+				$this->SendDebug(__FUNCTION__, sprintf('Found instances ip-address is: %s', $instanceIpAddress), 0);
 				if($instanceIpAddress!==false && $ipAddress==$instanceIpAddress) {
 					$instances[$instanceId] = IPS_GetProperty($instanceId, 'Zone');
 				}
@@ -148,6 +155,8 @@ class OnkyoAVRConfigurator extends IPSModule {
 	
 			$this->SendDebug(__FUNCTION__, sprintf('Found %d existing instance(s) of Onkyo devices', count($instances)), 0);
 			$this->SendDebug(__FUNCTION__, 'Finished searching for existing Onkyo devices', 0);	
+		} else {
+			$this->SendDebug(__FUNCTION__, sprintf('Unable to retrive configurators ip-address via splitter and io-instance!', $ipAddress), 0);
 		}
 		
 		return $instances;
@@ -158,7 +167,7 @@ class OnkyoAVRConfigurator extends IPSModule {
 		if ($splitterId != 0) {
 			$ioId = @IPS_GetInstance($splitterId)['ConnectionID'];
 			if($ioId!=0) { //Client socket
-				$ioModuleId = @IPS_GetInstance($InstanceID)['ModuleInfo']['ModuleID'];
+				$ioModuleId = @IPS_GetInstance($ioId)['ModuleInfo']['ModuleID'];
 				if($ioModuleId=='{3CFF0FD9-E306-41DB-9B5A-9D06D38576C3}') {
 					return IPS_GetProperty($ioId, 'Host');
 				} else {
