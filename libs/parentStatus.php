@@ -36,6 +36,7 @@ trait ParentStatus {
             default:
                 return;
         }
+        
         if($state==IS_ACTIVE) {
             $this->GetCapabilities();
         }

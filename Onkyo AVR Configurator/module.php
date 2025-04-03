@@ -60,6 +60,11 @@ class OnkyoAVRConfigurator extends IPSModule {
 
 		$zones = $this->GetZones();
 
+		foreach($zones as $id => $zone) {
+			$this->SendDebug(__FUNCTION__, sprintf('Adding zone: %s', $zone['Name']), 0);
+			
+		}
+
 	}
 
 	private function GetZones() : array {
