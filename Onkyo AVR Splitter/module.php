@@ -77,6 +77,7 @@ class OnkyoAVRSplitter extends IPSModule {
 			if(count($capabilities)>0) {
 				return json_encode($capabilities);
 			} else {
+				$this->SendDebug( __FUNCTION__ , 'Missing capabilities information. Sending a new query...', 0);
 				$this->GetCapabilities();
 				return;
 			}
