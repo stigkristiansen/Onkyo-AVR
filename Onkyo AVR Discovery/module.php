@@ -170,7 +170,7 @@ class OnkyoAVRDiscovery extends IPSModule {
 			$modules = [];
 
 			$modules[] = [
-				'moduleID'       => '{FF80DAC2-0BF3-6A70-F4A8-84A6DE34FDBA}',  
+				'moduleID'       => '{FC8E9157-3AFD-3C8A-97A1-3B340B203F98}',  
 				'configuration'	 => [
 					'MacAddress' 	=> $macAddress,
 					'Model' 		=> $device['Model']				
@@ -252,15 +252,15 @@ class OnkyoAVRDiscovery extends IPSModule {
 	private function GetInstances () : array {
 		$instances = [];
 
-		$this->SendDebug(__FUNCTION__, 'Searching for existing instances of Onkyo devices...', 0);
+		$this->SendDebug(__FUNCTION__, 'Searching for existing instances of Onkyo Device Configurators...', 0);
 
-		$instanceIds = IPS_GetInstanceListByModuleID('{FF80DAC2-0BF3-6A70-F4A8-84A6DE34FDBA}');
+		$instanceIds = IPS_GetInstanceListByModuleID('{FC8E9157-3AFD-3C8A-97A1-3B340B203F98}');
 		
 		foreach ($instanceIds as $instanceId) {
 			$instances[$instanceId] = IPS_GetProperty($instanceId, 'MacAddress');
 		}
 
-		$this->SendDebug(__FUNCTION__, sprintf('Found %d existing instance(s) of Onkyo devices', count($instances)), 0);
+		$this->SendDebug(__FUNCTION__, sprintf('Found %d existing instance(s) of Onkyo Device Configurators', count($instances)), 0);
 		$this->SendDebug(__FUNCTION__, 'Finished searching for existing Onkyo devices', 0);	
 
 		return $instances;

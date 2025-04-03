@@ -9,6 +9,18 @@
         }
     ],
     "actions": [
+        {   
+            "type": "ValidationTextBox", 
+            "caption": "Model:",
+            "name": "Model",
+            "enabled": false
+        },
+        {   
+            "type": "ValidationTextBox", 
+            "caption": "MAC address:",
+            "name": "MacAddress",
+            "enabled": false
+        },
         {
             "type": "Configurator",
             "name": "Configurator",
