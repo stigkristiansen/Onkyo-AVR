@@ -172,8 +172,7 @@ class OnkyoAVRDiscovery extends IPSModule {
 			$modules[] = [
 				'moduleID'       => '{FC8E9157-3AFD-3C8A-97A1-3B340B203F98}',  
 				'configuration'	 => [
-					'MacAddress' 	=> $macAddress,
-					'Model' 		=> $device['Model']				
+					'IPAddress' 	=> $device['IPAddress']
 				]
 			];
 

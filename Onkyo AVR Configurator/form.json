@@ -12,16 +12,9 @@
             "caption": "Model:",
             "name": "Model",
             "enabled": false
-        },
-        {   
-            "type": "ValidationTextBox", 
-            "caption": "MAC address:",
-            "name": "MacAddress",
-            "enabled": false
         }
     ],
     "actions": [
-        
         {
             "type": "Configurator",
             "name": "Configurator",

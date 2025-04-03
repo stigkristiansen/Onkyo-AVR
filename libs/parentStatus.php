@@ -47,7 +47,7 @@ trait ParentStatus {
 
 	protected function RegisterParent() {
         try {
-			$parentID = IPS_GetInstance($this->InstanceID)['ConnectionID'];
+			$parentID = @IPS_GetInstance($this->InstanceID)['ConnectionID'];
 		} catch(Exception $e) {
 			$parentID = 0;
 		}

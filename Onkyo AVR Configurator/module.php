@@ -15,10 +15,9 @@ class OnkyoAVRConfigurator extends IPSModule {
 		parent::Create();
 
 		$this->RequireParent('{CD39A489-D759-1786-1904-879A571231AF}');
-
-		$this->RegisterPropertyString('MacAddress', '');
+		
 		$this->RegisterPropertyString('Model', '');
-
+		
 		$this->SetReceiveDataFilter("NeverReceiveData");
 
 		$this->SetBuffer(Capabilities::BUFFER, serialize([]));
@@ -57,21 +56,58 @@ class OnkyoAVRConfigurator extends IPSModule {
 		}
 
 		$instances = $this->GetInstances();
-
 		$zones = $this->GetZones();
 
-		foreach($zones as $id => $zone) {
-			$this->SendDebug(__FUNCTION__, sprintf('Adding zone: %s', $zone['Name']), 0);
-			
+		$model = $this->ReadPropertyString('Model');
+		
+		$values = [];
+		
+		foreach($zones as $zoneId => $zone) {
 			$value = [
-				'Type' => 'Zone',
-				'Name' => $zone['Name'],
+				'Type' 		 => 'Zone',
+				'Name'		 => $zone['Name'],
 				'instanceID' => 0
 			];
+
+			$this->SendDebug(__FUNCTION__, sprintf('Added zone: %s', $zone['Name']), 0);
+						
+			// Check if discovered entity has an instance that is created earlier. If found, set InstanceID
+			$needle = $macAddress . '-' . (string)$zoneId;
+			$instanceId = array_search($needle, $instances);
+
+			if ($instanceId !== false) {
+				$this->SendDebug(__FUNCTION__, sprintf('The module with MAC address %s and $zone already has an instance (%s). Setting InstanceId', $macAddress, $zoneId, $instanceId), 0);
+				unset($instances[$instanceId]); // Remove from list to avoid duplicates
+				$value['instanceID'] = $instanceId;
+			} 
+
+			$modules = [];
+
+			$modules[] = [
+				'moduleID'       => '{FF80DAC2-0BF3-6A70-F4A8-84A6DE34FDBA}',  
+				'configuration'	 => [
+					'Model' 		=> $model,	
+					'Zone'			=> $zoneId
+				]
+			];
+
+			$modules[] =  [
+				'moduleID' => '{CD39A489-D759-1786-1904-879A571231AF}',
+				'info' => 'Splitter'
+			];
+
+			$modules[] = [
+				'moduleID'       => '{3CFF0FD9-E306-41DB-9B5A-9D06D38576C3}',  
+				'info'			 => 'Client Socket IO',
+			
+			];
+
+			$value['create'] = $modules;
+	
+			$values[] = $value;
 		}
 
-		
-
+		return json_encode($values);
 	}
 
 	private function GetZones() : array {
@@ -95,14 +131,40 @@ class OnkyoAVRConfigurator extends IPSModule {
 		$this->SendDebug(__FUNCTION__, 'Searching for existing instances of Onkyo devices...', 0);
 
 		$instanceIds = IPS_GetInstanceListByModuleID('{FF80DAC2-0BF3-6A70-F4A8-84A6DE34FDBA}');
+
+		$ipAddress = $this->GetIpAddressById($this->InstanceID);
 		
-		foreach ($instanceIds as $instanceId) {
-			$instances[$instanceId] = IPS_GetProperty($instanceId, 'MacAddress');
+		if($ipAddress!==false) {
+			foreach ($instanceIds as $instanceId) {
+				$instanceIpAddress = $this->GetIpAddressById($instanceId);
+				if($instanceIpAddress!==false && $ipAddress==$instanceIpAddress) {
+					$instances[$instanceId] = IPS_GetProperty($instanceId, 'Zones');
+				}
+			}
+	
+			$this->SendDebug(__FUNCTION__, sprintf('Found %d existing instance(s) of Onkyo devices', count($instances)), 0);
+			$this->SendDebug(__FUNCTION__, 'Finished searching for existing Onkyo devices', 0);	
 		}
-
-		$this->SendDebug(__FUNCTION__, sprintf('Found %d existing instance(s) of Onkyo devices', count($instances)), 0);
-		$this->SendDebug(__FUNCTION__, 'Finished searching for existing Onkyo devices', 0);	
-
+		
 		return $instances;
+	}
+
+	protected function GetIpAddressById(int $InstanceID) : mixed {
+		$splitterId = @IPS_GetInstance($InstanceID)['ConnectionID'];
+		if ($splitterId != 0) {
+			$ioId = @IPS_GetInstance($splitterId)['ConnectionID'];
+			if($ioId!=0) { //Client socket
+				$ioModuleId = @IPS_GetInstance($InstanceID)['ModuleInfo']['ModuleID'];
+				if($ioModuleId=='{3CFF0FD9-E306-41DB-9B5A-9D06D38576C3}') {
+					return = IPS_GetProperty($ioId, 'Host');
+				} else {
+					return false;	
+				}
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
 	}
 }
