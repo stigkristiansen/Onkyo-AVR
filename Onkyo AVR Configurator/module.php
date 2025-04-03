@@ -81,7 +81,7 @@ class OnkyoAVRConfigurator extends IPSModule {
 
 			if ($instanceId !== false) {
 				$this->SendDebug(__FUNCTION__, sprintf('The module for zone %s already has an instance (%s). Setting InstanceId', Zones::ZoneNames[$zoneId], (string)$instanceId), 0);
-				unset($instances[$instanceId]); // Remove from list to avoid duplicates
+				//unset($instances[$instanceId]); // Remove from list to avoid duplicates
 				$value['instanceID'] = $instanceId;
 			} 
 
@@ -111,7 +111,7 @@ class OnkyoAVRConfigurator extends IPSModule {
 			$values[] = $value;
 		}
 
-		$this->SendDebug(__FUNCTION__, 'Adding to the form...', 0);
+		$this->SendDebug(__FUNCTION__, 'Completing the form...', 0);
 		$form['actions'][0]['values'] = $values;
 
 		return json_encode($form);
@@ -143,7 +143,6 @@ class OnkyoAVRConfigurator extends IPSModule {
 
 		$ipAddress = $this->GetIpAddressById($this->InstanceID);
 		
-
 		if($ipAddress!==false) {
 			$this->SendDebug(__FUNCTION__, sprintf('The configurators ip-address is: %s', $ipAddress), 0);
 
@@ -168,9 +167,9 @@ class OnkyoAVRConfigurator extends IPSModule {
 		$splitterId = @IPS_GetInstance($InstanceID)['ConnectionID'];
 		if ($splitterId != 0) {
 			$ioId = @IPS_GetInstance($splitterId)['ConnectionID'];
-			if($ioId!=0) { //Client socket
+			if($ioId!=0) { 
 				$ioModuleId = @IPS_GetInstance($ioId)['ModuleInfo']['ModuleID'];
-				if($ioModuleId=='{3CFF0FD9-E306-41DB-9B5A-9D06D38576C3}') {
+				if($ioModuleId=='{3CFF0FD9-E306-41DB-9B5A-9D06D38576C3}') {  //Client socket
 					return IPS_GetProperty($ioId, 'Host');
 				} else {
 					return false;	
