@@ -6,9 +6,7 @@
         },
         {
             "type" :  "Label" ,  "caption" :  "CONFIGURATOR"
-        }
-    ],
-    "actions": [
+        },
         {   
             "type": "ValidationTextBox", 
             "caption": "Model:",
@@ -20,7 +18,10 @@
             "caption": "MAC address:",
             "name": "MacAddress",
             "enabled": false
-        },
+        }
+    ],
+    "actions": [
+        
         {
             "type": "Configurator",
             "name": "Configurator",
@@ -31,11 +32,6 @@
                 {
                     "caption": "Type",
                     "name": "Type",
-                    "width": "160px"
-                },
-                {
-                    "caption": "Zone",
-                    "name": "Zone",
                     "width": "160px"
                 },
                 {
