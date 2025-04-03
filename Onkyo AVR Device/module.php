@@ -23,7 +23,7 @@ class OnkyoAVRDevice extends IPSModule {
 
 		$this->ConnectParent('{CD39A489-D759-1786-1904-879A571231AF}');
 
-		$this->RegisterPropertyString('MacAddress', '');
+		//$this->RegisterPropertyString('MacAddress', '');
 		$this->RegisterPropertyString('Model', '');
 		$this->RegisterPropertyInteger('Zone', Zones::MAIN);
 

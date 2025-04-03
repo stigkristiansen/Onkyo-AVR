@@ -40,8 +40,6 @@ class OnkyoAVRDiscovery extends IPSModule {
 		$devices = json_decode($this->GetBuffer('Devices'));
 	   
 		if (!json_decode($this->GetBuffer('SearchInProgress'))) {
-			
-			
 			$this->SendDebug(__FUNCTION__, 'Starting a timer to process the search in a new thread...', 0);
 			$this->RegisterOnceTimer('LoadDevicesTimer', 'IPS_RequestAction(' . (string)$this->InstanceID . ', "Discover", 0);');
 		}

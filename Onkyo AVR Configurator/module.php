@@ -78,7 +78,7 @@ class OnkyoAVRConfigurator extends IPSModule {
 			$instanceId = array_search($needle, $instances);
 
 			if ($instanceId !== false) {
-				$this->SendDebug(__FUNCTION__, sprintf('The module with zone %s already has an instance (%s). Setting InstanceId', Zones::ZoneNames[$zoneId], (string)$instanceId), 0);
+				$this->SendDebug(__FUNCTION__, sprintf('The module for zone %s already has an instance (%s). Setting InstanceId', Zones::ZoneNames[$zoneId], (string)$instanceId), 0);
 				unset($instances[$instanceId]); // Remove from list to avoid duplicates
 				$value['instanceID'] = $instanceId;
 			} 
@@ -140,7 +140,6 @@ class OnkyoAVRConfigurator extends IPSModule {
 		$this->SendDebug(__FUNCTION__, sprintf('Found %d instance(s) before filtering by ip-address', count($instanceIds)), 0);
 
 		$ipAddress = $this->GetIpAddressById($this->InstanceID);
-
 		
 
 		if($ipAddress!==false) {
@@ -154,7 +153,7 @@ class OnkyoAVRConfigurator extends IPSModule {
 				}
 			}
 	
-			$this->SendDebug(__FUNCTION__, sprintf('Found %d existing instance(s) of Onkyo devices', count($instances)), 0);
+			$this->SendDebug(__FUNCTION__, sprintf('Found %d existing instance(s) of Onkyo devices after filtering by ip-address', count($instances)), 0);
 			$this->SendDebug(__FUNCTION__, 'Finished searching for existing Onkyo devices', 0);	
 		} else {
 			$this->SendDebug(__FUNCTION__, sprintf('Unable to retrive configurators ip-address via splitter and io-instance!', $ipAddress), 0);
