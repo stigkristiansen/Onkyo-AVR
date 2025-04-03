@@ -72,7 +72,7 @@ class OnkyoAVRConfigurator extends IPSModule {
 			$this->SendDebug(__FUNCTION__, sprintf('Added zone: %s', $zone['Name']), 0);
 						
 			// Check if discovered entity has an instance that is created earlier. If found, set InstanceID
-			$needle = $macAddress . '-' . (string)$zoneId;
+			$needle = $zoneId
 			$instanceId = array_search($needle, $instances);
 
 			if ($instanceId !== false) {
@@ -138,7 +138,7 @@ class OnkyoAVRConfigurator extends IPSModule {
 			foreach ($instanceIds as $instanceId) {
 				$instanceIpAddress = $this->GetIpAddressById($instanceId);
 				if($instanceIpAddress!==false && $ipAddress==$instanceIpAddress) {
-					$instances[$instanceId] = IPS_GetProperty($instanceId, 'Zones');
+					$instances[$instanceId] = IPS_GetProperty($instanceId, 'Zone');
 				}
 			}
 	
