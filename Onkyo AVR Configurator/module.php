@@ -72,7 +72,7 @@ class OnkyoAVRConfigurator extends IPSModule {
 			$this->SendDebug(__FUNCTION__, sprintf('Added zone: %s', $zone['Name']), 0);
 						
 			// Check if discovered entity has an instance that is created earlier. If found, set InstanceID
-			$needle = $zoneId
+			$needle = $zoneId;
 			$instanceId = array_search($needle, $instances);
 
 			if ($instanceId !== false) {
