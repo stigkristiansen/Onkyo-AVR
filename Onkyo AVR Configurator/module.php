@@ -36,6 +36,8 @@ class OnkyoAVRConfigurator extends IPSModule {
 	}
 
 	public function GetConfigurationForm() {
+		$this->LogMessage('Discovering Onkyo capabilities...', KL_NOTIFY);
+
 		$this->SendDebug(__FUNCTION__, 'Generating the form...', 0);
 
 		$form = json_decode(file_get_contents(__DIR__ . '/form.json'), true);
