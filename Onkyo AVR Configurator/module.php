@@ -5,6 +5,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/../libs/capabilities.php';
 require_once __DIR__ . '/../libs/semaphoreHelper.php';
 require_once __DIR__ . '/../libs/miscHelper.php';
+require_once __DIR__ . '/../libs/zones.php';
 	
 class OnkyoAVRConfigurator extends IPSModule {
 	use ExecuteCommand;
@@ -77,7 +78,7 @@ class OnkyoAVRConfigurator extends IPSModule {
 			$instanceId = array_search($needle, $instances);
 
 			if ($instanceId !== false) {
-				$this->SendDebug(__FUNCTION__, sprintf('The module with for zone %d already has an instance (%s). Setting InstanceId', $zoneId, $instanceId), 0);
+				$this->SendDebug(__FUNCTION__, sprintf('The module with zone %s already has an instance (%s). Setting InstanceId', Zones::ZoneNames[$zoneId], (string)$instanceId), 0);
 				unset($instances[$instanceId]); // Remove from list to avoid duplicates
 				$value['instanceID'] = $instanceId;
 			} 
