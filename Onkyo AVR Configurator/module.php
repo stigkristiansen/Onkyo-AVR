@@ -108,7 +108,10 @@ class OnkyoAVRConfigurator extends IPSModule {
 			$values[] = $value;
 		}
 
-		return json_encode($values);
+		$this->SendDebug(__FUNCTION__, 'Adding to the form...', 0);
+		$form['actions'][0]['values'] = $values;
+
+		return json_encode($form);
 	}
 
 	private function GetZones() : array {
