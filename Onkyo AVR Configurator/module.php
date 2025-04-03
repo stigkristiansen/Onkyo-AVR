@@ -68,12 +68,13 @@ class OnkyoAVRConfigurator extends IPSModule {
 		$this->ExecuteCommand('CAP', 'QSTN');
 		$capabilities = unserialize($this->GetBuffer(Capabilities::BUFFER));
 		
-		$this->SendDebug(__FUNCTION__, sprintf('Available zones on Onkyo device are: %s', json_encode($capabilities)), 0);
+		if(isset($capabilities['ZoneList'])) {
+			$this->SendDebug(__FUNCTION__, sprintf('Available zones on Onkyo device are: %s', json_encode($capabilities['ZoneList'])), 0);
 
-		//return $capabilities['ZoneList'];
-
-		return [];
+			return $capabilities['ZoneList'];
+		}
 		
+		return [];
 	}
 	
 	private function GetInstances () : array {
