@@ -18,7 +18,7 @@ class OnkyoAVRConfigurator extends IPSModule {
 
 		$this->RegisterPropertyString('MacAddress', '');
 		$this->RegisterPropertyString('Model', '');
-		
+
 		$this->SetReceiveDataFilter("NeverReceiveData");
 
 		$this->SetBuffer(Capabilities::BUFFER, serialize([]));
@@ -68,9 +68,9 @@ class OnkyoAVRConfigurator extends IPSModule {
 		$this->ExecuteCommand('CAP', 'QSTN');
 		$capabilities = unserialize($this->GetBuffer(Capabilities::BUFFER));
 		
-		$this->SendDebug(__FUNCTION__, sprintf('Available zones on Onkyo device are: %s', json_encode($capabilities['ZoneList'])), 0);
+		$this->SendDebug(__FUNCTION__, sprintf('Available zones on Onkyo device are: %s', json_encode($capabilities)), 0);
 
-		return $capabilities['ZoneList'];
+		//return $capabilities['ZoneList'];
 		
 	}
 	
