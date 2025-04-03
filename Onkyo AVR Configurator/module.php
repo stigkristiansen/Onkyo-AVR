@@ -71,6 +71,8 @@ class OnkyoAVRConfigurator extends IPSModule {
 		$this->SendDebug(__FUNCTION__, sprintf('Available zones on Onkyo device are: %s', json_encode($capabilities)), 0);
 
 		//return $capabilities['ZoneList'];
+
+		return [];
 		
 	}
 	
