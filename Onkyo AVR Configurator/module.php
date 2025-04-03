@@ -136,7 +136,7 @@ class OnkyoAVRConfigurator extends IPSModule {
 
 		$instanceIds = IPS_GetInstanceListByModuleID('{FF80DAC2-0BF3-6A70-F4A8-84A6DE34FDBA}');
 
-		$this->SendDebug(__FUNCTION__, sprintf('Found %d instance(s) before filtering by ip-address', count(instanceIds)), 0);
+		$this->SendDebug(__FUNCTION__, sprintf('Found %d instance(s) before filtering by ip-address', count($instanceIds)), 0);
 
 		$ipAddress = $this->GetIpAddressById($this->InstanceID);
 
