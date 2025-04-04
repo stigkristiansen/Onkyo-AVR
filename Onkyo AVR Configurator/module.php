@@ -141,13 +141,13 @@ class OnkyoAVRConfigurator extends IPSModule {
 
 		$this->SendDebug(__FUNCTION__, sprintf('Found %d instance(s) before filtering by ip-address', count($instanceIds)), 0);
 
-		$ipAddress = $this->GetIpAddressById($this->InstanceID);
+		$ipAddress = $this->GetIpAddressById_2($this->InstanceID);
 		
 		if($ipAddress!==false) {
 			$this->SendDebug(__FUNCTION__, sprintf('The configurators ip-address is: %s', $ipAddress), 0);
 
 			foreach ($instanceIds as $instanceId) {
-				$instanceIpAddress = $this->GetIpAddressById($instanceId);
+				$instanceIpAddress = $this->GetIpAddressById_2($instanceId);
 				$this->SendDebug(__FUNCTION__, sprintf('Found instances ip-address is: %s', $instanceIpAddress), 0);
 				if($instanceIpAddress!==false && $ipAddress==$instanceIpAddress) {
 					$instances[$instanceId] = IPS_GetProperty($instanceId, 'Zone');
@@ -181,4 +181,21 @@ class OnkyoAVRConfigurator extends IPSModule {
 			return false;
 		}
 	}
+
+	protected function GetIpAddressById_2(int $InstanceId) : mixed {
+		$properties = @IPS_GetInstance($InstanceId); 
+		$moduleId = $properties['ModuleInfo']['ModuleID'];
+	   
+		if($moduleId=='{3CFF0FD9-E306-41DB-9B5A-9D06D38576C3}') {  // Client socket GUID
+			return IPS_GetProperty($InstanceId, 'Host');
+		} else {
+			$parent = $properties['ConnectionID']; 
+			if($parent!=0) {
+				return self::GetIpAddressById_2($parent);
+			} else {
+				return false;
+			}
+		}
+	}
+	
 }
