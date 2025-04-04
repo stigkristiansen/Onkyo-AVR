@@ -141,14 +141,14 @@ class OnkyoAVRConfigurator extends IPSModule {
 
 		$this->SendDebug(__FUNCTION__, sprintf('Found %d instance(s) before filtering by ip-address', count($instanceIds)), 0);
 
-		$ipAddress = $this->GetIpAddressById_2($this->InstanceID);
+		$ipAddress = $this->GetIpAddressById($this->InstanceID);
 		
 		if($ipAddress!==false) {
 			$this->SendDebug(__FUNCTION__, sprintf('The configurators ip-address is: %s', $ipAddress), 0);
 
 			foreach ($instanceIds as $instanceId) {
-				$instanceIpAddress = $this->GetIpAddressById_2($instanceId);
-				$this->SendDebug(__FUNCTION__, sprintf('Found instances ip-address is: %s', $instanceIpAddress), 0);
+				$instanceIpAddress = $this->GetIpAddressById($instanceId);
+				$this->SendDebug(__FUNCTION__, sprintf('Found instance ip-address is: %s', $instanceIpAddress), 0);
 				if($instanceIpAddress!==false && $ipAddress==$instanceIpAddress) {
 					$instances[$instanceId] = IPS_GetProperty($instanceId, 'Zone');
 				}
@@ -163,26 +163,7 @@ class OnkyoAVRConfigurator extends IPSModule {
 		return $instances;
 	}
 
-	protected function GetIpAddressById(int $InstanceID) : mixed {
-		$splitterId = @IPS_GetInstance($InstanceID)['ConnectionID'];
-		if ($splitterId != 0) {
-			$ioId = @IPS_GetInstance($splitterId)['ConnectionID'];
-			if($ioId!=0) { 
-				$ioModuleId = @IPS_GetInstance($ioId)['ModuleInfo']['ModuleID'];
-				if($ioModuleId=='{3CFF0FD9-E306-41DB-9B5A-9D06D38576C3}') {  //Client socket
-					return IPS_GetProperty($ioId, 'Host');
-				} else {
-					return false;	
-				}
-			} else {
-				return false;
-			}
-		} else {
-			return false;
-		}
-	}
-
-	protected function GetIpAddressById_2(int $InstanceId) : mixed {
+	protected function GetIpAddressById(int $InstanceId) : mixed {
 		$properties = @IPS_GetInstance($InstanceId); 
 		$moduleId = $properties['ModuleInfo']['ModuleID'];
 	   
@@ -191,7 +172,7 @@ class OnkyoAVRConfigurator extends IPSModule {
 		} else {
 			$parent = $properties['ConnectionID']; 
 			if($parent!=0) {
-				return self::GetIpAddressById_2($parent);
+				return self::GetIpAddressById($parent);
 			} else {
 				return false;
 			}
