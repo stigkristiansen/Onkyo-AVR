@@ -57,6 +57,15 @@ class Zones {
                 'Icon' => 'Music',
                 'Assoc' => 'OAVRD_Input',
                 'Enabled' => true
+            ],
+            'LMD' => [
+                'Ident' => 'LMD',
+                'Caption' => 'Listen Mode:',
+                'Type' => Zones::INTEGER,
+                'Profile' => 'OAVRD.ListenMode',
+                'Icon' => 'Music',
+                'Assoc' => 'OAVRD_ListenMode',
+                'Enabled' => true
             ]
         ]
     ];
@@ -66,7 +75,7 @@ class Zones {
     }
 
     private function OAVRD_Input(mixed $Capabilities, int $Zone) : array {
-        // SelectorList
+        
         $selectorList = [];
 
         foreach($Capabilities['SelectorList'] as $id => $selector) {
@@ -76,6 +85,19 @@ class Zones {
         }
 
         return $selectorList;
+    }
+
+    private function OAVRD_ListenMode(mixed $Capabilities, int $Zone) : array {
+        
+        $listenModeList = [];
+
+        foreach($Capabilities['ListenModeList'] as $listenMode) {
+            if($listenMode['Zone'] & $Zone) {
+                $listenModeList[] = [$listenMode['Code'], $listenMode['Name'], '', -1];
+            }
+        }
+
+        return $listenModeList;
     }
     
 }

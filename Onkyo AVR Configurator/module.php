@@ -18,7 +18,7 @@ class OnkyoAVRConfigurator extends IPSModule {
 		$this->RequireParent('{CD39A489-D759-1786-1904-879A571231AF}');
 		
 		$this->RegisterPropertyString('Model', '');
-		$this->RegisterPropertyString('MacAddress', '');
+		//$this->RegisterPropertyString('MacAddress', '');
 		
 		$this->SetReceiveDataFilter("NeverReceiveData");
 

@@ -29,12 +29,6 @@
                     "width": "150px"
                 },
                 {
-                    "caption": "MAC",
-                    "name": "MacAddress",
-                    "width": "150px",
-                    "visible": true
-                },                
-                {
                     "caption": "IP Address",
                     "name": "IPAddress",
                     "width": "150px"
