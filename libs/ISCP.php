@@ -81,9 +81,9 @@ class ISCPCommand {
         $data = $converter->Convert($this->Data);
 
         $payload = $this->Prefix . $this->Command . $data . "\r\n";
-        $payloadLen = pack('N', strlen($payload));
+        $payloadLength = pack('N', strlen($payload));
         
-        $iscpHeader = $payloadLen . "\x01\x00\x00\x00";
+        $iscpHeader = $payloadLength . "\x01\x00\x00\x00";
         $iscpHeaderLen = pack('N', strlen($iscpHeader) + 8);
         
         return 'ISCP' . $iscpHeaderLen . $iscpHeader . $payload;

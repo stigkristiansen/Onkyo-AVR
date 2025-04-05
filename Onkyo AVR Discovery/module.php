@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../libs/ISCP.php';
+require_once __DIR__ . '/../libs/miscHelper.php';
 
 class OnkyoAVRDiscovery extends IPSModule {
 		
@@ -106,7 +107,8 @@ class OnkyoAVRDiscovery extends IPSModule {
 		
 		$devices = json_decode($this->GetBuffer('DiscoveredDevices'), true);
 
-		$devices[$macAddress] = $device;
+		//$devices[$macAddress] = $device;
+		$devices[$deviceIp] = $device;
 		
 		$this->SetBuffer('DiscoveredDevices', json_encode($devices));
 		
@@ -148,7 +150,7 @@ class OnkyoAVRDiscovery extends IPSModule {
 		foreach($devices as $macAddress => $device) {
 			
 			$value = [
-				'MacAddress' => $macAddress,
+				//'MacAddress' => $macAddress,
 				'Model' => $device['Model'],
 				'IPAddress' => $device['IPAddress'],
 				'Port' => $device['Port'],
@@ -158,9 +160,10 @@ class OnkyoAVRDiscovery extends IPSModule {
 			$this->SendDebug(__FUNCTION__, sprintf('Added device with IP-address "%s"', $device['IPAddress']), 0);
 			
 			// Check if discovered device has an instance that is created earlier. If found, set InstanceID
-			$instanceId = array_search($macAddress, $instances);
+			$needle = $device['IPAddress'];
+			$instanceId = array_search($needle, $instances);
 			if ($instanceId !== false) {
-				$this->SendDebug(__FUNCTION__, sprintf('The device with MAC address %s already has an instance (%s). Setting InstanceId', $macAddress, $instanceId), 0);
+				$this->SendDebug(__FUNCTION__, sprintf('The device with IP address %s already has an instance (%s). Setting InstanceId', $$needle, $instanceId), 0);
 				unset($instances[$instanceId]); // Remove from list to avoid duplicates
 				$value['instanceID'] = $instanceId;
 			} 
@@ -170,8 +173,8 @@ class OnkyoAVRDiscovery extends IPSModule {
 			$modules[] = [
 				'moduleID'       => '{FC8E9157-3AFD-3C8A-97A1-3B340B203F98}',  
 				'configuration'	 => [
-					'Model' 	=> $device['Model'],
-					'MacAddress'   => $macAddress
+					'Model' 	=> $device['Model'] //,
+					//'MacAddress'   => $macAddress
 				]
 			];
 
@@ -216,14 +219,14 @@ class OnkyoAVRDiscovery extends IPSModule {
 			
 			$values[] = [
 				'Model'		 	=> json_decode(IPS_GetConfiguration($instanceId),true)['Model'],
-				'MacAddress'	=> $macAddress,
+				//'MacAddress'	=> $macAddress,
 				'IPAddress'		=> $ipAddress,
 				'Port'			=> $port,				
 				'instanceID' 	=> $instanceId,
 				'create'		=> ['moduleID' => '{FC8E9157-3AFD-3C8A-97A1-3B340B203F98}',
 										'configuration' => [
-											'Model' 	   => json_decode(IPS_GetConfiguration($instanceId),true)['Model'],
-											'MacAddress'   => $macAddress
+											'Model' 	   => json_decode(IPS_GetConfiguration($instanceId),true)['Model'] //,
+											//'MacAddress'   => $macAddress
 										]
 								   ]
 			];
@@ -255,7 +258,13 @@ class OnkyoAVRDiscovery extends IPSModule {
 		$instanceIds = IPS_GetInstanceListByModuleID('{FC8E9157-3AFD-3C8A-97A1-3B340B203F98}');
 		
 		foreach ($instanceIds as $instanceId) {
-			$instances[$instanceId] = IPS_GetProperty($instanceId, 'MacAddress');
+			//$instances[$instanceId] = IPS_GetProperty($instanceId, 'MacAddress');
+
+			$instanceIpAddress = $this->GetIpAddressById($instanceId);
+			if($instanceIpAddress!==false) {
+				$this->SendDebug(__FUNCTION__, sprintf('Found instance ip-address is: %s', $instanceIpAddress), 0);
+				$instances[$instanceId] = $instanceIpAddress;
+			}
 		}
 
 		$this->SendDebug(__FUNCTION__, sprintf('Found %d existing instance(s) of Onkyo Device Configurators', count($instances)), 0);
@@ -263,4 +272,21 @@ class OnkyoAVRDiscovery extends IPSModule {
 
 		return $instances;
 	}
+
+	protected function GetIpAddressById(int $InstanceId) : mixed {
+		$properties = @IPS_GetInstance($InstanceId); 
+		$moduleId = $properties['ModuleInfo']['ModuleID'];
+	   
+		if($moduleId=='{3CFF0FD9-E306-41DB-9B5A-9D06D38576C3}') {  // Client socket GUID
+			return IPS_GetProperty($InstanceId, 'Host');
+		} else {
+			$parent = $properties['ConnectionID']; 
+			if($parent!=0) {
+				return self::GetIpAddressById($parent);
+			} else {
+				return false;
+			}
+		}
+	}
+
 }
