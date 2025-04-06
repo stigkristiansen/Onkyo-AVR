@@ -223,33 +223,33 @@ class OnkyoAVRDevice extends IPSModule {
 		return false;
 	}
 
-	private function HandleCommands($Commands) {
+	private function HandleCommands($Command) {
 
-		$this->SendDebug( __FUNCTION__ , sprintf('Base64 decoded data: %s', base64_decode($Commands)), 0);
+		$this->SendDebug( __FUNCTION__ , sprintf('Base64 decoded data: %s', base64_decode($Command)), 0);
 
-		$commands = json_decode(base64_decode($Commands));
+		$command = json_decode(base64_decode($Command));
 		
-		foreach($commands as $command) {
-			$this->SendDebug( __FUNCTION__ , sprintf('Decoded the data. Command "%s" with data "%s"', $command->Command, json_encode($command->Data)), 0);
-			
-			if($this->ValidIdent($command->Command,  $this->ReadPropertyInteger('Zone'))) {
-				$this->SendDebug( __FUNCTION__ , sprintf('Updating variable with ident "%s" to value "%s"', $command->Command, json_encode($command->Data)), 0);
-				$this->SetValue($command->Command, $command->Data);
-				return;
-			} 
+		
+		$this->SendDebug( __FUNCTION__ , sprintf('Decoded the data. Command "%s" with data "%s"', $command->Command, json_encode($command->Data)), 0);
+		
+		if($this->ValidIdent($command->Command,  $this->ReadPropertyInteger('Zone'))) {
+			$this->SendDebug( __FUNCTION__ , sprintf('Updating variable with ident "%s" to value "%s"', $command->Command, json_encode($command->Data)), 0);
+			$this->SetValue($command->Command, $command->Data);
+			return;
+		} 
 
-			if($command->Command=='NRI') {
-				$capabilities = new Capabilities($command->Data);
+		if($command->Command=='NRI') {
+			$capabilities = new Capabilities($command->Data);
+			
+			if($capabilities->Decode()){
+				$this->SendDebug( __FUNCTION__ , sprintf('Firmware: %s', $capabilities->FirmwareVersion), 0);
 				
-				if($capabilities->Decode()){
-					$this->SendDebug( __FUNCTION__ , sprintf('Firmware: %s', $capabilities->FirmwareVersion), 0);
-					
-				} else {
-					$this->SendDebug( __FUNCTION__ , 'XML decode failed!', 0);
-				}
-				return;
+			} else {
+				$this->SendDebug( __FUNCTION__ , 'XML decode failed!', 0);
 			}
+			return;
 		}
+		
 	}
 	                
 	
