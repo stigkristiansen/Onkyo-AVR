@@ -45,6 +45,8 @@ class OnkyoAVRDevice extends IPSModule {
 		//Never delete this line!
 		parent::ApplyChanges();
 
+		$this->SetReceiveDataFilter("NeverReceiveData");
+
 		$this->SendDebug(__FUNCTION__, 'Applying changes', 0);
 
 		if (IPS_GetKernelRunlevel() == KR_READY) {
@@ -52,7 +54,6 @@ class OnkyoAVRDevice extends IPSModule {
 
 			$this->Initialize(true);
         }
-
 	}
 
 	public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
@@ -98,11 +99,18 @@ class OnkyoAVRDevice extends IPSModule {
 			return;
 		}
 
-		IPS_Sleep(2000);
+		IPS_Sleep(5000);
 
 		$this->RegisterParent();
 		$this->GetCapabilities();
 		$this->CreateVariables();
+		
+		$zoneId = $this->ReadPropertyInteger('Zone');
+		$filter = sprintf('.*%s.*', Zones::Zones[$zoneId]['Filter']);
+		
+		$this->SendDebug(__FUNCTION__, sprintf('Settinng filter to: %s', $filter), 0);
+		$this->SetReceiveDataFilter($filter);
+
 		$this->QueryVariables();
 	}
 
@@ -122,7 +130,7 @@ class OnkyoAVRDevice extends IPSModule {
 		$zone = $this->ReadPropertyInteger('Zone');
 		$position = 0;
 
-		$this->SendDebug( __FUNCTION__ , sprintf('Creating the variables for zone "%s"', Zones::ZoneNames[$zone]), 0);	
+		$this->SendDebug( __FUNCTION__ , sprintf('Creating the variables for zone "%s"', Zones::Zones[$zone]['Name']), 0);	
 		foreach(Zones::VARIABLES[$zone] as $ident => $variable) {
 			$assoc = [];
 

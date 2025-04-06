@@ -80,7 +80,7 @@ class OnkyoAVRConfigurator extends IPSModule {
 			$instanceId = array_search($needle, $instances);
 
 			if ($instanceId !== false) {
-				$this->SendDebug(__FUNCTION__, sprintf('The module for zone %s already has an instance (%s). Setting InstanceId', Zones::ZoneNames[$zoneId], (string)$instanceId), 0);
+				$this->SendDebug(__FUNCTION__, sprintf('The module for zone %s already has an instance (%s). Setting InstanceId', Zones::Zones[$zoneId]['Name'], (string)$instanceId), 0);
 				//unset($instances[$instanceId]); // Remove from list to avoid duplicates
 				$value['instanceID'] = $instanceId;
 			} 

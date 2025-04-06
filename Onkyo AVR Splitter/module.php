@@ -6,6 +6,7 @@ require_once __DIR__ . '/../libs/ISCP.php';
 require_once __DIR__ . '/../libs/semaphoreHelper.php';
 require_once __DIR__ . '/../libs/capabilities.php';
 require_once __DIR__ . '/../libs/parentStatus.php';
+require_once __DIR__ . '/../libs/zones.php';
 
 class OnkyoAVRSplitter extends IPSModule {
 	use Semaphore;
@@ -210,12 +211,32 @@ class OnkyoAVRSplitter extends IPSModule {
 			
 			$this->SetBuffer(self::BUFFER, serialize($buffer));
 
-			if(count($commandsToChild) > 0) {
-				$this->SendDebug( __FUNCTION__ , 'Sending command(s) to child instans(es)', 0);
-				$this->SendDataToChildren(json_encode(['DataID' => '{EF1FFC09-B63E-971C-8DC9-A2F6B37046F1}', 'Buffer' => $commandsToChild]));
+			foreach($commandsToChild as $commandToChild) {
+				$filter = self::GetFilterByCommand($commandToChild['Command']);
+				$this->SendDebug( __FUNCTION__ , sprintf('Sending command to child instans(es) with filter', $filter), 0);
+				$this->SendDataToChildren(json_encode(['DataID' => '{EF1FFC09-B63E-971C-8DC9-A2F6B37046F1}', 'Filter' => $filter, 'Buffer' => $commandToChild]));
 			}
+
+			/*if(count($commandsToChild) > 0) {
+				$this->SendDebug( __FUNCTION__ , 'Sending command(s) to child instans(es)', 0);
+				$filter = self::GetFilterByCommand()
+				$this->SendDataToChildren(json_encode(['DataID' => '{EF1FFC09-B63E-971C-8DC9-A2F6B37046F1}', 'Buffer' => $commandsToChild]));
+			}*/
 			
 			self::Unlock(self::BUFFER);
 		}
+	}
+
+	protected function GetFilterByCommand($Command) : string {
+		$filter = 
+		foreach (Zones::Zones as $zoneId => $zone) {
+			foreach($zone as $command => $properties) {
+				if($Command == $command) {
+					$filter=$properties['Filter'];
+				}
+			}
+		}
+
+		$return $filter;
 	}
 }

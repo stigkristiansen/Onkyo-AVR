@@ -11,9 +11,15 @@ class Zones {
     const MAIN = 1;
     const ZONE2 = 2;
 
-    const ZoneNames = [
-        Zones::MAIN => 'Main',
-        Zones::ZONE2 => 'Zone2'
+    const Zones = [
+        Zones::MAIN => [
+            'Name' => 'Main',
+            'Filter' => '##Main##'
+        ],
+        Zones::ZONE2 => [
+            'Name' => 'Zone2',
+            'Filter' => '##Zone2##'
+        ]
     ];
     
 
@@ -26,7 +32,8 @@ class Zones {
                 'Profile' => '~Switch',
                 'Icon' => '',
                 'Assoc' => [],
-                'Enabled' => true
+                'Enabled' => true,
+                'Filter' => Zones::Zones[Zones::MAIN]['Filter']
             ],
             'AMT' => [
                 'Ident' => 'AMT',
@@ -38,7 +45,8 @@ class Zones {
                     [true, 'Muted', '', -1],
                     [false, 'Unmuted', '', -1]
                 ],
-                'Enabled' => true
+                'Enabled' => true,
+                'Filter' => Zones::Zones[Zones::MAIN]['Filter']
             ],
             'MVL' => [
                 'Ident' => 'MVL',
@@ -47,7 +55,8 @@ class Zones {
                 'Profile' => '~Intensity.100',
                 'Icon' => 'Speaker',
                 'Assoc' => [],
-                'Enabled' => true
+                'Enabled' => true,
+                'Filter' => Zones::Zones[Zones::MAIN]['Filter']
             ],
             'SLI' => [
                 'Ident' => 'SLI',
@@ -56,7 +65,8 @@ class Zones {
                 'Profile' => 'OAVRD.Input',
                 'Icon' => 'Music',
                 'Assoc' => 'OAVRD_Input',
-                'Enabled' => true
+                'Enabled' => true,
+                'Filter' => Zones::Zones[Zones::MAIN]['Filter']
             ],
             'LMD' => [
                 'Ident' => 'LMD',
@@ -65,7 +75,8 @@ class Zones {
                 'Profile' => 'OAVRD.ListenMode',
                 'Icon' => 'Music',
                 'Assoc' => 'OAVRD_ListenMode',
-                'Enabled' => true
+                'Enabled' => true,
+                'Filter' => Zones::Zones[Zones::MAIN]['Filter']
             ]
         ]
     ];
@@ -128,7 +139,6 @@ class Zones {
             [0x8C, 'Neo:6/Neo:X THX Music', '', -1]
         ];
 
-        
         return $listenModeList;
     }
     
