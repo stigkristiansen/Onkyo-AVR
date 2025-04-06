@@ -92,7 +92,7 @@ class Zones {
         $listenModeList = [];
 
         foreach($Capabilities['ListenModeList'] as $listenMode) {
-                $listenModeList[] = [$listenMode['Code'], $listenMode['Name'], '', -1];
+            $listenModeList[] = [$listenMode['Code'], $listenMode['Name'], '', -1];
         }
 
         return $listenModeList;
