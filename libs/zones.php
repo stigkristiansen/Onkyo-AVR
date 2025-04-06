@@ -89,12 +89,46 @@ class Zones {
 
     private function OAVRD_ListenMode(mixed $Capabilities, int $Zone) : array {
         
-        $listenModeList = [];
+        $listenModeList = [
+            [0x00, 'STEREO', '', -1],
+            [0x01, 'DIRECT', '', -1],
+            [0x02, 'SURROUND', '', -1],
+            [0x03, 'FILM', '', -1],
+            [0x04, 'THX', '', -1],
+            [0x05, 'ACTION', '', -1],
+            [0x06, 'MUSICAL', '', -1],
+            [0x08, 'ORCHESTRA', '', -1],
+            [0x09, 'UNPLUGGED', '', -1],
+            [0x0A, 'STUDIO-MIX', '', -1],
+            [0x0B, 'TV LOGIC', '', -1],
+            [0x0C, 'ALL CH STEREO', '', -1],
+            [0x0D, 'THEATER-DIMENSIONAL', '', -1],
+            [0x0E, 'ENHANCED', '', -1],
+            [0x0F, 'MONO', '', -1],
+            [0x11, 'PURE AUDIO', '', -1],
+            [0x13, 'FULL MONO', '', -1],
+            [0x40, 'Straight Decode', '', -1],
+            [0x42, 'THX Cinema', '', -1],
+            [0x43, 'THX Surround EX', '', -1],
+            [0x44, 'THX Music', '', -1],
+            [0x45, 'THX Games', '', -1],
+            [0x50, 'THX Cinema Mode, THX U2/S2/I/S Cinema', '', -1],
+            [0x51, 'THX Music Mode, THX U2/S2/I/S Music', '', -1],
+            [0x52, 'THX Games Mode, THX U2/S2/I/S Games', '', -1],
+            [0x80, 'PLII/PLIIx Movie', '', -1],
+            [0x81, 'PLII/PLIIx Music', '', -1],
+            [0x82, 'Neo:6 Cinema/Neo:X Cinema', '', -1],
+            [0x83, 'Neo:6 Music/Neo:X Music', '', -1],
+            [0x84, 'PLII/PLIIx THX Cinema', '', -1],
+            [0x85, 'Neo:6/Neo:X THX Cinema', '', -1],
+            [0x86, 'PLII/PLIIx Game', '', -1],
+            [0x89, 'PLII/PLIIx THX Games', '', -1],
+            [0x8A, 'Neo:6/Neo:X THX Games', '', -1],
+            [0x8B, 'PLII/PLIIx THX Music', '', -1],
+            [0x8C, 'Neo:6/Neo:X THX Music', '', -1]
+        ];
 
-        foreach($Capabilities['ListenModeList'] as $listenMode) {
-            $listenModeList[] = [$listenMode['Code'], $listenMode['Name'], '', -1];
-        }
-
+        
         return $listenModeList;
     }
     
