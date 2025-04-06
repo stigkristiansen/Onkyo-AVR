@@ -112,7 +112,7 @@ class OnkyoAVRDevice extends IPSModule {
 		$this->SetReceiveDataFilter($filter);
 
 		$this->QueryVariables();
-		
+
 	}
 
 	private function QueryVariables(){
@@ -224,6 +224,9 @@ class OnkyoAVRDevice extends IPSModule {
 	}
 
 	private function HandleCommands($Commands) {
+
+		$this->SendDebug( __FUNCTION__ , sprintf('Base64 decoded data: %s', base64_decode($Commands)), 0);
+
 		$commands = json_decode(base64_decode($Commands));
 		
 		foreach($commands as $command) {
