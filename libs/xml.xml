@@ -101,7 +101,7 @@
             <preset id="27" band="0" freq="0" name="" />
             <preset id="28" band="0" freq="0" name="" />
         </presetlist>
-        <controllist count="32">
+        <controllist count="32" >
             <control id="Bass" value="1" zone="1" min="-10" max="10" step="2" />
             <control id="Treble" value="1" zone="1" min="-10" max="10" step="2" />
             <control id="Center Level" value="1" zone="1" min="-12" max="12" step="1" />
