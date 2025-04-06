@@ -10,6 +10,7 @@ class Zones {
 
     const MAIN = 1;
     const ZONE2 = 2;
+    const ALL = 3;
 
     const Zones = [
         Zones::MAIN => [

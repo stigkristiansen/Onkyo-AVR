@@ -112,6 +112,7 @@ class OnkyoAVRDevice extends IPSModule {
 		$this->SetReceiveDataFilter($filter);
 
 		$this->QueryVariables();
+		
 	}
 
 	private function QueryVariables(){
