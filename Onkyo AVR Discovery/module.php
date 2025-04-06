@@ -163,7 +163,7 @@ class OnkyoAVRDiscovery extends IPSModule {
 			$needle = $device['IPAddress'];
 			$instanceId = array_search($needle, $instances);
 			if ($instanceId !== false) {
-				$this->SendDebug(__FUNCTION__, sprintf('The device with IP address %s already has an instance (%s). Setting InstanceId', $$needle, $instanceId), 0);
+				$this->SendDebug(__FUNCTION__, sprintf('The device with IP address %s already has an instance (%s). Setting InstanceId', $needle, $instanceId), 0);
 				unset($instances[$instanceId]); // Remove from list to avoid duplicates
 				$value['instanceID'] = $instanceId;
 			} 

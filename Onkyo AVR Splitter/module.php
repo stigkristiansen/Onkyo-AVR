@@ -228,7 +228,7 @@ class OnkyoAVRSplitter extends IPSModule {
 	}
 
 	protected function GetFilterByCommand($Command) : string {
-		$filter = 
+		$filter = '';
 		foreach (Zones::Zones as $zoneId => $zone) {
 			foreach($zone as $command => $properties) {
 				if($Command == $command) {
