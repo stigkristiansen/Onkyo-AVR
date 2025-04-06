@@ -237,6 +237,6 @@ class OnkyoAVRSplitter extends IPSModule {
 			}
 		}
 
-		$return $filter;
+		return $filter;
 	}
 }
