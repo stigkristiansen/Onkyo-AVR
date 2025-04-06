@@ -213,7 +213,7 @@ class OnkyoAVRSplitter extends IPSModule {
 
 			foreach($commandsToChild as $commandToChild) {
 				$filter = self::GetFilterByCommand($commandToChild['Command']);
-				$this->SendDebug( __FUNCTION__ , sprintf('Sending command to child instans(es) with filter', $filter), 0);
+				$this->SendDebug( __FUNCTION__ , sprintf('Sending command to child instans(es) with filter: %s', $filter), 0);
 				$this->SendDataToChildren(json_encode(['DataID' => '{EF1FFC09-B63E-971C-8DC9-A2F6B37046F1}', 'Filter' => $filter, 'Buffer' => $commandToChild]));
 			}
 
