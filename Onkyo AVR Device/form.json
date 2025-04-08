@@ -8,6 +8,7 @@
         },
         {
             "type": "Select",
+            "caption": "Zone:",
             "name": "Zone",
             "options": [
                 {"caption": "Main", "value": 1},
