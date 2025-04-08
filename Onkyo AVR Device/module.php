@@ -70,6 +70,26 @@ class OnkyoAVRDevice extends IPSModule {
 		$this->HandleParentMessages($TimeStamp, $SenderID, $Message, $Data);
     }
 
+	public function GetConfigurationForm() {
+		$this->SendDebug(__FUNCTION__, 'Generating the form...', 0);
+
+		$form = json_decode(file_get_contents(__DIR__ . '/form.json'), true);
+
+		$capabilities = unserialize($this->GetBuffer(Capabilities::BUFFER));
+		if(count($capabilities)>0) {
+			$zoneList = $capabilities['ZoneList'];
+
+			foreach($zoneList as $id => $zone) {
+				$newZoneList[] = ['caption' => $zone['Name'], 'value' => $id];
+			}
+
+			$form['elements'][2]['options'] = $newZoneList;
+		}
+
+		return json_encode($form);
+
+	}
+
 	public function RequestAction($Ident, $Value) {
 		$this->SendDebug(__FUNCTION__, sprintf('RequestAction was called: %s:%s', (string)$Ident, (string)$Value), 0);
 		
