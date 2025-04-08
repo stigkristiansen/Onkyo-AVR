@@ -83,7 +83,7 @@ class OnkyoAVRDevice extends IPSModule {
 				$newZoneList[] = ['caption' => $zone['Name'], 'value' => $id];
 			}
 
-			$form['elements'][2]['options'] = $newZoneList;
+			$form['elements'][1]['options'] = $newZoneList;
 		}
 
 		$this->SendDebug(__FUNCTION__, sprintf('Generated for is: %s', json_encode($form)), 0);
