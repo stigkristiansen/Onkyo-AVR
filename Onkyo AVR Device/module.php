@@ -110,7 +110,7 @@ class OnkyoAVRDevice extends IPSModule {
 		//$filter = sprintf('.*%s.*', Zones::Zones[$zoneId]['Filter']);
 		$filter = sprintf('(.*%s.*|.*%s.*)', Zones::Zones[$zoneId]['Filter'], Zones::Zones[Zones::ALL]['Filter']);
 		
-		$this->SendDebug(__FUNCTION__, sprintf('Settinng receive filter to: %s', $filter), 0);
+		$this->SendDebug(__FUNCTION__, sprintf('Setting receive filter to: %s', $filter), 0);
 		$this->SetReceiveDataFilter($filter);
 
 		$this->QueryVariables();
