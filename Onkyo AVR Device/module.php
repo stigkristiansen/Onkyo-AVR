@@ -238,7 +238,7 @@ class OnkyoAVRDevice extends IPSModule {
 			return;
 		} 
 
-		if($command->Command=='NRI') {
+		if($command->Command=='CAP') {
 			$capabilities = new Capabilities($command->Data);
 			
 			if($capabilities->Decode()){
