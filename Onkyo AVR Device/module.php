@@ -42,12 +42,12 @@ class OnkyoAVRDevice extends IPSModule {
 	}
 
 	public function ApplyChanges() {
+		$this->SendDebug(__FUNCTION__, 'Applying changes', 0);
+		
 		//Never delete this line!
 		parent::ApplyChanges();
 
 		$this->SetReceiveDataFilter("NeverReceiveData");
-
-		$this->SendDebug(__FUNCTION__, 'Applying changes', 0);
 
 		if (IPS_GetKernelRunlevel() == KR_READY) {
 			$this->SendDebug(__FUNCTION__, 'Kernel is ready. Initializing module', 0);
@@ -106,9 +106,11 @@ class OnkyoAVRDevice extends IPSModule {
 		$this->CreateVariables();
 		
 		$zoneId = $this->ReadPropertyInteger('Zone');
-		$filter = sprintf('.*%s.*', Zones::Zones[$zoneId]['Filter']);
+
+		//$filter = sprintf('.*%s.*', Zones::Zones[$zoneId]['Filter']);
+		$filter = sprintf('(.*%s.*|.*%s.*)', Zones::Zones[$zoneId]['Filter'], Zones::Zones[Zones::ALL]['Filter'])
 		
-		$this->SendDebug(__FUNCTION__, sprintf('Settinng filter to: %s', $filter), 0);
+		$this->SendDebug(__FUNCTION__, sprintf('Settinng receive filter to: %s', $filter), 0);
 		$this->SetReceiveDataFilter($filter);
 
 		$this->QueryVariables();
@@ -213,7 +215,6 @@ class OnkyoAVRDevice extends IPSModule {
 		}
 	}
 
-	
 
 	private function ValidIdent($Ident, $Zone) {
 		if(isset(Zones::VARIABLES[$Zone][$Ident])) {
@@ -250,8 +251,6 @@ class OnkyoAVRDevice extends IPSModule {
 		}
 		
 	}
-	                
-	
 
 	public function ReceiveData($JSONString) {
 		$data = json_decode($JSONString);

@@ -10,7 +10,9 @@ class Zones {
 
     const MAIN = 1;
     const ZONE2 = 2;
-    const ALL = 3;
+    const ZONE3 = 3;
+    const ZONE4 = 4;
+    const ALL = 999;
 
     const Zones = [
         Zones::MAIN => [
@@ -20,6 +22,18 @@ class Zones {
         Zones::ZONE2 => [
             'Name' => 'Zone2',
             'Filter' => '##Zone2##'
+        ],
+        Zones::ZONE3 => [
+            'Name' => 'Zone3',
+            'Filter' => '##Zone3##'
+        ],
+        Zones::ZONE4 => [
+            'Name' => 'Zone4',
+            'Filter' => '##Zone4##'
+        ],
+        Zones::ALL => [
+            'Name' => 'AllZones',
+            'Filter' => '##AllZones##'
         ]
     ];
     
@@ -78,6 +92,29 @@ class Zones {
                 'Assoc' => 'OAVRD_ListenMode',
                 'Enabled' => true,
                 'Filter' => Zones::Zones[Zones::MAIN]['Filter']
+            ]
+        ]
+    ];
+
+    const COMMANDS = [
+        Zones::MAIN => [
+            'PWR' => [
+                'Filter' => Zones::Zones[Zones::MAIN]['Filter']
+            ],
+            'AMT' => [
+                'Filter' => Zones::Zones[Zones::MAIN]['Filter']
+            ],
+            'MVL' => [
+                'Filter' => Zones::Zones[Zones::MAIN]['Filter']
+            ],
+            'SLI' => [
+                'Filter' => Zones::Zones[Zones::MAIN]['Filter']
+            ],
+            'LMD' => [
+                'Filter' => Zones::Zones[Zones::MAIN]['Filter']
+            ],
+            'NRI' => [
+                'Filter' => Zones::Zones[Zones::ALL]['Filter']
             ]
         ]
     ];

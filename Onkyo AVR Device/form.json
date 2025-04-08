@@ -5,6 +5,17 @@
             "caption": "Model:",
             "name": "Model",
             "enabled": false
+        },
+        {
+            "type": "Select",
+            "name": "Zone",
+            "options": [
+                {"caption": "Main", "value": 0},
+                {"caption": "Zone 1", "value": 1},
+                {"caption": "Zone 2", "value": 2},
+                {"caption": "Zone 3", "vale": 3},
+                {"caption": "Zone 4", "value": 4}
+            ]
         }
     ],
     "actions": [],
