@@ -115,6 +115,9 @@ class Zones {
             ],
             'NRI' => [
                 'Filter' => Zones::Zones[Zones::ALL]['Filter']
+            ],
+            'CAP' => [
+                'Filter' => Zones::Zones[Zones::ALL]['Filter']
             ]
         ]
     ];
